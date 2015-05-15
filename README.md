@@ -13,6 +13,6 @@ What it does:
 pt-shownoter reformats the document into the following format
 
 #heading
-* [description](url)
+* \[description\]\(url\)
 
-This is the standard [markdown](https://daringfireball.net/products/markdown) format. 
+This is the standard [markdown](http://daringfireball.net/projects/markdown/) format. 
