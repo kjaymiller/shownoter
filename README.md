@@ -18,4 +18,4 @@ pt-shownoter reformats the document into the following format
 This is the standard [markdown](http://daringfireball.net/projects/markdown/) format. 
 
 #### Future plans 
-I plan to create a bot that aggregatest the note and then returns them. 
+I plan to create a bot that aggregates the note and then returns them. 
