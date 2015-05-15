@@ -1,0 +1,30 @@
+#Slack Group codenewbie.slack.com
+
+###Tools for Learning
+* [MIT OpenCourseWare](http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00sc-introduction-to-computer-science-and-programming-spring-2011/)
+* [Learn Python the Hard Way](http://learnpythonthehardway.org)
+* [Python Koans](https://github.com/gregmalcolm/python_koans)
+* [Excercism](excercism.io)
+* [Coding Bat](http://codingbat.com)
+* [Free Online Bachelors Curriculum](http://blog.agupieware.com/2014/06/online-learning-intensive-bachelors.html?m=1)
+* [Team TreeHouse](teamtreehouse.com)
+* [Python for informatics](https://www.youtube.com/watch?v=hRNFBhEykcY&list=PLlRFEj9H3Oj4JXIwMwN1_ss1Tk8wZShEJ)
+* [Turtles](https://docs.python.org/2/library/turtle.html)
+
+###Meet-Up Groups
+* [Tampa Bay Python Meetup](http://www.meetup.com/python-178/)
+* [San Diego Python](http://pythonsd.org)
+* [Girl Develop It](https://www.girldevelopit.com)
+
+###Code related
+* [understanding generator objects](https://leemendelowitz.github.io/blog/any-all-in-python.html)
+
+###Current Projects
+* [Amit](GUI test automation using Selenium-http://docs.seleniumhq.org)
+* [(Jay)](Shownoter.py Project https://github.com/kjaymiller/parts/blob/master/shownoter.py)
+
+###Host-Phillip Gray-twitter.com/escapethegray1
+* [Jamal Hansen](twitter.com/@jamahans)
+* [Jay Miller](twitter.com/kjaymiller / kjaymiller.com)
+* [Amit Verma](twitter.com/@amitv12)
+
