@@ -16,10 +16,15 @@ ensure all links are added in the following syntax:
 All other text will be ignored. You can also switch back and forth between categories.
 
 > This is some regular text to be ignored
+
 > '> linktosite1 #general' (link will be recognized)
+
 > More random text to be ignored
+
 > linktosite #main (will be ignored, no '>')
+
 > '> linktosite2 #main'
+
 > '> linktosite3 #general'
 
 will produce:
