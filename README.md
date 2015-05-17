@@ -26,6 +26,7 @@ will produce:
 
 > ##General
 >* [sitetitle1]\(linktosite1\)
->* [sitetitle3]\(linktosite3\)<br>
+>* [sitetitle3]\(linktosite3\)
+
 > ##Main
 >* [sitetitle2]\(linktosite2\)
