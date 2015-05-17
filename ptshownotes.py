@@ -32,11 +32,11 @@ def compile(notes):
 def build_file(notes):
     with open('sub_'+filename,'a') as file:
         for group in notes:
-            file.write(group + '\n')
+            file.write('#' + group + '\n')
             for link in notes[group]:
                web = requests.get(link)
                soup = BeautifulSoup(web.content)
-               file.write('[{}]({})\n'.format((str(soup.title)[7:-8]),link))
+               file.write('* [{}]({})\n'.format((str(soup.title)[7:-8]),link))
                 
 filename = input('Name of File: ') + '.txt'
 get_notes(filename)
