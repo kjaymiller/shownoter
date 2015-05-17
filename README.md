@@ -17,15 +17,15 @@ All other text will be ignored. You can also switch back and forth between categ
 
 > This is some regular text to be ignored
 
-> > linktosite1 #general 
+> \> linktosite1 #general 
 
 > More random text to be ignored
 
 > linktosite #main (will be ignored, no '>')
 
-> > linktosite2 #main
+> \> linktosite2 #main
 
-> > linktosite3 #general
+> \> linktosite3 #general
 
 will produce:
 
