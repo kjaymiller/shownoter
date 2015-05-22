@@ -1,44 +1,37 @@
-import requests
+import re
+import urllib.request
+from collections import defaultdict
 from bs4 import BeautifulSoup
-notes = {}
 
-def get_notes(file):
-    with open(file,'r') as f:
-        key = ''
-        for line in f:
-            if line.startswith('>'):                
-                if '#' in line:
-                    val = line[1:line.find(' #')].strip()
-                    key = line[line.find('#'):].strip()
-                    print(key, val)
-                    notes[key] = notes.get(key, [val])
-                    if not val in notes[key]:
-                        notes[key].append(val) 
-                else:
-                    val = line[1:line.find(' #')].strip()
-                    notes[key] = notes.get(key, [val])
-                    if not val in notes[key]:
-                        notes[key].append(val)
+def finder(filename):
+    with open(filename,'r') as file:
+        return re.findall(r'^>.*', file.read().replace(u'\xa0', u' '), re.M)
 
-def compile(notes):
-    old_list = list(enumerate([x for x in notes]))
-    new_list = []
+def cats(rlist):
+    rdict = defaultdict(list)
+    key = 'uncategorized'
+    for line in rlist:
+        nline = line[1:].strip().split(' ',1)
+        if not nline[0].startswith('http'):
+             nline[0] = 'http://' + nline[0]
+        try:
+            soup = BeautifulSoup(urllib.request.urlopen(nline[0]))
+            rtitle = re.sub('[\n\t]','',str(soup.title)[7:-8].strip())
+            if len(nline) == 2:
+                key = nline[1]
+            rdict[key].append((rtitle,nline[0]))
+        except:
+            print(nline[0], 'failed') 
+    return rdict    
 
-    print(old_list)
-    for x in old_list:
-        new_list.append(notes[old_list[int(input('select order: '))][1]])    
-    return(new_list)
+def org(rdict):
+    rstr = ''
+    for key in rdict:
+        rstr = rstr + '#{}\n'.format(key)
+        for item in rdict[key]:
+            rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
+    return rstr
 
-def build_file(notes):
-    with open('sub_'+filename,'a') as file:
-        for group in notes:
-            file.write('#' + group + '\n')
-            for link in notes[group]:
-               web = requests.get(link)
-               soup = BeautifulSoup(web.content)
-               file.write('* [{}]({})\n'.format((str(soup.title)[7:-8]),link))
-                
-filename = input('Name of File: ') + '.txt'
-get_notes(filename)
-ord_notes = compile(notes)
-build_file(notes)
+links = org(cats(finder('raw_pt_ep2.txt')))
+print(links)
+
