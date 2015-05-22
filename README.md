@@ -2,20 +2,36 @@
 This is the package for compiling all of the links into the thursday show notes
 
 #### Requirements:
-* python (2.7/3.4) 
-* text document
+* python (2.7/3.4)
+* BeautifulSoup
+* urllib
+* chat in file
 
 #### Document needs:
-All items without links will need to have at least 1 "#" at the begininng.
-Please format the links with "description-url"
+ensure all links are added in the following syntax:
+`> link #category(*optional*\*)
 
-#### What it does:
-pt-shownoter reformats the document into the following format
+\*if no category is given the link will belong to the previous category. There **MUST** an initial category.
 
-#heading
-* \[description\]\(url\)
+All other text will be ignored. You can also switch back and forth between categories.
 
-This is the standard [markdown](http://daringfireball.net/projects/markdown/) format. 
+> This is some regular text to be ignored
 
-#### Future plans 
-I plan to create a bot that aggregates the note and then returns them. 
+> \> linktosite1 #general 
+
+> More random text to be ignored
+
+> linktosite #main (will be ignored, no '>')
+
+> \> linktosite2 #main
+
+> \> linktosite3 #general
+
+will produce:
+
+> ##General
+>* [sitetitle1]\(linktosite1\)
+>* [sitetitle3]\(linktosite3\)
+
+> ##Main
+>* [sitetitle2]\(linktosite2\)
