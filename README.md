@@ -4,8 +4,8 @@ This is the package for compiling all of the links into the thursday show notes
 #### Requirements:
 * python (2.7/3.4)
 * BeautifulSoup
-* Requests
-* chat as '.txt'
+* urllib
+* chat in file
 
 #### Document needs:
 ensure all links are added in the following syntax:
