@@ -1,37 +1,42 @@
 # python-thursday
 This is the package for compiling all of the links into the thursday show notes
 
-#### Requirements:
+## Requirements:
 * python (2.7/3.4)
 * BeautifulSoup
 * urllib
 * chat in file
 
-#### Document needs:
-ensure all links are added in the following syntax:
-`> link #category(*optional*\*)
+### Setting Categories
+The default category is "Uncategorized". To set a new category. Enter the "#" Followed by the Category. The whole line will be accepted as the category.
 
-\*if no category is given the link will belong to the previous category. There **MUST** an initial category.
+### Setting Links:
+To add a link just enter the link by itself. There is no need for a title, as pt shownotes will find one for you. 
 
-All other text will be ignored. You can also switch back and forth between categories.
+Accepted Links:
+* http://www.link.com
+* https://www.link.com
+* www.link.com
+* link.com
 
+If a link fails to be read (i.e. bad syntax or detection of a non-link. A "<link> Failed" will be returned and it will process the next link.
+
+All links will belong to the previous set category
+
+####Example
 > This is some regular text to be ignored
-
-> \> linktosite1 #general 
-
+>  \#Category1
 > More random text to be ignored
-
-> linktosite #main (will be ignored, no '>')
-
-> \> linktosite2 #main
-
-> \> linktosite3 #general
+> linktosite1.com
+> www.linktosite.com 
+> \#Category2
+>https://linktosite3/web/blog/otherthings?test
 
 will produce:
 
-> ##General
->* [sitetitle1]\(linktosite1\)
->* [sitetitle3]\(linktosite3\)
+> ##Category1
+>* [sitetitle1]\(linktosite1.com\)
+>* [sitetitle2]\(www.linktosite.com\)
 
-> ##Main
->* [sitetitle2]\(linktosite2\)
+> ##Category2
+>* [sitetitle3]\(https://linktosite3/web/blog/otherthings?test\)
