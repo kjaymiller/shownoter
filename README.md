@@ -19,7 +19,7 @@ Accepted Links:
 * www.link.com
 * link.com
 
-If a link fails to be read (i.e. bad syntax or false detection of a link). A "*\<link\> Failed" will be returned and it will process the next link.
+If a link fails to be read (i.e. bad syntax or false detection of a link). A "*\<link\>* Failed" will be returned and it will process the next link.
 
 All links will belong to the previous set category
 
