@@ -32,7 +32,7 @@ All links will belong to the previous set category
 
 > linktosite1.com
 
-> \www.linktosite.com 
+> www.linktosite.com(#) 
 
 > \#Category2
 
