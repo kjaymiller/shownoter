@@ -14,9 +14,9 @@ The default category is "Uncategorized". To set a new category. Enter the "#" Fo
 To add a link just enter the link by itself. There is no need for a title, as pt shownotes will find one for you. 
 
 Accepted Links:
-* http://www.link.com
-* https://www.link.com
-* www.link.com
+* [http://www.link.com][0]
+* [https://www.link.com][0]
+* [www.link.com][0]
 * link.com
 
 If a link fails to be read (i.e. bad syntax or false detection of a link). A "*\<link\>* Failed" will be returned and it will process the next link.
@@ -32,17 +32,19 @@ All links will belong to the previous set category
 
 > linktosite1.com
 
-> www.linktosite.com(#) 
+> [www.linktosite.com][0] 
 
 > \#Category2
 
->https://linktosite3/web/blog/otherthings?test
+>[https://linktosite3/web/blog/otherthings?test][0]
 
 will produce:
 
 > ##Category1
->* [sitetitle1]\(linktosite1.com\)
->* [sitetitle2]\(www.linktosite.com\)
+>* [sitetitle1]\(linktosite1.com \)
+>* [sitetitle2]\(www.linktosite.com \)
 
 > ##Category2
->* [sitetitle3]\(https://linktosite3/web/blog/otherthings?test\)
+>* [sitetitle3]\(https://linktosite3/web/blog/otherthings?test \)
+
+[0]:#null
