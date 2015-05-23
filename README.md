@@ -25,11 +25,17 @@ All links will belong to the previous set category
 
 ####Example
 > This is some regular text to be ignored
+
 >  \#Category1
+
 > More random text to be ignored
+
 > linktosite1.com
+
 > www.linktosite.com 
+
 > \#Category2
+
 >https://linktosite3/web/blog/otherthings?test
 
 will produce:
