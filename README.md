@@ -42,7 +42,7 @@ will produce:
 
 > ##Category1
 >* [sitetitle1]\(linktosite1.com \)
->* [sitetitle2]\(www.linktosite.com \)
+>* [sitetitle2]\([www.linktosite.com][0] \)
 
 > ##Category2
 >* [sitetitle3]\(https://linktosite3/web/blog/otherthings?test \)
