@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 def finder(filename):
     with open(filename,'r', encoding = 'utf8') as file:
         return re.findall(r'^#.*|^\S+\..+\b', file.read(),re.M)
+        #TODO Make complie and drop the read
         
         #Need to make some tests for this regex
         
@@ -45,5 +46,7 @@ def org(rdict):
     return rstr
 
 notes = finder('test.txt')
+#TODO instead of forcing a file, just handle text instead
+
 links = org(cats(notes))
 print(links)
