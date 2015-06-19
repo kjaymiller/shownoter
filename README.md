@@ -1,5 +1,5 @@
 # python-thursday
-This is the package for compiling all of the links into the thursday show notes
+This is the package for compiling headers and links from chats
 
 ## Requirements:
 * python (2.7/3.4)
