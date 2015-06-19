@@ -3,11 +3,12 @@ import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
 
-def cats(chat):
-    return re.findall(r'^#.*|^\S+\..+\b', chat, re.M)
-    rdict = defaultdict(list)
+def lnk_detect(chat):
+    return re.findall(r'^#.*|\b\S+\..+\b', chat, re.M)
+
+def scrape(rlist):    
     key = '#uncategorized'
-    
+    rdict = defaultdict(list)
     for line in rlist:
         nline = line.strip()
         
@@ -21,7 +22,7 @@ def cats(chat):
         try:
             web = requests.get(nline)
             soup = BeautifulSoup(web.content)
-            rtitle = str().join(c for c in soup.title.text if ord(i)<128)
+            rtitle = str().join(c for c in soup.title.text if ord(c)<128)
             rdict[key].append((rtitle,nline))
             
         except:
