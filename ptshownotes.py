@@ -3,12 +3,9 @@ import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
 
-def finder(filename):
-    with open(filename,'r', encoding = 'utf8') as file:
-        return re.findall(r'^#.*|^\S+\..+\b', file.read(),re.M)
-        #TODO Make complie and drop the read
-        
-        #Need to make some tests for this regex
+def finder(chat):
+        return re.findall(r'^#.*|^\S+\..+\b', chat, re.M)
+        #TODO Need to make some tests for this regex
         
 def cats(rlist):
     rdict = defaultdict(list)
@@ -45,8 +42,8 @@ def org(rdict):
     
     return rstr
 
-notes = finder('test.txt')
-#TODO instead of forcing a file, just handle text instead
-
+chat = str()
+notes = finder(chat)
+rdict = cats(notes)
 links = org(cats(notes))
 print(links)
