@@ -3,13 +3,10 @@ import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
 
-def finder(chat):
-        return re.findall(r'^#.*|^\S+\..+\b', chat, re.M)
-        #TODO Need to make some tests for this regex
-        
-def cats(rlist):
+def cats(chat):
+    return re.findall(r'^#.*|^\S+\..+\b', chat, re.M)
     rdict = defaultdict(list)
-    key = 'uncategorized'
+    key = '#uncategorized'
     
     for line in rlist:
         nline = line.strip()
@@ -42,8 +39,3 @@ def org(rdict):
     
     return rstr
 
-chat = str()
-notes = finder(chat)
-rdict = cats(notes)
-links = org(cats(notes))
-print(links)
