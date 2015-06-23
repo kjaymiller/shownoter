@@ -1,0 +1,93 @@
+body {
+    background-color: #fefff8;
+    color: #606060;
+    }
+
+div.main-wrapper {
+    width: 80%;
+    margin: 150px auto;
+    }
+
+header {
+    margin-bottom: 25px;
+    }
+
+header h1 {
+    font-family: 'Lobster', 'cursive';
+    font-size: 42px;
+    }
+
+div .chat {
+    width: 75%;
+    margin: auto;
+}
+
+form textarea {
+    height: 5em;
+    width: 85%;
+    }
+
+form input {
+    float: right;
+    margin-right: 45px;
+    width: 5em;
+    height: 5em;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #efefef;
+    text-decoration: strong;
+    }
+
+div.menu {
+    clear: both;
+    width 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+    display: inline;
+    white-space: nowrap;
+     }
+
+footer {
+    text-align: center;
+    font-style: italic;
+    clear: both;
+    padding-right: 14em;
+    }
+
+div.results {
+    clear: both;
+    list-style-type: none;
+    text-align: left;
+    margin: 5px;
+    }
+div.results h2 {
+    font-size: 22px;
+    }
+
+
+div .instructions {
+    clear: both;
+    text-align: left;
+    margin-bottom: 45px;
+    }
+
+div.instructions h2 {
+    font-size: 22px;
+    font-style: italic;
+    }
+
+#errors {
+    padding: 5px;
+    font-style: italic;
+    font-weight: bold;
+    }
+
+div#loading {
+    margin: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 160px;
+    height: 24px;
+    background: url('static/76.gif') no-repeat;
+    cursor: wait;
+    }

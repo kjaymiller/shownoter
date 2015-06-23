@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="chat">
+<form action="" method="post">
+{{ form.hidden_tag() }}
+{{ form.input_text }}
+<input type="submit" value="Press&#13;&#10Enter"/>
+</form>
+</div>
+
+<div class="results">
+{% if md_text %}
+<h3>Your Links</h3>
+<p>{% for line in md_text %}
+{{ line }}</br>
+{% endfor %}
+</p>
+<h3>{% if er_cnt %} {{ er_cnt }} Errors</h3>
+<p id = "errors">We had some trouble with these phrases. They might be links but we couldn't find anything.</em></p>
+
+<p>{% for error in bad_links %}
+{{ error }}<br>
+
+{% endfor %}
+{% endif %}
+</div>
+{% else %}
+<div class="instructions">
+<h2> Instructions </h2>
+Paste your chat history in the box and we'll get your categories (marked with "#") and links ready for you.
+</ul>
+</h3>
+</div>
+{% endif %}
+{% endblock %}
+
+
+

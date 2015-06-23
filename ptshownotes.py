@@ -3,40 +3,58 @@ import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
 
-def lnk_detect(chat):
-    return re.findall(r'^#.*|\b\S+\..+\b', chat, re.M)
+def clean_line(line):
+    return str().join(c for c in line if ord(c) < 128)
 
-def scrape(rlist):    
-    key = '#uncategorized'
-    rdict = defaultdict(list)
-    for line in rlist:
-        nline = line.strip()
+
+class shownotes():
+
+    def sn(self, chat):
+        self.scrape(self.lnk_detect(chat))
+        return self.org()
+
+    def __init__(self, text):
+        self.key = '#uncategorized'
+        self.rdict = defaultdict(list)
+        self.bad_links = list()
+        self.md_text = self.sn(text)
+
+    def lnk_detect(self, chat):
+        return re.findall(r'^#.*|\b\S+\.\S+', chat, re.M)
+    
+    def scrape(self, rlist):
+        for line in rlist:
+            nline = line.strip()
         
-        if nline.startswith('#'):
-            key = nline
-            continue
-        
-        elif not nline.startswith('http'):
-                nline = 'http://' + nline
-                
-        try:
-            web = requests.get(nline)
-            soup = BeautifulSoup(web.content)
-            rtitle = str().join(c for c in soup.title.text if ord(c)<128)
-            rdict[key].append((rtitle,nline))
+            if nline.startswith('#'):
+                self.key = nline
+                continue
             
-        except:
-            print(nline, 'failed')
-    
-    return rdict
+            if not nline.startswith('http'):
+                    nline = 'http://' + nline
+                    
+            try:
+                web = requests.get(nline, timeout = 2.0)
+                soup = BeautifulSoup(web.content)
+                rtitle = clean_line(soup.title.text)
+                if (rtitle, nline) not in self.rdict[self.key]:
+                    self.rdict[self.key].append((rtitle, nline))
 
-def org(rdict):
-    rstr = str()
-    for key in rdict:
-        rstr = rstr + '#{}\n'.format(key)
+            except:
+                nline = clean_line(nline)
+                print(nline, 'failed')
+                self.bad_links.append(nline)
         
-        for item in rdict[key]:
-            rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
-    
-    return rstr
+    def org(self):
+        rstr = str()
+        for key in self.rdict:
+            if key == 'bad links':
+                continue
+            rstr = rstr + '#{}\n'.format(key)
+            
+            for item in self.rdict[key]:
+                rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
+        
+        return rstr
+
 
