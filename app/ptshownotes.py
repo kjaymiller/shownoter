@@ -7,18 +7,17 @@ def clean_line(line):
     return str().join(c for c in line if ord(c) < 128)
 
 
-class shownotes():
-
-    def sn(self, chat):
-        self.scrape(self.lnk_detect(chat))
-        return self.org()
-
+class Shownotes():
     def __init__(self, text):
-        self.key = 'uncategorized'
+        self.key = '#uncategorized'
         self.rdict = OrderedDict()
         self.rdict[self.key] = list()
         self.bad_links = list()
         self.md_text = self.sn(text)
+
+    def sn(self, chat):
+        self.scrape(self.lnk_detect(chat))
+        return self.org()
 
     def lnk_detect(self, chat):
         return re.findall(r'^#.*|\b\S+\.\S+', chat, re.M)
@@ -58,5 +57,13 @@ class shownotes():
                 rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
         
         return rstr
-
-
+    
+    def lpop(self, item, o_list, n_list, new_loc = -1):
+        item_loc = self.rdict[o_list].index(item)
+        item = self.rdict[o_list].pop(item_loc)
+        self.rdict[n_list].insert(new_loc, item)
+        self.md_text = self.org()
+  
+    def ldel(self, item):
+        del self.rdict[item]
+        self.md_text = self.org()
