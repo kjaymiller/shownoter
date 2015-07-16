@@ -13,9 +13,9 @@ class Shownotes():
         self.rdict = OrderedDict()
         self.rdict[self.key] = list()
         self.bad_links = list()
-        self.md_text = self.sn(text)
+        self.md_text = self.snote(text)
 
-    def sn(self, chat):
+    def snote(self, chat):
         self.scrape(self.lnk_detect(chat))
         return self.org()
 
