@@ -1,11 +1,17 @@
 import re
+from random import randint
+from os import remove
 import requests
 from collections import OrderedDict
 from bs4 import BeautifulSoup
 
+
 def clean_line(line):
     return str().join(c for c in line if ord(c) < 128)
 
+def import_file(notes):
+    with open(notes, 'r+') as file:
+        return file.read()
 
 class Shownotes():
     def __init__(self, text):
@@ -16,10 +22,10 @@ class Shownotes():
         self.md_text = self.snote(text)
 
     def snote(self, chat):
-        self.scrape(self.lnk_detect(chat))
-        return self.org()
+        self.scrape(self.link_detect(chat))
+        return self.organize()
 
-    def lnk_detect(self, chat):
+    def link_detect(self, chat):
         return re.findall(r'^#.*|\b\S+\.\S+', chat, re.M)
     
     def scrape(self, rlist):
@@ -46,7 +52,7 @@ class Shownotes():
                 print(nline, 'failed')
                 self.bad_links.append(nline)
     
-    def org(self):
+    def organize(self):
         rstr = str()
         for key in self.rdict:
             if key == 'bad links':
@@ -62,8 +68,8 @@ class Shownotes():
         item_loc = self.rdict[o_list].index(item)
         item = self.rdict[o_list].pop(item_loc)
         self.rdict[n_list].insert(new_loc, item)
-        self.md_text = self.org()
+        self.md_text = self.organize()
   
     def ldel(self, item):
         del self.rdict[item]
-        self.md_text = self.org()
+        self.md_text = self.organize()
