@@ -90,3 +90,7 @@ class Shownotes():
             if not self.link_dict[category]:
                 print(category, 'deleted')
                 del self.link_dict[category]
+                
+    def empty_categories(self):
+        return [category in self.link_dict if not self.link_dict['category']]
+    
