@@ -19,8 +19,6 @@ class Shownotes():
         self.link_dict['#uncategorized'] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
-        print(self.link_dict)
-        self.delete_empty_categories()
     
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
@@ -60,7 +58,8 @@ class Shownotes():
             if key == 'bad links':
                 continue
             
-            print(len(self.link_dict[key]))
+            if  not len(self.link_dict[key]):
+                print(key, 'is empty')
             rstr = rstr + '#{}\n'.format(key)
             
             for item in self.link_dict[key]:
@@ -86,8 +85,8 @@ class Shownotes():
         with open(file, 'w+') as file:
             file.write(self.md_text)
 
-    def delete_empty_categories(self):
+    def delete_categories(self):
         for category in self.link_dict:
             if not self.link_dict[category]:
-                print(category, 'is empty')
+                print(category, 'deleted')
                 del self.link_dict[category]
