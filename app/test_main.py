@@ -1,6 +1,6 @@
 import logging
-import lorem
 import ptshownotes
+from testing import lorem
 from supportFiles import cleanStatic
 
 logger = logging.getLogger('testing_main')
@@ -12,7 +12,7 @@ logging.debug('testing set to at least debug')
 logging.info('testing set to at least info')
 
 logging.info('Testing the output upload')
-with open('test_input.txt', 'r+') as file:
+with open('testing/test_input.txt', 'r+') as file:
     file = file.read()
 logging.info('SUCCESS: Output upload complete')
 
@@ -28,7 +28,7 @@ while test_count < 100:
     export_shownotes = test_shownotes.export_shownotes()
     test_count += 1
     
-dir = '../static/'
+dir = 'static/'
 extension = '.md'
 
 ###Testing Clean Static###
