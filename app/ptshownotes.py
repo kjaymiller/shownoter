@@ -1,6 +1,6 @@
 import re
 from random import randint
-from os import remove
+from os import remove, path 
 import requests
 from collections import OrderedDict
 from bs4 import BeautifulSoup
@@ -73,3 +73,12 @@ class Shownotes():
     def ldel(self, item):
         del self.rdict[item]
         self.md_text = self.organize()
+
+    def export_shownotes(self):
+        file_id = randint(0,65535);
+        file = 'static/links{}.md'.format(file_id)
+        if path.isfile(file):
+            remove(file)
+        with open(file, 'w+') as file:
+            file.write(self.md_text)
+
