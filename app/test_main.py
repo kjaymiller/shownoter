@@ -1,3 +1,10 @@
+"""Test Master Test Module
+Centralized Call for Tests for shownoter.co
+
+created: 2015
+author: https://github.com/kjaymiller"""
+
+import unittest
 import logging
 import ptshownotes
 from testing import lorem
@@ -35,3 +42,6 @@ extension = '.md'
 file_list = cleanStatic.grab_files(dir, extension)
 cleanStatic.remove_files(dir, file_list)
 file_list = cleanStatic.grab_files(dir, extension)
+
+if __name__ == '__main__':
+    unittest.main()
