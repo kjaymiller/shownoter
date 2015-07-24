@@ -15,14 +15,19 @@ def import_file(notes):
 
 class Shownotes():
     def __init__(self, text):
-        self.categories = ['#uncategorized']
+        self.categories = list()
+        self.add_category('#uncategorized')
         self.link_dict = OrderedDict()
-        self.link_dict[self.categories[-1]] = list()
+        self.link_dict[self.key] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
         print(self.link_dict)
         self.delete_empty_categories()
-
+    
+    def add_category(self, category):
+        self.categories.append(category)
+        self.key = category
+    
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
         return self.organize()
@@ -35,9 +40,8 @@ class Shownotes():
             nline = line.strip()
         
             if nline.startswith('#'):
-                self.categories.append(nline)
-                key = self.categories[-1]
-                self.link_dict[key] = list()
+                self.add_category(nline)
+                self.link_dict[self.key] = list()
                 continue
             
             if not nline.startswith('http'):
@@ -47,8 +51,8 @@ class Shownotes():
                 web = requests.get(nline, timeout = 1.5)
                 soup = BeautifulSoup(web.content)
                 rtitle = clean_line(soup.title.text)
-                if (rtitle, nline) not in self.link_dict[key]:
-                    self.link_dict[key].append((rtitle, nline))
+                if (rtitle, nline) not in self.link_dict[self.key]:
+                    self.link_dict[self.key].append((rtitle, nline))
 
             except:
                 nline = clean_line(nline)
