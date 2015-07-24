@@ -15,11 +15,13 @@ def import_file(notes):
 
 class Shownotes():
     def __init__(self, text):
-        self.key = '#uncategorized'
-        self.rdict = OrderedDict()
-        self.rdict[self.key] = list()
+        self.categories = ['#uncategorized']
+        self.link_dict = OrderedDict()
+        self.link_dict[self.categories[-1]] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
+        print(self.link_dict)
+        self.delete_empty_categories()
 
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
@@ -33,8 +35,9 @@ class Shownotes():
             nline = line.strip()
         
             if nline.startswith('#'):
-                self.key = nline
-                self.rdict[self.key] = list()
+                self.categories.append(nline)
+                key = self.categories[-1]
+                self.link_dict[key] = list()
                 continue
             
             if not nline.startswith('http'):
@@ -44,8 +47,8 @@ class Shownotes():
                 web = requests.get(nline, timeout = 1.5)
                 soup = BeautifulSoup(web.content)
                 rtitle = clean_line(soup.title.text)
-                if (rtitle, nline) not in self.rdict[self.key]:
-                    self.rdict[self.key].append((rtitle, nline))
+                if (rtitle, nline) not in self.link_dict[key]:
+                    self.link_dict[key].append((rtitle, nline))
 
             except:
                 nline = clean_line(nline)
@@ -54,24 +57,24 @@ class Shownotes():
     
     def organize(self):
         rstr = str()
-        for key in self.rdict:
+        for key in self.link_dict:
             if key == 'bad links':
                 continue
             rstr = rstr + '#{}\n'.format(key)
             
-            for item in self.rdict[key]:
+            for item in self.link_dict[key]:
                 rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
         
         return rstr
     
     def lpop(self, item, o_list, n_list, new_loc = -1):
-        item_loc = self.rdict[o_list].index(item)
-        item = self.rdict[o_list].pop(item_loc)
-        self.rdict[n_list].insert(new_loc, item)
+        item_loc = self.link_dict[o_list].index(item)
+        item = self.link_dict[o_list].pop(item_loc)
+        self.link_dict[n_list].insert(new_loc, item)
         self.md_text = self.organize()
   
     def ldel(self, item):
-        del self.rdict[item]
+        del self.link_dict[item]
         self.md_text = self.organize()
 
     def export_shownotes(self):
@@ -82,3 +85,8 @@ class Shownotes():
         with open(file, 'w+') as file:
             file.write(self.md_text)
 
+    def delete_empty_categories(self):
+        for category in self.link_dict:
+            if not self.link_dict[category]:
+                print(category, 'is empty')
+                del self.link_dict[category]

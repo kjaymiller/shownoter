@@ -1,19 +1,8 @@
 Shirts I want
-#category1
 http://www.thinkgeek.com/product/e718/
-http://www.thinkgeek.com/product/8f52/
-#category2
+#category1
 http://www.thinkgeek.com/product/f141/
-http://www.thinkgeek.com/product/5aa9/
-#category3
+#category2
 http://www.thinkgeek.com/product/htks
-http://www.thinkgeek.com/product/11c3/
-#category4
+#category3
 http://www.thinkgeek.com/product/2075/
-http://www.thinkgeek.com/product/bbc6/
-#category5
-http://www.thinkgeek.com/product/ilpp/
-http://www.thinkgeek.com/product/214f/
-#category6
-http://www.thinkgeek.com/product/8753/
-http://www.thinkgeek.com/product/hstr/
