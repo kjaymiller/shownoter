@@ -19,3 +19,11 @@ logging.info('Testing create shownotes class object')
 test_shownotes = ptshownotes.Shownotes(file)
 print(test_shownotes.md_text)
 logging.info('SUCCESS: Shownotes class created.')
+
+logging.info('Testing export shownotes class object')
+
+test_count = 0
+while test_count < 100:
+    export_shownotes = test_shownotes.export_shownotes()
+    test_count += 1
+    
