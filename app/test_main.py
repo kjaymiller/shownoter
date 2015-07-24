@@ -1,6 +1,7 @@
 import logging
 import lorem
 import ptshownotes
+from supportFiles import cleanStatic
 
 logger = logging.getLogger('testing_main')
 #logging.basicConfig(level = logging.DEBUG)
@@ -27,3 +28,10 @@ while test_count < 100:
     export_shownotes = test_shownotes.export_shownotes()
     test_count += 1
     
+dir = '../static/'
+extension = '.md'
+
+###Testing Clean Static###
+file_list = cleanStatic.grab_files(dir, extension)
+cleanStatic.remove_files(dir, file_list)
+file_list = cleanStatic.grab_files(dir, extension)

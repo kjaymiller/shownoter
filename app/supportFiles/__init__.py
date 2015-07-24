@@ -1,0 +1,1 @@
+from supportFiles import cleanStatic
