@@ -15,18 +15,12 @@ def import_file(notes):
 
 class Shownotes():
     def __init__(self, text):
-        self.categories = list()
-        self.add_category('#uncategorized')
         self.link_dict = OrderedDict()
-        self.link_dict[self.key] = list()
+        self.link_dict['#uncategorized'] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
         print(self.link_dict)
         self.delete_empty_categories()
-    
-    def add_category(self, category):
-        self.categories.append(category)
-        self.key = category
     
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
@@ -36,12 +30,13 @@ class Shownotes():
         return re.findall(r'^#.*|\b\S+\.\S+', chat, re.M)
     
     def scrape(self, rlist):
+        key = '#uncategorized'
         for line in rlist:
             nline = line.strip()
         
             if nline.startswith('#'):
-                self.add_category(nline)
-                self.link_dict[self.key] = list()
+                key = nline
+                self.link_dict[key] = list()
                 continue
             
             if not nline.startswith('http'):
@@ -51,8 +46,8 @@ class Shownotes():
                 web = requests.get(nline, timeout = 1.5)
                 soup = BeautifulSoup(web.content)
                 rtitle = clean_line(soup.title.text)
-                if (rtitle, nline) not in self.link_dict[self.key]:
-                    self.link_dict[self.key].append((rtitle, nline))
+                if (rtitle, nline) not in self.link_dict[key]:
+                    self.link_dict[key].append((rtitle, nline))
 
             except:
                 nline = clean_line(nline)
@@ -64,6 +59,8 @@ class Shownotes():
         for key in self.link_dict:
             if key == 'bad links':
                 continue
+            
+            print(len(self.link_dict[key]))
             rstr = rstr + '#{}\n'.format(key)
             
             for item in self.link_dict[key]:
