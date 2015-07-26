@@ -15,11 +15,15 @@ def import_file(notes):
 
 class Shownotes():
     def __init__(self, text):
+        if type(text) != type(str()):
+            raise TypeError('{} found. Looking for "str()"'.format(type(text))) 
+       
         self.link_dict = OrderedDict()
         self.link_dict['#uncategorized'] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
-    
+                
+ 
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
         return self.organize()
@@ -85,12 +89,11 @@ class Shownotes():
         with open(file, 'w+') as file:
             file.write(self.md_text)
 
-    def delete_categories(self):
+    def delete_empty_categories(self):
         for category in self.link_dict:
             if not self.link_dict[category]:
                 print(category, 'deleted')
                 del self.link_dict[category]
+                cat_count += 1
+        print(self.link_dict)
                 
-    def empty_categories(self):
-        return [category in self.link_dict if not self.link_dict['category']]
-    
