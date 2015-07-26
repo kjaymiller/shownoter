@@ -22,7 +22,6 @@ class Shownotes():
         self.link_dict['#uncategorized'] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
-                
  
     def snote(self, chat):
         self.scrape(self.link_detect(chat))

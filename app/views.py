@@ -12,7 +12,7 @@ def index():
 
     if form.validate_on_submit():
         input_text = form.input_text.data
-        links = ptshownotes.shownotes(input_text)
+        links = ptshownotes.Shownotes(input_text)
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
