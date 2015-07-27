@@ -13,17 +13,17 @@ def allowed_file(filename):
 def index():
     form = chatImport()
     input_text = str()
+    if form.input_file:
+        import os
+        from request import files
+        from werkzeug import secure_filename
+        file = files['input_file']
+        filename = secure_filename(form.input_file.data)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return render_template('index.html', form = form, er_cnt = 0)
 
-    if form.validate_on_submit():
-        if form.input_file:
-            import os
-            from werkzeug import secure_filename
-            fileName = secure_filename(form.input_file.file.filename)
-            form.input_file.file.save('uploads/' + fileName)
-            return render_template('index.html', form = form, er_cnt = 0)
-
-        elif input_text:
-            links = ptshownotes.Shownotes(input_form)
+    elif input_text:
+        links = ptshownotes.Shownotes(form.input_file)
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
