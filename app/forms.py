@@ -1,9 +1,8 @@
 from flask.ext.wtf import Form
-from wtforms import TextAreaField
+import wtforms
 from wtforms.validators import DataRequired
 
 class chatImport(Form):
-    input_text = TextAreaField('text', validators=[DataRequired()])
-    
-
+    input_text = wtforms.TextAreaField('text')
+    input_file = wtforms.FileField()
     
