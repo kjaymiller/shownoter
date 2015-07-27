@@ -5,13 +5,8 @@ import requests
 from collections import OrderedDict
 from bs4 import BeautifulSoup
 
-
 def clean_line(line):
     return str().join(c for c in line if ord(c) < 128)
-
-def import_file(notes):
-    with open(notes, 'r+') as file:
-        return file.read()
 
 class Shownotes():
     def __init__(self, text):
@@ -22,7 +17,8 @@ class Shownotes():
         self.link_dict['#uncategorized'] = list()
         self.bad_links = list()
         self.md_text = self.snote(text)
- 
+        self.export = self.export_shownotes() 
+
     def snote(self, chat):
         self.scrape(self.link_detect(chat))
         return self.organize()
@@ -82,11 +78,12 @@ class Shownotes():
 
     def export_shownotes(self):
         file_id = randint(0,65535);
-        file = 'static/links{}.md'.format(file_id)
-        if path.isfile(file):
-            remove(file)
-        with open(file, 'w+') as file:
+        file_path = 'static/links{}.md'.format(file_id)
+        if path.isfile(file_path):
+            remove(file_path)
+        with open(file_path, 'w+') as file:
             file.write(self.md_text)
+        return file_path        
 
     def delete_empty_categories(self):
         for category in self.link_dict:

@@ -46,6 +46,14 @@ class testTextType(unittest.TestCase):
         with self.assertRaises(TypeError): 
             ptshownotes.Shownotes(chat_dict)
 
-         
+class testFileExport(unittest.TestCase):
+    """Can files be exported using ptshownotes.export_file"""
+    def setUp(self):
+        chat = 'http://google.com'
+        self.test_shownotes = ptshownotes.Shownotes(chat)
+
+    def test_export(self):
+        import os
+        assert os.path.isfile(self.test_shownotes.export)
 if __name__ == '__main__':
     unittest.main()
