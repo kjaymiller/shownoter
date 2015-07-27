@@ -3,6 +3,7 @@ from app import ptshownotes
 from .forms import chatImport
 from flask import render_template
 from flask import Markup
+from flask import request
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -13,17 +14,16 @@ def allowed_file(filename):
 def index():
     form = chatImport()
     input_text = str()
-    if form.input_file:
-        import os
-        from request import files
-        from werkzeug import secure_filename
-        file = files['input_file']
-        filename = secure_filename(form.input_file.data)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return render_template('index.html', form = form, er_cnt = 0)
+    if request.method == 'POST': 
+        if form.input_file:
+            import os
+            from werkzeug import secure_filename
+            file = request.files['input_file']
+            file = file.read()
+            links = ptshownotes.Shownotes(file.decode('utf-8'))
 
-    elif input_text:
-        links = ptshownotes.Shownotes(form.input_file)
+        elif input_text:
+            links = ptshownotes.Shownotes(form.input_text)
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
