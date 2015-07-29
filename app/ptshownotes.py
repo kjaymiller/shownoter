@@ -9,14 +9,14 @@ def clean_line(line):
     return str().join(c for c in line if ord(c) < 128)
 
 class Shownotes():
-    def __init__(self, text, export_path = 'app/downloads/'):
+    def __init__(self, text = str(), export_path = 'app/downloads/', **kwargs):
         if type(text) != type(str()):
             raise TypeError('{} found. Looking for "str()"'.format(type(text))) 
        
         self.link_dict = OrderedDict()
         self.link_dict['#uncategorized'] = OrderedDict()
         self.bad_links = list()
-        self.md_text = self.shownote(text)
+        self.md_text = kwargs.get('md_text', self.shownote(text))
         self.export = self.export_shownotes(export_path) 
 
     def shownote(self, chat):

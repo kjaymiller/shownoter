@@ -14,19 +14,27 @@ def allowed_file(filename):
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
-def index():
+def index(link_delete = None, md_text = None):
     form = chatImport()
     input_text = str()
+
+    def upload_file():
+        file = request.files['input_file']
+        file = file.read()
+        return file.decode('utf-8')
+       
     if request.method == 'POST': 
-        if request.files['input_file']:
-            import os
+        if link_delete:
+            md_text = md_text
+                
+
+        elif request.files['input_file']:
             from werkzeug import secure_filename
-            file = request.files['input_file']
-            file = file.read()
-            links = ptshownotes.Shownotes(file.decode('utf-8'))
+            links = ptshownotes.Shownotes(upload_file())
 
         elif form.input_text:
             links = ptshownotes.Shownotes(form.input_text.data)
+
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
@@ -43,4 +51,4 @@ def get_file(filename):
         response.content_type =  "text/markdown"
     os.remove('app/downloads/' + filename)
     return response
-
+       
