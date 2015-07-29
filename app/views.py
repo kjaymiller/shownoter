@@ -14,7 +14,7 @@ def allowed_file(filename):
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
-def index(link_delete = None, md_text = None):
+def index():
     form = chatImport()
     input_text = str()
 
@@ -24,11 +24,7 @@ def index(link_delete = None, md_text = None):
         return file.decode('utf-8')
        
     if request.method == 'POST': 
-        if link_delete:
-            md_text = md_text
-                
-
-        elif request.files['input_file']:
+        if request.files['input_file']:
             from werkzeug import secure_filename
             links = ptshownotes.Shownotes(upload_file())
 
@@ -38,9 +34,18 @@ def index(link_delete = None, md_text = None):
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
-        return render_template('index.html', form = form, md_text = md_text, bad_links = bad_links, er_cnt = er_cnt, download = links.export)
+        return render_template('index.html', form = form, links = links, bad_links = bad_links, er_cnt = er_cnt, download = links.export)
     
     return render_template('index.html', form = form, er_cnt = 0)
+
+@app.route('/results/delete', methods =  ['GET', 'POST'])
+
+def delete_link(links, category, link):
+    links.delete_link(cateogry, link)
+    md_text = links.md_text.split('\n')
+    bad_links = links.bad_links
+    er_cnt = len(bad_links)
+
 
 @app.route('/download/<path:filename>')
 def get_file(filename):
@@ -51,4 +56,6 @@ def get_file(filename):
         response.content_type =  "text/markdown"
     os.remove('app/downloads/' + filename)
     return response
+    
+
        
