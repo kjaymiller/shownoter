@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="chat">
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
 {{ form.hidden_tag() }}
 {{ form.input_text }}
 {{ form.input_file }}
@@ -16,13 +16,15 @@
 {{ line }}</br>
 {% endfor %}
 </p>
+<a href="/download/{{ download }}">Click to Download</a>
 <h3>{% if er_cnt %} {{ er_cnt }} Errors</h3>
 <p id = "errors">We had some trouble with these phrases. They might be links but we couldn't find anything.</em></p>
 
 <p>{% for error in bad_links %}
 {{ error }}<br>
-
+</p>
 {% endfor %}
+
 {% endif %}
 </div>
 {% else %}
