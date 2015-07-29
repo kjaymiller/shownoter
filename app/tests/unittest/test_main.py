@@ -7,7 +7,7 @@ author: https://github.com/kjaymiller"""
 import unittest
 import ptshownotes
 
-class test_categories(unittest.TestCase):
+class TestCategories(unittest.TestCase):
     """tests category functionality in ptshownotes.Shownotes"""
     
     def setUp(self):
@@ -16,7 +16,6 @@ class test_categories(unittest.TestCase):
 #category2
 #category3 '''
         self.test_shownotes = ptshownotes.Shownotes(chat)
-        print(self.test_shownotes.link_dict.keys())
         
     def test_shownotes_default_category(self):
         """test shownotes class and all variables"""
@@ -27,8 +26,25 @@ class test_categories(unittest.TestCase):
         categories = ('#category1', '#category2', '#category3')
         for category in categories:
             self.assertIn(category, self.test_shownotes.link_dict.keys()) 
+
+class TestTextLinkDelete(unittest.TestCase):
+    def setUp(self):
+        chat = '''
+#category1
+#category2
+#category3
+google.com'''
+
+        self.test_shownotes =  ptshownotes.Shownotes(chat)
     
-class testTextType(unittest.TestCase):
+    def test_delete_link(self):
+        category = '#category3'
+        link = 'http://google.com'
+        assert self.test_shownotes.link_dict[category][link]
+        self.test_shownotes.delete_link(category, link)
+        self.assertNotIn(link, self.test_shownotes.link_dict[category])
+
+class TestTextType(unittest.TestCase):
     """verifies error handling of text type so only str() data can be entered"""
 
     def test_int(self):
@@ -46,7 +62,7 @@ class testTextType(unittest.TestCase):
         with self.assertRaises(TypeError): 
             ptshownotes.Shownotes(chat_dict)
 
-class testFileExport(unittest.TestCase):
+class TestFileExport(unittest.TestCase):
     """Can files be exported using ptshownotes.export_file"""
     def setUp(self):
         chat = 'http://google.com'
