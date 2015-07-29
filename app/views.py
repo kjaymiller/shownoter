@@ -6,7 +6,7 @@ from flask import make_response
 from flask import Markup
 from flask import request
 from flask import send_from_directory
-from os import path
+import os
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -36,9 +36,11 @@ def index():
 
 @app.route('/download/<path:filename>')
 def get_file(filename):
-    file_path = 'app/downloads/' + filename
-    print(file_path)
-    response = make_response()
-    response.headers['Content-Disposition'] = 'attachment; filename=' + filename 
+    file_path = 'app/downloads/' + filename, 
+    with open('app/downloads/' + filename, 'r') as file:
+        response = make_response(file.read())
+        response.headers['Content-Disposition'] = 'attachment; filename=' + filename 
+        response.content_type =  "text/markdown"
+    os.remove('app/downloads/' + filename)
     return response
 
