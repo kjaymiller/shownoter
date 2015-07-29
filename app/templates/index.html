@@ -12,15 +12,15 @@
 <div class="results">
 {% if links %}
 <h3>Your Links</h3>
-<p>{% for line in links.md_text.split('\n %}
+<p>{% for line in links.md_text.split('\n') %}
 {{ line }}</br>
 {% endfor %}
 </p>
-<a href="/download/{{ download }}">Click to Download</a>
+<a href="/download/{{ links.export_shownotes(links.export_path) }}">Click to Download</a>
 <h3>{% if links.bad_links %} {{ len(links.bad_links) }} Errors</h3>
 <p id = "errors">We had some trouble with these phrases. They might be links but we couldn't find anything.</em></p>
 
-<p>{% for error in links.bad_links %}
+<p>{% for error in bad_links %}
 {{ error }}<br>
 </p>
 {% endfor %}

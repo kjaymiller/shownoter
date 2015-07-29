@@ -17,8 +17,8 @@ class Shownotes():
         self.link_dict['#uncategorized'] = OrderedDict()
         self.bad_links = list()
         self.md_text = kwargs.get('md_text', self.shownote(text))
-        self.export = self.export_shownotes(export_path) 
-
+        self.export_path = export_path
+        
     def shownote(self, chat):
         self.scrape(self.link_detect(chat))
         return self.organize()
@@ -57,10 +57,10 @@ class Shownotes():
             if category == 'bad links':
                 continue
             
-            rstr = rstr + '#{}\n'.format(category)
-            
-            for link in self.link_dict[category]:
-                rstr = rstr + '* [{}]({})\n'.format(self.link_dict[category][link], link)
+            elif self.link_dict[category]:
+                rstr = rstr + '#{} - {} Entries \n'.format(category, len(self.link_dict[category]))
+                for link in self.link_dict[category]:
+                    rstr += '* [{}]({})\n'.format(self.link_dict[category][link], link)
         
         return rstr
     
@@ -84,6 +84,8 @@ class Shownotes():
             file.write(self.md_text)
         return filename        
 
+
+### TODO: SEE IF STILL NEEDED ###
     def delete_empty_categories(self):
         for category in self.link_dict:
             if not self.link_dict[category]:
@@ -91,3 +93,4 @@ class Shownotes():
                 cat_count += 1
         print(self.link_dict)
                 
+### END ###

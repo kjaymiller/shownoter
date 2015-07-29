@@ -34,7 +34,7 @@ def index():
         md_text = links.md_text.split('\n')
         bad_links = links.bad_links
         er_cnt = len(bad_links)
-        return render_template('index.html', form = form, links = links, bad_links = bad_links, er_cnt = er_cnt, download = links.export)
+        return render_template('index.html', form = form, links = links, bad_links = bad_links, er_cnt = er_cnt)
     
     return render_template('index.html', form = form, er_cnt = 0)
 
