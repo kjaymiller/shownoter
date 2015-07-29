@@ -6,6 +6,7 @@ author: https://github.com/kjaymiller"""
 
 import unittest
 import ptshownotes
+import os
 
 class TestCategories(unittest.TestCase):
     """tests category functionality in ptshownotes.Shownotes"""
@@ -19,6 +20,9 @@ http://google.com'''
 
         self.test_shownotes = ptshownotes.Shownotes(chat, export_path = 'downloads/')
         
+    def tearDown(self):
+        for file in os.listdir('downloads'):
+            os.remove('downloads/' + file)
     def test_shownotes_default_category(self):
         """test shownotes class and all variables"""
         assert '#uncategorized' in self.test_shownotes.link_dict.keys()
@@ -38,7 +42,6 @@ http://google.com'''
 
 
     def test_export(self):
-        import os
         filename = self.test_shownotes.export
         assert os.path.isfile('downloads/' + filename)
 
