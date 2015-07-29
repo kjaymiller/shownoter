@@ -14,8 +14,10 @@ class TestCategories(unittest.TestCase):
         chat = '''
 #category1
 #category2
-#category3 '''
-        self.test_shownotes = ptshownotes.Shownotes(chat)
+#category3
+http://google.com'''
+
+        self.test_shownotes = ptshownotes.Shownotes(chat, export_path = 'downloads/')
         
     def test_shownotes_default_category(self):
         """test shownotes class and all variables"""
@@ -27,22 +29,18 @@ class TestCategories(unittest.TestCase):
         for category in categories:
             self.assertIn(category, self.test_shownotes.link_dict.keys()) 
 
-class TestTextLinkDelete(unittest.TestCase):
-    def setUp(self):
-        chat = '''
-#category1
-#category2
-#category3
-google.com'''
-
-        self.test_shownotes =  ptshownotes.Shownotes(chat)
-    
     def test_delete_link(self):
         category = '#category3'
         link = 'http://google.com'
         assert self.test_shownotes.link_dict[category][link]
         self.test_shownotes.delete_link(category, link)
         self.assertNotIn(link, self.test_shownotes.link_dict[category])
+
+
+    def test_export(self):
+        import os
+        filename = self.test_shownotes.export
+        assert os.path.isfile('downloads/' + filename)
 
 class TestTextType(unittest.TestCase):
     """verifies error handling of text type so only str() data can be entered"""
@@ -62,14 +60,5 @@ class TestTextType(unittest.TestCase):
         with self.assertRaises(TypeError): 
             ptshownotes.Shownotes(chat_dict)
 
-class TestFileExport(unittest.TestCase):
-    """Can files be exported using ptshownotes.export_file"""
-    def setUp(self):
-        chat = 'http://google.com'
-        self.test_shownotes = ptshownotes.Shownotes(chat)
-
-    def test_export(self):
-        import os
-        assert os.path.isfile(self.test_shownotes.export)
 if __name__ == '__main__':
     unittest.main()

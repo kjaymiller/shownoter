@@ -1,6 +1,6 @@
 import re
 from random import randint
-from os import remove, path 
+import os
 import requests
 from collections import OrderedDict
 from bs4 import BeautifulSoup
@@ -9,7 +9,7 @@ def clean_line(line):
     return str().join(c for c in line if ord(c) < 128)
 
 class Shownotes():
-    def __init__(self, text):
+    def __init__(self, text, export_path = 'app/downloads/'):
         if type(text) != type(str()):
             raise TypeError('{} found. Looking for "str()"'.format(type(text))) 
        
@@ -17,7 +17,7 @@ class Shownotes():
         self.link_dict['#uncategorized'] = OrderedDict()
         self.bad_links = list()
         self.md_text = self.shownote(text)
-        self.export = self.export_shownotes() 
+        self.export = self.export_shownotes(export_path) 
 
     def shownote(self, chat):
         self.scrape(self.link_detect(chat))
@@ -59,8 +59,8 @@ class Shownotes():
             
             rstr = rstr + '#{}\n'.format(category)
             
-            for item in self.link_dict[category]:
-                rstr = rstr + '* [{}]({})\n'.format(item[0],item[1])
+            for link in self.link_dict[category]:
+                rstr = rstr + '* [{}]({})\n'.format(self.link_dict[category][link], link)
         
         return rstr
     
@@ -74,14 +74,15 @@ class Shownotes():
         del self.link_dict[category][item]
         self.md_text = self.organize()
 
-    def export_shownotes(self):
+    def export_shownotes(self, path):
         file_id = randint(0,65535);
-        file_path = 'static/links{}.md'.format(file_id)
-        if path.isfile(file_path):
-            remove(file_path)
+        filename = 'links{}.md'.format(file_id)
+        file_path = path + filename
+        if os.path.isfile(file_path):
+            os.remove(file_path)
         with open(file_path, 'w+') as file:
             file.write(self.md_text)
-        return file_path        
+        return filename        
 
     def delete_empty_categories(self):
         for category in self.link_dict:
