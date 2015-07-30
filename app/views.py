@@ -32,21 +32,24 @@ def index():
             links = ptshownotes.Shownotes(form.input_text.data)
 
         md_text = links.md_text.split('\n')
-        bad_links = links.bad_links
-        er_cnt = len(bad_links)
-        return render_template('index.html', form = form, links = links, bad_links = bad_links, er_cnt = er_cnt)
+        return render_template('index.html', form = form, links = links)
     
     return render_template('index.html', form = form, er_cnt = 0)
 
-@app.route('/results/delete', methods =  ['GET', 'POST'])
+@app.route('/results/remove')
+def delete_link(filename, link):
+    with open(filename, 'r+') as file:
+        file = file.read()
+    os.remove(filename)
+    for line in file.split('\n'):
+        if not line.endswith(link):
+            new_file += line + '\n'
+    links = ptshownotes.Shownotes(md_text = new_file) 
+    form = chatImport()
+    input_text = str()
 
-def delete_link(links, category, link):
-    links.delete_link(cateogry, link)
-    md_text = links.md_text.split('\n')
-    bad_links = links.bad_links
-    er_cnt = len(bad_links)
-
-
+    return render_template('index.html', form = form, links = links)
+    
 @app.route('/download/<path:filename>')
 def get_file(filename):
     file_path = 'app/downloads/' + filename, 

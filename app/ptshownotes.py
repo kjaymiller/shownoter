@@ -13,9 +13,6 @@ class Shownotes():
         if type(text) != type(str()):
             raise TypeError('{} found. Looking for "str()"'.format(type(text))) 
        
-        self.link_dict = OrderedDict()
-        self.link_dict['#uncategorized'] = OrderedDict()
-        self.bad_links = list()
         self.md_text = kwargs.get('md_text', self.shownote(text))
         self.export_path = export_path
         
@@ -27,7 +24,9 @@ class Shownotes():
         return re.findall(r'^#.*|\b\S+\.\S+', chat, re.M)
     
     def scrape(self, rlist):
+        self.link_dict = OrderedDict()
         category = '#uncategorized'
+        self.link_dict[category] = OrderedDict()
         for line in rlist:
             nline = line.strip()
         
@@ -44,12 +43,12 @@ class Shownotes():
                 soup = BeautifulSoup(web.content)
                 rtitle = clean_line(soup.title.text)
                 if nline not in self.link_dict[category].keys():
-                    self.link_dict[category][nline] = rtitle
+                    self.link_dict[category][nline] =  rtitle 
+           
 
             except:
                 nline = clean_line(nline)
                 print(nline, 'failed')
-                self.bad_links.append(nline)
     
     def organize(self):
         rstr = str()
@@ -58,9 +57,9 @@ class Shownotes():
                 continue
             
             elif self.link_dict[category]:
-                rstr = rstr + '#{} - {} Entries \n'.format(category, len(self.link_dict[category]))
+                rstr = rstr + '#{} \n'.format(category, len(self.link_dict[category]))
                 for link in self.link_dict[category]:
-                    rstr += '* [{}]({})\n'.format(self.link_dict[category][link], link)
+                    rstr += '* [{0}]({1})\n'.format(self.link_dict[category][link], link, category)
         
         return rstr
     
@@ -85,12 +84,12 @@ class Shownotes():
         return filename        
 
 
-### TODO: SEE IF STILL NEEDED ###
-    def delete_empty_categories(self):
-        for category in self.link_dict:
-            if not self.link_dict[category]:
-                del self.link_dict[category]
-                cat_count += 1
-        print(self.link_dict)
-                
+#### TODO: SEE IF STILL NEEDED ###
+#    def delete_empty_categories(self):
+#        for category in self.link_dict:
+#            if not self.link_dict[category]:
+#                del self.link_dict[category]
+#                cat_count += 1
+#        print(self.link_dict)
+#                
 ### END ###
