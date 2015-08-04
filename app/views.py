@@ -1,5 +1,5 @@
 from app import app
-from app import ptshownotes
+from app import shownotes
 from .forms import chatImport
 from flask import render_template
 from flask import make_response
@@ -26,10 +26,10 @@ def index():
     if request.method == 'POST': 
         if request.files['input_file']:
             from werkzeug import secure_filename
-            links = ptshownotes.Shownotes(upload_file())
+            links = shownotes.Shownotes(upload_file())
 
         elif form.input_text:
-            links = ptshownotes.Shownotes(form.input_text.data)
+            links = shownotes.Shownotes(form.input_text.data)
 
         md_text = links.md_text.split('\n')
         return render_template('index.html', form = form, links = links)
@@ -44,7 +44,7 @@ def delete_link(filename, link):
     for line in file.split('\n'):
         if not line.endswith(link):
             new_file += line + '\n'
-    links = ptshownotes.Shownotes(md_text = new_file) 
+    links = shownotes.Shownotes(md_text = new_file) 
     form = chatImport()
     input_text = str()
 
