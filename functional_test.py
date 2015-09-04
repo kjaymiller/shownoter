@@ -1,6 +1,9 @@
-from selenium import webdriver
+import requests
+import pytest
 
-###Connects to the internet browser and travels to Shownoterco
+## Connects to the internet browser and travels to Shownoter
 
-br = webdriver.Safari()
-br.get('http://localhost:5000')
+request = requests.get('localhost:5000')
+assert request.ok
+
+## 
