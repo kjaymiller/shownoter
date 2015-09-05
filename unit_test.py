@@ -25,4 +25,8 @@ def test_re_link_detects_multiple_lines():
 
 def test_re_link_only_detects_links_and_nothing_else():
     links = 'duckduckgo.com is the best'
-    assert re_link(links) == 'duckduckgo.com'
+    result = re_link(links)
+    
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert 'duckduckgo.com' in result
