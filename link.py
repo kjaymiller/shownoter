@@ -5,12 +5,22 @@ def re_link(text):
     result =  re.findall(re_link, text)
     return result
 
-def get_title(url):
-    pass
+def get_site(url):
+    result = requests.get(url)
+    return result.content
+
+def get_title(site):
+    title = soup.title(site)
+    return title
 
 class Link():
-    """link object"""
-    def __init__(self, text):
-        self.text = text
-        self.category = category
+    def __init__(self, title, url):
         self.title = title
+        self.url = url
+
+    def markdownerize(self): # Thank Jamal for the name
+        title = self.title
+        url = self.url
+        markdown = '[{title}]({url})'.format(title = title, url = url)
+        return markdown
+

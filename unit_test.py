@@ -1,5 +1,10 @@
+"""
+Pytest Testing Module
+"""
+
 import pytest
-from link import re_link
+from link import re_link, Link 
+
 
 def test_re_link_detect_http():
     assert re_link('http://google.com')
@@ -30,3 +35,23 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert isinstance(result, list)
     assert len(result) == 1
     assert 'duckduckgo.com' in result
+
+# Test Link class
+def test_Link_object():
+    assert Link
+
+@pytest.fixture
+def link_object():
+    link_object = Link(title = 'foo', url = 'foo.com')
+    return link_object
+
+def test_Link_has_url_attr(link_object):
+    assert link_object.url == 'foo.com'
+    
+
+def test_Link_has_title_attr(link_object):
+    assert link_object.title == 'foo'
+
+def test_Link_has_markdownerize(link_object):
+    assert link_object.markdownerize() == '[foo](foo.com)'
+    
