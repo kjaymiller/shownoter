@@ -1,14 +1,28 @@
 import pytest
 from link import re_link
 
-def test_link_scrapes_text():
-    links = ('foo.com', 'www.foo.com', 'http://foo.com')
-    test_links = map(re_link, links)
+def test_re_link_detect_http():
+    assert re_link('http://google.com')
+    
+def test_re_link_detect_https():
+    assert re_link('https://google.com')
 
-    assert all(test_links)
+def test_re_link_detect_www():  
+    assert re_link('www.google.com')
 
-def test_links_doesnt_detect_link():
-    not_links = ('google dot com', 'foo bar', 'This is a serious one. It should not detect sentences')
-    test_links = map(re_link, not_links)
+def test_re_link_detect_dot_text():
+    assert re_link('a.bc')
 
-    assert not any(test_links)
+def test_re_link_does_not_detect_strings_without_periods():
+    assert not re_link('google dot com')
+
+def test_re_link_does_not_detect_sentences_using_proper_grammar():
+    assert not re_link('This is a serious one. It should not detect sentences')
+
+def test_re_link_detects_multiple_lines():
+    links = 'google.com\ntwitter.com'
+    assert len(re_link(links)) == 2
+
+def test_re_link_only_detects_links_and_nothing_else():
+    links = 'duckduckgo.com is the best'
+    assert re_link(links) == 'duckduckgo.com'
