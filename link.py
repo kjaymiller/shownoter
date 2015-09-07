@@ -24,3 +24,9 @@ class Link():
         markdown = '[{title}]({url})'.format(title = title, url = url)
         return markdown
 
+class Image(Link):
+    def markdownerize(self):
+        title = self.title
+        url = self.url
+        markdown = '![{title}]({url})'.format(title = title, url = url)
+        return markdown

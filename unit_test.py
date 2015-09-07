@@ -3,7 +3,7 @@ Pytest Testing Module
 """
 
 import pytest
-from link import re_link, Link 
+from link import re_link, Link, Image 
 
 
 def test_re_link_detect_http():
@@ -55,3 +55,16 @@ def test_Link_has_title_attr(link_object):
 def test_Link_has_markdownerize(link_object):
     assert link_object.markdownerize() == '[foo](foo.com)'
     
+@pytest.fixture
+def image_object():
+    image_object = Image(title = 'foo', url = 'foo.jpg')
+    return image_object
+
+def test_Image_inherits_title_attr_from_link(image_object):
+    assert image_object.title == 'foo'
+
+def test_Image_inherits_url_attr_from_link(image_object):
+    assert image_object.url == 'foo.jpg'
+
+def test_image_overides_markdownerize(image_object):
+    assert image_object.markdownerize() == '![foo](foo.jpg)'
