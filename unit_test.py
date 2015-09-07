@@ -3,7 +3,8 @@ Pytest Testing Module
 """
 
 import pytest
-from link import re_link, Link, Image 
+from shownoter import re_link
+from links import Link, Image 
 
 
 def test_re_link_detect_http():
