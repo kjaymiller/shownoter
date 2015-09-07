@@ -37,9 +37,6 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert 'duckduckgo.com' in result
 
 # Test Link class
-def test_Link_object():
-    assert Link
-
 @pytest.fixture
 def link_object():
     link_object = Link(title = 'foo', url = 'foo.com')
