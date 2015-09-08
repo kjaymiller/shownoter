@@ -1,16 +1,21 @@
 <html>
-    <head></head>
+    <head ><title>This is a Test</title></head>
     <body>
     This is a test
-    <div class=form>
+    <div class="form">
         <form action="" method="post" name="chat input">
         {{ form.hidden_tag() }}
         <p>
             Please Enter your Text Here:
-            {{ form.text() }}
+            {{ form.chat_text() }}
             </p>
         <p><input type="submit" value="Sign In"></p>
     </div>
+    {% if result %}
+    <div class="result">
+    {{ results }}
+    </div>
+    {% endif %}
     </body>
 </html>
 

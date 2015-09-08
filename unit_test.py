@@ -66,3 +66,5 @@ def test_Image_inherits_url_attr_from_link(image_object):
 
 def test_image_overides_markdownerize(image_object):
     assert image_object.markdownerize() == '![foo](foo.jpg)'
+
+
