@@ -2,6 +2,15 @@
     <head></head>
     <body>
     This is a test
+    <div class=form>
+        <form action="" method="post" name="chat input">
+        {{ form.hidden_tag() }}
+        <p>
+            Please Enter your Text Here:
+            {{ form.text() }}
+            </p>
+        <p><input type="submit" value="Sign In"></p>
+    </div>
     </body>
 </html>
 
