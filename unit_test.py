@@ -100,3 +100,7 @@ def test_file_type_can_detect_xvf():
     result = file_type(image_path)
     assert result == '.xvf'
 
+def test_file_type_does_not_detect_files_outside_of_image_extensions():
+    path = 'foo.com'
+    result = file_type(path)
+    assert not result
