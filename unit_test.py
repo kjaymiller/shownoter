@@ -3,8 +3,8 @@ Pytest Testing Module
 """
 
 import pytest
-from shownoter import re_link
-from links import Link, Image 
+from shownoter import re_link, file_type
+from link_types import Link, Image 
 
 
 def test_re_link_detect_http():
@@ -53,6 +53,8 @@ def test_Link_has_title_attr(link_object):
 def test_Link_has_markdownerize(link_object):
     assert link_object.markdownerize() == '[foo](foo.com)'
     
+
+# Test Image Class
 @pytest.fixture
 def image_object():
     image_object = Image(title = 'foo', url = 'foo.jpg')
@@ -67,4 +69,34 @@ def test_Image_inherits_url_attr_from_link(image_object):
 def test_image_overides_markdownerize(image_object):
     assert image_object.markdownerize() == '![foo](foo.jpg)'
 
+
+def test_file_type_can_detect_png():
+    image_path = 'foo.png'
+    result = file_type(image_path)
+    assert result == '.png'
+
+def test_file_type_can_detect_jpg():
+    image_path = 'foo.jpg'
+    result = file_type(image_path)
+    assert result == '.jpg'
+
+def test_file_type_can_detect_jpeg():
+    image_path = 'foo.jpeg'
+    result = file_type(image_path)
+    assert result == '.jpeg'
+
+def test_file_type_can_detect_gif():
+    image_path = 'foo.gif'
+    result = file_type(image_path)
+    assert result == '.gif'
+
+def test_file_type_can_detect_swf():
+    image_path = 'foo.swf'
+    result = file_type(image_path)
+    assert result == '.swf'
+
+def test_file_type_can_detect_xvf():
+    image_path = 'foo.xvf'
+    result = file_type(image_path)
+    assert result == '.xvf'
 
