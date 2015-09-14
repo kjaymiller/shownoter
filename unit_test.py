@@ -2,9 +2,9 @@
 Pytest Testing Module
 """
 
+import requests_mock
 import pytest
-from shownoter import re_link, file_type
-from link_types import Link, Image 
+from shownoter import re_link, file_type, get_title
 
 
 def test_re_link_detect_http():

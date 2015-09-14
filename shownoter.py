@@ -1,5 +1,6 @@
 import re
-from link_types import Link, Image
+import requests
+from bs4 import BeautifulSoup
 
 def re_link(text):
     re_link =  re.compile(r'\b\S+\.\S+', re.M)
@@ -13,3 +14,8 @@ def file_type(link):
     if extension in image_extensions:
         return extension
 
+def get_title(url):
+    request =  requests.get(url)
+    soup = BeautifulSoup(request.content, 'html.parser' )
+    return soup.title.text 
+    
