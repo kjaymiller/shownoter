@@ -7,12 +7,11 @@ def re_link(text):
     result =  re.findall(re_link, text)
     return result
 
-def file_type(link):
-    image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.swf', '.xvf']
+def get_images(link):
+    image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
     match = re.search(r'^.+(?P<extension>\.\S+)$', link)
-    extension = match.group('extension')
-    if extension in image_extensions:
-        return extension
+    if match.group('extension') in image_extensions:
+        return '![]({})'.format(link)
 
 def get_title(url):
     request =  requests.get(url)

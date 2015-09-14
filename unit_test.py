@@ -4,7 +4,7 @@ Pytest Testing Module
 
 import requests_mock
 import pytest
-from shownoter import re_link, file_type, get_title
+from shownoter import re_link, get_images, get_title
 
 
 def test_re_link_detect_http():
@@ -42,9 +42,25 @@ def test_link_title_fetched_url():
     with requests_mock.Mocker() as m:
         link = 'http://codenewbie.org'
         m.get(link, content = str.encode('''
-        <html><head><title>CodeNewbies - Test</title></head></html>'''))
+        <html><head><title>CodeNewbie - Test</title></head></html>
+        '''))
         result = get_title(link)
         assert m.called
-        assert result == 'CodeNewbies - Test'
-# Test Image Class
+        assert result == 'CodeNewbie - Test'
 
+# Test Image Detection Class
+def test_get_images_detects_png():
+    image = 'foo.png'
+    assert get_images(image) == '![]({})'.format(image)
+
+def test_get_images_detects_jpg():
+    image = 'foo.jpg'
+    assert get_images(image) == '![]({})'.format(image)
+
+def test_get_images_detects_gif():
+    image = 'foo.gif'
+    assert get_images(image) == '![]({})'.format(image)
+
+def test_get_images_does_not_detect_other_extensions():
+    non_image = 'foo.bar'
+    assert not get_images(non_image)
