@@ -4,7 +4,7 @@ Pytest Testing Module
 
 import requests_mock
 import pytest
-from shownoter import re_link, get_images, get_title
+from shownoter import re_link, get_links, get_title
 
 
 def test_re_link_detect_http():
@@ -38,29 +38,35 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert 'duckduckgo.com' in result
 
 # Test Link class
-def test_link_title_fetched_url():
-    with requests_mock.Mocker() as m:
-        link = 'http://codenewbie.org'
-        m.get(link, content = str.encode('''
-        <html><head><title>CodeNewbie - Test</title></head></html>
-        '''))
-        result = get_title(link)
-        assert m.called
-        assert result == 'CodeNewbie - Test'
+@ requests_mock.Mocker(kw='mock')
+def test_link_title_fetched_url(**kwargs):
+    link = 'http://codenewbie.org'
+    kwargs['mock'].get( link , content = str.encode('''
+    <html><head><title>CodeNewbie - Test</title></head></html>
+    '''))
+    result = get_title(link)
+    assert kwargs['mock'].called
+    assert result == 'CodeNewbie - Test'
 
 # Test Image Detection Class
-def test_get_images_detects_png():
+def test_get_links_detects_png():
     image = 'foo.png'
-    assert get_images(image) == '![]({})'.format(image)
+    assert get_links(image) == '![]({})'.format(image)
 
-def test_get_images_detects_jpg():
+def test_get_links_detects_jpg():
     image = 'foo.jpg'
-    assert get_images(image) == '![]({})'.format(image)
+    assert get_links(image) == '![]({})'.format(image)
 
-def test_get_images_detects_gif():
+def test_get_links_detects_gif():
     image = 'foo.gif'
-    assert get_images(image) == '![]({})'.format(image)
+    assert get_links(image) == '![]({})'.format(image)
 
-def test_get_images_does_not_detect_other_extensions():
-    non_image = 'foo.bar'
-    assert not get_images(non_image)
+@ requests_mock.Mocker(kw='mock')
+def test_link_title_fetched_url(**kwargs):
+    link = 'http://codenewbie.org'
+    kwargs['mock'].get( link , content = str.encode('''
+    <html><head><title>CodeNewbie - Test</title></head></html>
+    '''))
+    result = get_links(link)
+    assert kwargs['mock'].called
+    assert result == '[{title}]({url})'.format(title = get_title(link), url = (link))
