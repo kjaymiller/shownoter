@@ -16,11 +16,12 @@ class Shownoter(unittest.TestCase):
 #enter text into
     def test_chat_input_returns_content(self):
         chat_text = self.driver.find_element_by_name('chat_text')
-        chat_text.send_keys('foo.com')
+        chat_text.send_keys('''http://google.com''')
         chat_text.submit()
         select = self.driver.find_element_by_class_name('results')
         result =  select.get_attribute('innerHTML').strip()
-        self.assertEquals("['foo.com']", result)
+        self.assertEqual("['[Google](http://google.com)']", result)
+
 # fetch_title
 
 # return_link

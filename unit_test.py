@@ -38,7 +38,7 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert 'duckduckgo.com' in result
 
 # Test Link class
-@ requests_mock.Mocker(kw='mock')
+@requests_mock.Mocker(kw='mock')
 def test_link_title_fetched_url(**kwargs):
     link = 'http://codenewbie.org'
     kwargs['mock'].get( link , content = str.encode('''
@@ -61,12 +61,13 @@ def test_get_links_detects_gif():
     image = 'foo.gif'
     assert get_links(image) == '![]({})'.format(image)
 
-@ requests_mock.Mocker(kw='mock')
+@requests_mock.Mocker(kw='mock')
 def test_link_title_fetched_url(**kwargs):
     link = 'http://codenewbie.org'
     kwargs['mock'].get( link , content = str.encode('''
     <html><head><title>CodeNewbie - Test</title></head></html>
     '''))
-    result = get_links(link)
+    title = get_title(link)
+    result = get_links(link = link, title = title)
     assert kwargs['mock'].called
-    assert result == '[{title}]({url})'.format(title = get_title(link), url = (link))
+    assert result == '[{title}]({link})'.format(title = title, link = link)
