@@ -6,7 +6,6 @@ import pytest
 def test_server_is_up_and_running(live_server):
     driver = webdriver.Firefox()
     driver.get('localhost:5000')
-    assert driver.
 
 def test_server_online(client):
     assert client.get(url_for('index')).status_code == 200
