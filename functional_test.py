@@ -1,10 +1,12 @@
-from selenium import webdriver
 from flask import url_for
+from selenium import webdriver
 import pytest
 #User connects to site
-@pytest.mark.usefixtures('live_server')
-class TestSiteFunctionality:
-    pass
+
+def test_server_is_up_and_running(live_server):
+    driver = webdriver.Firefox()
+    driver.get('localhost:5000')
+    assert driver.
 
 def test_server_online(client):
     assert client.get(url_for('index')).status_code == 200
