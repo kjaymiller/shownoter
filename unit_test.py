@@ -4,7 +4,7 @@ Pytest Testing Module
 
 import requests_mock
 import pytest
-from shownoter import re_link, get_links, get_title
+from shownoter import re_link, get_links, get_title, detect_image
 
 
 def test_re_link_detect_http():
@@ -41,6 +41,7 @@ def test_re_link_only_detects_links_and_nothing_else():
 @requests_mock.Mocker(kw='mock')
 def test_link_title_fetched_url(**kwargs):
     link = 'http://codenewbie.org'
+#TODO 1:turn codenewbie mock object to fixture
     kwargs['mock'].get( link , content = str.encode('''
     <html><head><title>CodeNewbie - Test</title></head></html>
     '''))
@@ -49,25 +50,30 @@ def test_link_title_fetched_url(**kwargs):
     assert result == 'CodeNewbie - Test'
 
 # Test Image Detection Class
-def test_get_links_detects_png():
+def test_detect_image_detects_png():
     image = 'foo.png'
-    assert get_links(image) == '![]({})'.format(image)
+    assert detect_image(image)
 
-def test_get_links_detects_jpg():
+def test_detect_image_detects_jpg():
     image = 'foo.jpg'
-    assert get_links(image) == '![]({})'.format(image)
+    assert detect_image(image)
 
-def test_get_links_detects_gif():
+def test_detect_image_detects_gif():
     image = 'foo.gif'
-    assert get_links(image) == '![]({})'.format(image)
+    assert detect_image(image) 
+
+def test_detect_image_does_NOT_detect_anything_else():
+    not_image = 'foo.bar'
+    assert not detect_image(not_image)
 
 @requests_mock.Mocker(kw='mock')
 def test_link_title_fetched_url(**kwargs):
+    #TODO: 1
     link = 'http://codenewbie.org'
     kwargs['mock'].get( link , content = str.encode('''
     <html><head><title>CodeNewbie - Test</title></head></html>
     '''))
     title = get_title(link)
-    result = get_links(link = link, title = title)
+    result = get_links(link = link, title=title)
     assert kwargs['mock'].called
     assert result == '[{title}]({link})'.format(title = title, link = link)

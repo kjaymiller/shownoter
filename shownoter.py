@@ -7,10 +7,14 @@ def re_link(text):
     result =  re.findall(re_link, text)
     return result
 
-def get_links(link, title = str()):
-    image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+def detect_image(link):
+    image_extensions = ['.jpg', '.png', '.gif']
     match = re.search(r'^.+(?P<extension>\.\S+)$', link)
     if match.group('extension') in image_extensions:
+        return True
+
+def get_links(link, title=str(), image=False):
+    if image:
         return '![{title}]({link})'.format(title = title, link = link)
     else:
         return '[{title}]({link})'.format(title = title, link = link)
