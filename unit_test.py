@@ -37,16 +37,20 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert len(result) == 1
     assert 'duckduckgo.com' in result
 
-# Test Link class
-@requests_mock.Mocker(kw='mock')
-def test_link_title_fetched_url(**kwargs):
-    link = 'http://codenewbie.org'
-#TODO 1:turn codenewbie mock object to fixture
-    kwargs['mock'].get( link , content = str.encode('''
+@pytest.fixture
+def code_newbie():
+    return str.encode('''
     <html><head><title>CodeNewbie - Test</title></head></html>
-    '''))
-    result = get_title(link)
-    assert kwargs['mock'].called
+   ''')
+
+
+@requests_mock.Mocker(kw='mock')
+def test_url(code_newbie, **kwargs):
+    link = 'http://codenewbie.org'
+    html = kwargs['mock'].get( link , content = code_newbie)
+    result = get_title('http://codenewbie.org')
+    
+    assert html.called
     assert result == 'CodeNewbie - Test'
 
 # Test Image Detection Class
@@ -67,13 +71,10 @@ def test_detect_image_does_NOT_detect_anything_else():
     assert not detect_image(not_image)
 
 @requests_mock.Mocker(kw='mock')
-def test_link_title_fetched_url(**kwargs):
-    #TODO: 1
-    link = 'http://codenewbie.org'
-    kwargs['mock'].get( link , content = str.encode('''
-    <html><head><title>CodeNewbie - Test</title></head></html>
-    '''))
-    title = get_title(link)
-    result = get_links(link = link, title=title)
-    assert kwargs['mock'].called
+def test_link_title_fetched_url(code_newbie, **kwargs):
+    link = 'http://www.codenewbie.org'
+    html = kwargs['mock'].get( link , content = code_newbie)
+    title = 'CodeNewbie - Test'
+    result = get_links(link = link, title=get_title(link))
+    assert html.called
     assert result == '[{title}]({link})'.format(title = title, link = link)
