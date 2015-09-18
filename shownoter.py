@@ -4,8 +4,15 @@ from bs4 import BeautifulSoup
 
 def re_link(text):
     re_link =  re.compile(r'\b\S+\.\S+', re.M)
-    result =  re.findall(re_link, text)
-    return result
+    results = list()
+    for link in  re.findall(re_link, text):
+        url_start = any([link.startswith('http://'), link.startswith('https://')])
+        if url_start:
+            results.append("http://" + link)
+        else:    
+            results.append(link)
+    
+    return results
 
 def detect_image(link):
     image_extensions = ['.jpg', '.png', '.gif']

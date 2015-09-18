@@ -4,8 +4,8 @@ Pytest Testing Module
 
 import requests_mock
 import pytest
-from shownoter import re_link, get_links, get_title, detect_image
-
+from shownoter import re_link, get_links
+from shownoter import get_title, detect_image
 
 def test_re_link_detect_http():
     assert re_link('http://google.com')
@@ -78,3 +78,7 @@ def test_link_title_fetched_url(code_newbie, **kwargs):
     result = get_links(link = link, title=get_title(link))
     assert html.called
     assert result == '[{title}]({link})'.format(title = title, link = link)
+
+def re_link_returns_prefix_if_necessary():
+    link = 'www.codenewbie.org'
+    assert re_link(link) == 'http://www.codenewbie.org'

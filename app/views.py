@@ -11,6 +11,7 @@ def index():
     if form.validate_on_submit():
         text_input = form.chat_text.data
         links = re_link(text_input)
+
         def markdownerize(link):
             title = get_title(link)
             markdown = get_links(link = link, title = title)
