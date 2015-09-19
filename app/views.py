@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template
-from  shownoter import re_link, get_links, get_title
+from  shownoter import re_link, get_links, get_title, detect_image
 
 @app.route('/', methods = ['GET', 'POST'])
 @app.route('/index', methods = ['GET', 'POST'])
@@ -13,8 +13,9 @@ def index():
         links = re_link(text_input)
 
         def markdownerize(link):
-            title = get_title(link)
-            markdown = get_links(link = link, title = title)
+            image = detect_image
+            title = get_title(link, image = image)
+            markdown = get_links(link = link, title = title, image = image)
             return markdown
 
         results = map(markdownerize, links)

@@ -30,12 +30,12 @@ def test_re_link_detects_multiple_lines():
     assert len(re_link(links)) == 2
 
 def test_re_link_only_detects_links_and_nothing_else():
-    links = 'duckduckgo.com is the best'
+    links = 'http://duckduckgo.com is the best'
     result = re_link(links)
     
     assert isinstance(result, list)
     assert len(result) == 1
-    assert 'duckduckgo.com' in result
+    assert 'http://duckduckgo.com' in result
 
 @pytest.fixture
 def code_newbie():
@@ -70,15 +70,16 @@ def test_detect_image_does_NOT_detect_anything_else():
     not_image = 'foo.bar'
     assert not detect_image(not_image)
 
-@requests_mock.Mocker(kw='mock')
-def test_link_title_fetched_url(code_newbie, **kwargs):
+def test_link_title_fetched_url(code_newbie):
     link = 'http://www.codenewbie.org'
-    html = kwargs['mock'].get( link , content = code_newbie)
     title = 'CodeNewbie - Test'
-    result = get_links(link = link, title=get_title(link))
-    assert html.called
+    result = get_links(link = link, title=title)
     assert result == '[{title}]({link})'.format(title = title, link = link)
 
-def re_link_returns_prefix_if_necessary():
+def test_re_link_returns_prefix_if_necessary():
     link = 'www.codenewbie.org'
-    assert re_link(link) == 'http://www.codenewbie.org'
+    assert re_link(link) == ['http://www.codenewbie.org']
+    
+def test_images_dont_get_titles():
+    link = 'codenewbie.png'
+    assert not get_title(url = link, image="True")
