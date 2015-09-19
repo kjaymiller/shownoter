@@ -18,6 +18,8 @@ def index():
             markdown = get_links(link = link, title = title, image = image)
             return markdown
 
-        results = map(markdownerize, links)
-        return render_template('index.html', form = form, results = results)
+        
+        link_list = map(markdownerize, links)
+        #results = filter(
+        return render_template('index.html', form = form, results = link_list)
     return render_template('index.html', form = form)
