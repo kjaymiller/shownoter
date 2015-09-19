@@ -10,7 +10,7 @@ def test_driver():
     element.submit()
     results = driver.find_element_by_class_name('results').text
     driver.close()
-    assert '![](http://cdn.gifbay.com/2015/07/monkeysgifscritterslimes-177906.gif)' == results
+    assert '* ![](http://cdn.gifbay.com/2015/07/monkeysgifscritterslimes-177906.gif)' == results
 # fetch_title
 
 # return_link

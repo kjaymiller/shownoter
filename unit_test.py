@@ -74,7 +74,7 @@ def test_link_title_fetched_url(code_newbie):
     link = 'http://www.codenewbie.org'
     title = 'CodeNewbie - Test'
     result = get_links(link = link, title=title)
-    assert result == '[{title}]({link})'.format(title = title, link = link)
+    assert result == '* [{title}]({link})'.format(title = title, link = link)
 
 def test_re_link_returns_prefix_if_necessary():
     link = 'www.codenewbie.org'
