@@ -1,5 +1,5 @@
 import re
-import requests
+from requests import get
 from bs4 import BeautifulSoup
 
 def re_link(text):
@@ -13,26 +13,22 @@ def re_link(text):
 def detect_image(link):
     image_extensions = ['.jpg', '.png', '.gif']
     match = re.search(r'^.+(?P<extension>\.\S+)$', link)
-    if match.group('extension') in image_extensions:
+    return match.group('extension') in image_extensions
+
+def get_markdown(link, title, image=False):
+    return '* {}[{title}]({link})'.format('!' if image else '', title=title, link=link)
+    
+def validate_link(link):
+    try:
+        r = get(link, timeout='1.5')
+    except:
+        return False 
+    else:
         return True
 
-def get_links(link, title, image=False):
-    if image:
-        return '* ![{title}]({link})'.format(title = title, link = link)
+def  get_title(link):
+    r = get(link, timeout='1.5')
+    soup = BeautifulSoup(r.text)
+    return soup.title.string
 
-    else:
-        return '* [{title}]({link})'.format(title = title, link = link)
-    
-def get_title(url, image=False):
-    if image:
-        return str()
-
-    try:
-        request =  requests.get(url, timeout = '1.5')
-        soup = BeautifulSoup(request.content, 'html.parser')
-        title =  soup.title.text
-        return title
-
-    except:
-        return 'Error: site not found'
      

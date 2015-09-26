@@ -44,22 +44,17 @@ def test_re_link_only_detects_links_and_nothing_else():
     assert 'http://duckduckgo.com' in result
 
 @pytest.fixture
-def mock_content():
-    return str.encode('''
-    <html><head><title>This is a Test</title></head></html>
-   ''')
-
+def mock_html():
+    return '<html><head><title>Test</title></head></html>'
 
 @requests_mock.Mocker(kw='mock')
-def test_url(code_newbie, **kwargs):
-    link = 'foo.bar' 
-    html = kwargs['mock'].get(link , content = mock_content)
-    result = get_title('http://codenewbie.org')
-    
+def test_url(mock_html, **kwargs):
+    link = 'http://foo.bar' 
+    html = kwargs['mock'].get(link, text=mock_html)
+    site = validate_link(link)
     assert html.called
-    assert result == 'This is a Test'
-
-# Test Image Detection Class
+    assert site
+    
 def test_detect_image_detects_png():
     image = 'foo.png'
     assert detect_image(image)
@@ -76,25 +71,25 @@ def test_detect_image_does_NOT_detect_anything_else():
     not_image = 'foo.bar'
     assert not detect_image(not_image)
 
-def test_link_title_fetched_url():
-    link = 'http://www.codenewbie.org'
-    title = 'CodeNewbie - Test'
-    result = get_links(link = link, title=title)
+def test_markdown_for_websites():
+    link = 'foo.org'
+    title = 'Test'
+    result = get_markdown(link = link, title=title)
     assert result == '* [{title}]({link})'.format(title = title, link = link)
 
-def test_re_link_returns_prefix_if_necessary():
-    link = 'www.codenewbie.org'
-    assert re_link(link) == ['http://www.codenewbie.org']
-    
-def test_images_dont_get_titles():
-    link = 'codenewbie.png'
-    assert not get_title(url = link, image="True")
+def test_markdown_for_images():
+    link = 'foo.png'
+    title = 'Test'
+    result = get_markdown(link = link, title=title, image = True)
+    assert result == '* ![{title}]({link})'.format(title = title, link = link)
 
+def test_re_link_returns_prefix_if_necessary():
+    link = 'www.foo.org'
+    assert re_link(link) == ['http://www.foo.org']
 
 @requests_mock.Mocker(kw='mock')
-def test_url(**kwargs):
-    link = 'foo.bar'
-    html = kwargs['mock'].get(link, status_code = 404)
-    result = get_title(link)
-    
-    assert result == 'Error: site not found'
+def test_gets_title_from_url(mock_html, **kwargs):
+    link = 'http://foo.bar' 
+    html = kwargs['mock'].get(link, text=mock_html)
+    title = get_title(link)
+    assert title == 'Test'
