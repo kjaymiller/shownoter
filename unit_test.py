@@ -4,12 +4,18 @@ Pytest Testing Module
 
 import requests_mock
 import pytest
-from shownoter import re_link, get_links
+from shownoter import re_link, get_markdown, validate_link
 from shownoter import get_title, detect_image
 
 def test_re_link_detect_http():
     assert re_link('http://google.com')
+
+def test_re_link_not_detect_float():
+    assert not re_link('1.2')
     
+def test_re_link_not_detect_number_domain():
+    assert not re_link('foo.12')
+
 def test_re_link_detect_https():
     assert re_link('https://google.com')
 
