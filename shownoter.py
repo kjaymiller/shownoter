@@ -15,9 +15,6 @@ def detect_image(link):
     match = re.search(r'^.+(?P<extension>\.\S+)$', link)
     return match.group('extension') in image_extensions
 
-def get_markdown(link, title, image=False):
-    return '* {}[{title}]({link})'.format('!' if image else '', title=title, link=link)
-    
 def validate_link(link):
     try:
         request = get(link, timeout='1.5')
@@ -30,4 +27,7 @@ def  get_title(link):
     soup = BeautifulSoup(link.text)
     return soup.title.string
 
-     
+def get_markdown(url, title = ''):
+    return '* {}[{title}]({url})'.format('!' if not title else '', title=title, url=url)
+
+         

@@ -6,6 +6,7 @@ import requests_mock
 import pytest
 from shownoter import re_link, get_markdown, validate_link
 from shownoter import get_title, detect_image
+from shownoter import Link, Image
 
 def test_re_link_detect_http():
     assert re_link('http://google.com')
