@@ -53,7 +53,6 @@ def test_url(mock_html, **kwargs):
     html = kwargs['mock'].get(link, text=mock_html)
     site = validate_link(link)
     assert html.called
-    assert site
     
 def test_detect_image_detects_png():
     image = 'foo.png'
@@ -91,5 +90,6 @@ def test_re_link_returns_prefix_if_necessary():
 def test_gets_title_from_url(mock_html, **kwargs):
     link = 'http://foo.bar' 
     html = kwargs['mock'].get(link, text=mock_html)
-    title = get_title(link)
+    site = validate_link(link)
+    title = get_title(site)
     assert title == 'Test'

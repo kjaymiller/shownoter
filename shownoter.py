@@ -20,15 +20,14 @@ def get_markdown(link, title, image=False):
     
 def validate_link(link):
     try:
-        r = get(link, timeout='1.5')
+        request = get(link, timeout='1.5')
     except:
         return False 
     else:
-        return True
+        return request 
 
 def  get_title(link):
-    r = get(link, timeout='1.5')
-    soup = BeautifulSoup(r.text)
+    soup = BeautifulSoup(link.text)
     return soup.title.string
 
      

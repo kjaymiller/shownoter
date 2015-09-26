@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template
-from  shownoter import re_link, get_link, get_title, detect_image
+from shownoter import re_link, get_link, get_title, detect_image
 from itertools import filterfalse
 
 @app.route('/', methods=['GET', 'POST'])
@@ -20,7 +20,7 @@ def index():
         potential_sites = filterfalse(detect_image(),links)
 
         #find all websites that failed save to bad_links
-        links = [(link, True) for link in validate(potential_sites)]          
+        links = [(getlink, True) for link in validate(potential_sites)]          
 
         
         def markdownerize(link):
