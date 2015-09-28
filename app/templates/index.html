@@ -13,7 +13,18 @@
             Please Enter your Text Here:
             {{ form.chat_text() }}
             </p>
-        <p><input type="submit" value="Sign In"></p>
+            <div class="dropzone">
+                drop files here to upload
+            </div>
+            <script>
+                (function() {
+                    var dropzone = document.getElementById('dropzone');
+                }());
+                </script>
+            <p><input type="submit" name="submit" value="Submit">
+            
+    <input type="submit" name="download" value="Download"></p>
+            </p>
     </div>
     {% if results %}
     <div class="results">

@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 def re_link(text):
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
     return set(re.findall(re_link, text))
+        
 
 def detect_image(link):
     image_extensions = ['.jpg', '.png', '.gif']
@@ -13,9 +14,14 @@ def detect_image(link):
 
 def validate_link(link):
     try:
+        if not re.search(r'\w{3,5}://', link):
+            print('adding to {}'.format(link))
+            link = 'http://' + link
         request = get(link, timeout= 1.5)
+
     except:
         return False 
+    
     else:
         return request 
 
