@@ -1,9 +1,49 @@
 body {
 	padding: 10px;
-	}
+	margin: auto;
+	width: 750px;
+}
 
 input{
 	width: 175px;
 	height: 25px;
 	padding: 0 5px;
 }
+
+form {
+	width: 650px;
+	height: 350px;
+}
+
+div .text-input{
+	heigth: 300px;
+	width: 300px;
+	float: left;
+}
+
+div .text-input textarea{
+	height: 300px;
+	width: 300px;
+}
+
+.dropzone {
+	width: 300px;
+	heigth: 300px;
+	border: 2px dashed #ccc;
+	line-height: 300px;
+	text-align: center;
+	float: right;
+	color: #ccc
+}
+
+
+.dropzone.dragover {
+	width: 300px;
+	heigth: 300px;
+	border: 2px dashed #000;
+	line-height: 300px;
+	text-align: center;
+	float: right;
+	color: #000
+}
+
