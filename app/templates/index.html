@@ -8,7 +8,7 @@
    <h1>Shownoter.co - Beta</h1>
    <h2><em>Link Grabbing and Shownote Formatting</em></h2>
     <div class="form">
-        <form action="" method="post" name="chat input">
+        <form action="" method="post" name="chat input" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <p>
         Please Enter your Text Here:
@@ -16,20 +16,12 @@
         <div class="text-input">
         {{ form.chat_text() }}
         </div>
-            <div class="dropzone" id="dropzone">
-            Drag and Drop File
-            </div>
-            <script>
-                (function() {
-                    var dropzone = document.getElementById('dropzone');
-                    dropzone.ondragover = function() {
-                        this.className = 'dropzone.dragover'
-                        return false;
-                    }
-
-                }());
-                </script>
         </div>
+        <div class='input_file'>
+        {{ form.input_file() }}
+        </div>
+
+
         <div class="submission">
             <input type="submit" name="submit" value="Submit">    
             <input type="submit" name="download" value="Download"           

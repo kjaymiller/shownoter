@@ -5,3 +5,4 @@ lib/
 last_processor-
 config.py
 
+*.sublime*
