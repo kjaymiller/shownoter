@@ -16,13 +16,13 @@ def title(site):
     r = requests.get(site)
     return BeautifulSoup(r.text, 'html.parser').title.text
 
-def markdown(site, title):
-    return '{}[{}]({})'.format('!' if not title else '', title, site)
+def markdown(site, title, image=False):
+    return '{}[{}]({})'.format('!' if image else '', title, site)
 
-def link(site):
+def link(site, image=False):
     link_url = valid_link(site)
     link_title = title(site)
-    link_markdown = markdown(site=link_url, title=link_title)
+    link_markdown = markdown(site=link_url, title=link_title, image=image)
     
     return {
     'url':link_url,

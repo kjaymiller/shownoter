@@ -45,7 +45,7 @@ def test_markdown():
 def test_markdown_if_image():
     link = 'link.png'
     title = ''
-    assert shownoter.markdown(link, title) == '![](link.png)'
+    assert shownoter.markdown(link, title, image=True) == '![](link.png)'
 
 @requests_mock.Mocker(kw='mock')
 def test_title(mock_html, **kwargs):
