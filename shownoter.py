@@ -21,9 +21,14 @@ def title(site, image=True):
 def markdown(site, title):
     return '{}[{}]({})'.format('!' if not title else '', title, site)
 
+def is_image(site):
+    image_extensions = ['jpg', 'png', 'gif']
+    if site[-3:] in image_extensions:
+        return True
+
 def link(site):
     link_url = valid_link(site)
-    link_title = ''
+    link_title = title(site, image=is_image(site)) 
     link_markdown = markdown(site=link_url, title=link_title)
     
     return {

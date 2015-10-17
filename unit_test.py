@@ -45,7 +45,23 @@ def test_markdown():
 def test_markdown_if_image():
     link = 'link.png'
     title = ''
-    assert shownoter.markdown(link, title, image=True) == '![](link.png)'
+    assert shownoter.markdown(link, title) == '![](link.png)'
+
+def test_is_image_detect_png():
+    link = 'link.png'
+    assert shownoter.is_image(link)
+    
+def test_is_image_detect_jpg():
+    link = 'link.jpg'
+    assert shownoter.is_image(link)
+
+def test_is_image_detect_gif():
+    link = 'link.gif'
+    assert shownoter.is_image(link)
+
+def test_is_image_does_not_detect_outside_other_links():
+    link = 'link.foo'
+    assert not shownoter.is_image(link)
 
 @requests_mock.Mocker(kw='mock')
 def test_title(mock_html, **kwargs):
@@ -56,3 +72,4 @@ def test_title(mock_html, **kwargs):
     assert sample_link['url'] == 'http://link.com'
     assert sample_link['title'] == 'Test'
     assert sample_link['markdown'] == '[Test](http://link.com)'
+
