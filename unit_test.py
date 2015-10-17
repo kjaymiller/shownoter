@@ -18,5 +18,8 @@ def test_link_detect_finds_multiple_links():
     assert shownoter.link_detect(sample_text) == ['link.com', 'link.net', 'foo.bar']
 
 
-def test_valid_link():
+def test_valid_link_inserts_prefix_if_none():
     assert shownoter.valid_link('link.com') == 'http://link.com'  
+
+def test_valid_link_does_nothing_if_prefix_exists():
+    assert shownoter.valid_link('http://link.com') == 'http://link.com'

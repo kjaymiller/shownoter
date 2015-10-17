@@ -5,4 +5,7 @@ def link_detect(text):
     return re.findall(re_link, text)
 
 def valid_link(text):
-    return '{}{}'.format('' if text.
+    prefix = ''
+    if not re.search(r'\w{3,5}://', text):
+        prefix += 'http://'
+    return prefix + text
