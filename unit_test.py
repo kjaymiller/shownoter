@@ -1,5 +1,6 @@
 import shownoter
 import pytest
+import requests_mock
 
 def test_link_detect_finds_one_link_text():
     sample_text = '''This is a test
@@ -23,3 +24,16 @@ def test_valid_link_inserts_prefix_if_none():
 
 def test_valid_link_does_nothing_if_prefix_exists():
     assert shownoter.valid_link('http://link.com') == 'http://link.com'
+
+@pytest.fixture
+def mock_html():
+    return '<html><head><title>Test</title></head></html>'
+
+@requests_mock.Mocker(kw='mock')
+def test_link_title(mock_html, **kwargs):
+    link = 'http://link.com' 
+    html = kwargs['mock'].get(link, text=mock_html)
+    title = shownoter.link_title(link)
+    assert html.called
+    assert title == "Test"
+    
