@@ -1,4 +1,5 @@
-import shownoter
+from app import shownoter
+from app.shownotes import shownotes
 import pytest
 import requests_mock
 
@@ -73,3 +74,8 @@ def test_title(mock_html, **kwargs):
     assert sample_link['title'] == 'Test'
     assert sample_link['markdown'] == '[Test](http://link.com)'
 
+def test_shownotes():
+    description = 'This is a test'
+    links = ['foo', 'bar']
+    notes = shownotes(description = description, links = links)
+    assert notes == description + '\nfoo\nbar\n'
