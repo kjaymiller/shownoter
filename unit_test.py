@@ -77,5 +77,5 @@ def test_title(mock_html, **kwargs):
 def test_shownotes():
     description = 'This is a test'
     links = ['foo', 'bar']
-    notes = shownotes(description = description, links = links)
-    assert notes == description + '\nfoo\nbar\n'
+    notes = shownotes(description=description, links=links)
+    assert notes == description + '\n\nfoo\nbar\n'

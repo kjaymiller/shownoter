@@ -2,8 +2,10 @@
 {% block content %}
        <form action="" method="post" name="EnterText">
             {{ form.hidden_tag() }}
-            <p> Enter Text Here: </p>
-            {{ form.text_input }}
+            <p> Enter Description Text Here: </p>
+            {{ form.description_input }}
+            <p>Enter Chat Text Here: </p>
+            {{ form.chat_input }}
             <p><input type="submit" value="Sign In"></p>
         </form>
         
