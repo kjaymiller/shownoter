@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-    {{ links }}
+<p>    {{ description }} </p>
+<p>   {{ links }} <p>
     <p>
-    id = {{ path }}
+    You can view your link anytime at <a href='http://localhost:5000/results/{{ path }}'> http://localhost:5000/results/{{ path }}</a>
     </p>
+    {% if download %}
+    <a href='http://localhost:5000/download'/{{ path }}> Click Here to Download </a>
+    {% endif %}
     {% endblock %}

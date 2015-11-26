@@ -79,3 +79,10 @@ def test_shownotes():
     links = ['foo', 'bar']
     notes = shownotes(description=description, links=links)
     assert notes == description + '\n\nfoo\nbar\n'
+
+def test_links_to_string():
+    test_list = ['pie', 'cake', 'ice cream']
+    results = shownoter.links_to_string(test_list)
+    assert results == 'pie\ncake\nice cream\n'
+
+

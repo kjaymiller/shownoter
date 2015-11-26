@@ -12,28 +12,21 @@ def valid_link(site):
         prefix += 'http://'
     return prefix + site
 
-def title(site, image=True):
-    if image:
+def title(site):
+    image_extension = ['.jpg', '.png', '.jpeg']
+    extension = re.search(r'\.[a-zA-Z]{3,}$', site, re.M)
+    if extension.group(0) in image_extension:
         return ''
     r = requests.get(site)
     return BeautifulSoup(r.text, 'html.parser').title.text
 
-def markdown(site, title):
-    return '{}[{}]({})'.format('!' if not title else '', title, site)
+def create_markdown(site, title):
+    return '* {}[{}]({})'.format('!' if not title else '', title, site)
 
-def is_image(site):
-    image_extensions = ['jpg', 'png', 'gif']
-    if site[-3:] in image_extensions:
-        return True
+def links_to_string(link_list):
+    links = ''
+    for link in link_list:
+        links += '{}<br>'.format(link)
+    return links
 
-def link(site):
-    link_url = valid_link(site)
-    link_title = title(site, image=is_image(site)) 
-    link_markdown = markdown(site=link_url, title=link_title)
-    
-    return {
-    'url':link_url,
-    'title':link_title,
-    'markdown':link_markdown
-    }
 
