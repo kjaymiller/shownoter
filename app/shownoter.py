@@ -29,4 +29,10 @@ def links_to_string(link_list):
         links += '{}<br>'.format(link)
     return links
 
-
+def combine_shownotes(description, links, html=False):
+    if html:
+        separator = '<br>'
+    else:
+        separator = '\n'
+    shownotes = '{}{}{}'.format(description, separator, links)
+    return shownotes 

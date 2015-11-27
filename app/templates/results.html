@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<p>    {{ description }} </p>
-<p>   {{ links }} <p>
+    {{results}}
+    <form action="/download/{{path}}" method="post" enctype="multipart/form-data">
     <p>
-    You can view your link anytime at <a href='http://localhost:5000/results/{{ path }}'> http://localhost:5000/results/{{ path }}</a>
+    You can view your link anytime at <a href='http://localhost:5000/results/{{path}}'> http://localhost:5000/results/{{path}}</a>
     </p>
-    {% if download %}
-    <a href='http://localhost:5000/download'/{{ path }}> Click Here to Download </a>
-    {% endif %}
+    <input type="submit" name="download" value="Download">
+    </form>
     {% endblock %}
