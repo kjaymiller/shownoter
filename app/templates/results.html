@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     {{results}}
-    <form action="/download/{{path}}" method="post" enctype="multipart/form-data">
+    <form action="/download/{{path}}" method="get" enctype="multipart/form-data">
     <p>
     You can view your link anytime at <a href='http://localhost:5000/results/{{path}}'> http://localhost:5000/results/{{path}}</a>
     </p>

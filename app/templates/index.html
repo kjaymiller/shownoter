@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-       <form action="" method="post" name="EnterText">
-            {{ form.hidden_tag() }}
-            <p> Enter Description Text Here: </p>
-            {{ form.description_input }}
-            <p>Enter Chat Text Here: </p>
-            {{ form.chat_input }}
-            <p>{{ form.file_input }} </p>
+<div id="link_input">
+       <form action="" method="post" name="EnterText" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            <p><h2>Enter Chat Text Here:</h2>
+            {{form.chat_input}} </p>
+            <p>{{form.file_input}} </p>
             <p><input type="submit" value="Sign In"></p>
         </form>
-        
+    </div>        
 {% endblock %}

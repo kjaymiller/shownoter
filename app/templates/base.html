@@ -1,6 +1,12 @@
 <html>
+    <head>
+        <title>Shownoter.co - Beta</title>
+        <link rel="stylesheet" href="static/main.css">
+    </head>
     <body>
-        <h1>Shownoter.co</h1>
+        <h1><a href="http://localhost:5000">Shownoter.co - Beta</a></h1>
+        <br>Please Note that Changes are frequent at this time do not store any data as database may be destroyed!
+        {% block content %}{% endblock %}
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %} 
@@ -10,7 +16,6 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
     </body>
 </html>
 
