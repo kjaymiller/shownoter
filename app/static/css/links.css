@@ -1,0 +1,12 @@
+div#links_detected {
+    text-align: right;
+    float: right;
+    margin-right: 150px;
+}
+
+div#shownote_information {
+    float:left;
+    width: 400px;
+}
+
+

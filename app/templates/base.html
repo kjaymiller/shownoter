@@ -1,11 +1,12 @@
 <html>
     <head>
         <title>Shownoter.co - Beta</title>
-        <link rel="stylesheet" href="static/main.css">
+        <link rel="stylesheet" href="static/css/main.css">
     </head>
     <body>
         <h1><a href="http://localhost:5000">Shownoter.co - Beta</a></h1>
-        <br>Please Note that Changes are frequent at this time do not store any data as database may be destroyed!
+        <em>Please Note that Changes are frequent at this time do not store any data as database may be destroyed!</em>
+        <div id="content_wrapper">
         {% block content %}{% endblock %}
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -15,7 +16,8 @@
                     </div>
                 {% endfor %}
             {% endif %}
-        {% endwith %}
+            {% endwith %}
+        </div>
     </body>
 </html>
 

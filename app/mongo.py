@@ -6,7 +6,12 @@ db = conn.test
 shownoter = db.shownoter
 
 def save_to_db(description, links):
-    result = shownoter.insert_one({'user':'kjaymiller@gmail.com', 'description':description, 'links':links})
+    result = shownoter.insert_one({
+        'user':'kjaymiller@gmail.com',
+        'description':description, 
+        'links':links,
+        'title':title})
+
     return result.inserted_id
 
 def retrieve(id):

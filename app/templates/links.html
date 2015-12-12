@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="static/css/links.css">
+<div id="shownote_information">
+<form action="" method="post" name="EnterText">
+    {{form.hidden_tag()}}
+    <p><h3>Enter the Title of your shownotes</h3>
+    {{form.title}} </p>
+    <p><h3>Enter any description or other text for your notes</h3>
+    {{form.description}}
+    <em>supports markdown</em>
+    </p>
+    <p><input type="submit" value="Submit"></p>
+</form>    
+</div>
+
+<div id="links_detected">
+    <h2>Links Detected</h2>
+    {% for link in links %} 
+    {% if not link.title %}
+    <a href="{{link.url}}" target="_blank">Click Here to View Image</a>
+    {% else %}
+        <a href="{{link.url}}" target="_blank">{{link.title}}</a>
+    {% endif %}
+    <br>
+    {% endfor %}
+    
+
+{% endblock %}

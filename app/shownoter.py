@@ -1,64 +1,74 @@
 import re
 import requests
-from markdown import markdown
+
 from bs4 import BeautifulSoup
+from markdown import markdown
+
 
 def link_detect(site):
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
-    return re.findall(re_link, site)
+    results = re.findall(re_link, site)
+    return results
 
-def valid_link(site):
-    def req(link):
-        r = requests.get(link, timeout=1.5, allow_redirects=False)
-        return r
-    
-    if re.search(r'\w{3,5}://', site):
-        try:
-            r = req(site)
-        
-        except:
-            return
-
-    prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
-    for prefix in prefixes:
-        try:
-            result = req(prefix + site)
-        
-        except:
-            print('tried {} failed'.format(prefix + site))
-        
-        else:
-            if result.status_code == 200:
-                return result
-        
-    return
+def get(link):
+    request = requests.get(link, timeout=1.5, allow_redirects=False)
+    return request
 
 def image_detect(site):    
     image_extension = ['.jpg', '.png', '.jpeg']
-    extension = re.search(r'\.[a-zA-Z]{2,}', site, re.M)
+    extension = re.search(r'\.[a-zA-Z]{2,}$', site, re.M)
+    
     if extension.group(0) in image_extension:
+        print('image detected')
         return True
     
-def title(site):
-    """Does not look for title if image"""
-    if site:
-        return BeautifulSoup(site.text, 'html.parser').title.text
     else:
-        return ''
+        return False
 
-def create_markdown(site, title):
-    return '* {}[{}]({})'.format('!' if not title else '', title, site)
+class Link():
+    def __init__(self, site):
+        self.site = self.valid_link(site)
+        self.url =  self.site.url       
+        self.title = BeautifulSoup(self.site.content, 'html.parser').title.text
+        self.markdown = '* [{}]({})'.format(self.title, self.url)
 
-def links_to_string(link_list):
-    links = ''
-    for link in link_list:
-        links += '{}\n'.format(link)
-    return links
+    def valid_link(self, site):
+        if re.search(r'^\w{3,5}://', site):
+            
+            try:
+                request = get(site)
+            
+            except:
+                print('Link not valid') #TODO:log statement
+                return False
+            
+            else:
+                return request
 
-def combine_shownotes(description, links, html):
-    shownotes = '{}\n##Links\n{}'.format(description, links)
-    if html:
-        shownotes = markdown(shownotes) 
-    else:
-        shownotes = shownotes.replace('\n', '<br>')
-    return shownotes 
+        else:
+            prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
+            
+            for prefix in prefixes:
+
+                try:
+                    request = get(prefix + site)
+                
+                except:
+                    print('tried {} failed'.format(prefix + site)) #TODO:log statement
+                
+                else:
+    
+                    if request.status_code == 200:
+                        return request
+                    else:
+                        continue
+
+            raise ValueError('No Valid Link Detected')
+
+class Image(Link):
+    """Images are like links except they ignore connectivity tests."""
+    title = ''
+
+    def __init__(self, site):
+        self.url = site
+        self.markdown = '* ![]({})'.format(self.title, self.url)

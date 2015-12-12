@@ -2,9 +2,9 @@ from app import app
 from app import shownoter
 from app import mongo
 from app import download
-from app.forms import TextInput
+from app.forms import TextInput, DescInput
 
-from flask import render_template
+from flask import render_template, url_for
 from flask import Markup
 from flask import flash
 from flask import request
@@ -17,7 +17,9 @@ from markdown import markdown
 @app.route('/index', methods=['GET', 'POST'])
 def index():    
     form = TextInput()
+
     if form.validate_on_submit():
+    
         if form.file_input.data:
             flash('file detected')
             file = request.files['file_input']
@@ -26,66 +28,45 @@ def index():
         else:
             chat_text = form.chat_input.data
 
-        #Detect Links and saves them to list    
         chat_links = shownoter.link_detect(chat_text)
-        db_links = []
-        errors = []
+        links = [] 
         for link in chat_links:
-            site = shownoter.valid_link(link)
-            if not site:
-                continue
-            url = site.url
-
-            image = shownoter.image_detect(url)
-            if not image:
-                title = shownoter.title(site)
-
-            db_links.append(shownoter.create_markdown(url, title))
+            
+            if shownoter.image_detect(link):
+                links.append(shownoter.Image(link))
+                
+            else:
+                links.append(shownoter.Link(link))
+                    
+        return render_template('links.html', links=links, form=DescInput())
+    
     return render_template('index.html', form=form)
 
-#@app.route('/description', methods=['GET', 'POST'])
-#def desc():
-#    form = TextInput()
-#
-#    if form.validate_on_submit():
-#        description = form.description_input.data
-#
-#        shownotes = shownoter.combine_shownotes(
-#                description = description,
-#                links = shownoter.links_to_string(db_links),
-#                html=html)
-#
-#        #saves information to the MongoDB
-#        id = mongo.save_to_db(description, db_links)
-#            results=Markup(shownotes),
-#            path=id,
-#            html=html)
-#                
-#
-#    return render_template('index.html', form=form)
-
-@app.route('/results/<id>', methods=['GET', 'POST'])
-def results(id, html):
-    result = mongo.retrieve(id)
-    shownotes = shownoter.combine_shownotes(
-            description=result['description'],
-            links=shownoter.links_to_string(result['links']),
-            html=html)
+@app.route('/links', methods=['GET', 'POST'])
+def get_links():
+    form = DescInput()
     
-    return render_template('results.html', 
-            results=Markup(shownotes), 
-            path=id,
-            )
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
+        shownotes_id=mongo.save_to_db(
+                description = description,
+                title = title,
+                links = links)
+        path=url_for('results', shownotes=shownotes_id)
+    
+    return render_template('links.html', form=form)
 
-@app.route('/download/<id>', methods=['GET'])
-def download_file(id):
-    result = mongo.retrieve(id)
-    shownotes = shownoter.combine_shownotes(
+@app.route('/download/<shownotes>', methods=['GET'])
+def download_file(shownotes):
+    result = mongo.retrieve(shownotes)
+    file = shownoter.combine_shownotes(
             description=result['description'],
             links=shownoter.links_to_string(result['links']),
             html=False)
-
-    response = make_response(shownotes)
+    filename = result['title']+'.txt'
+    filename.replace(':','-')
+    response = make_response(file)
     response.headers['Content-Disposition'] = 'attachment; filename=results.txt'
     response.content_type = 'text/plain'
     return response
