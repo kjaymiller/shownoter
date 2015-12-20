@@ -1,26 +1,37 @@
-This is a link 
-
-> "link.com"
-
-THis link is really cool.... 
-
-> "Yeah"
-
-You mention this link on your podcast...
-> "blah blah  'link.com' blah blah"
-
-You should put that link in your shownotes.
-
-But then you need to format it.... 
-You search for google and then you find it. Of course your you need to format it. But you also have to go to find the other 15 links you mentions. 
-
-That seems like a lot. 
-
-Then you have to format and structure your podcast. 
-
+# Shownoter
+Organize and format your references into markdown with ease.
 
 ## *Shownoter wants to help you*
 
-SHownoter is designed to help the podcaster/notes keeper get the important information like links and help you prepare those shownotes.
+Shownoter is designed to take plain text and give you a formatted list of links and images. This will format your references that will help you prepare those shownotes.
+
+## How does it work?
+
+Sometimes important information is buried in random text.  A good example of this is a chat history for your hangout or podcast.
+
+Take for instance the following example:
+
+```
+Jay: I have been really interested in playing battleship online.
+Jamal: Yeah battleship is the best, I found this great game at LessThanTwoPlayerBattleship.com
+Jay: That is great, I will check it out
+Jay: BTW, I found this great site for helping boost productivity GoTeamTypingCatGo.net
+Jamal: Thanks man, I am really excited about checking that out.
+
+```
+
+Afterward you want to add these links to your shownotes, but there has to be an easier way than sifting through all of the chat.
+
+Once you find the links you will want to format them and give the links an appropriate name.
+
+This is a lot of tedious work, but Shownoter will do it for you.
+
+Shownoter will take the chat above and output a formatted list with descriptions like the following.
+
+* [The home of 1.7 player battleship](LessThanTwoPlayerBattleship.com)
+* [Go! Team typing cat Go! Homepage](GoTeamTypingCatGo.net)
+
+## Logging Issues
+Please log any Shownoter issues [on the Trello board](https://trello.com/b/jlyUZ0ml/shownoter)
 
 
