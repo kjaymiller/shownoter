@@ -14,50 +14,58 @@ def get(link):
     request = requests.get(link, timeout=1.5, allow_redirects=False)
     return request
 
-def image_detect(site):    
-    image_extension = ['.jpg', '.png', '.jpeg', 'gif']
+def image_detect(site):
+    image_extension = ['.jpg', '.png', '.jpeg', '.gif']
     extension = re.search(r'\.[a-zA-Z]{2,}$', site, re.M)
-    
+
     if extension.group(0) in image_extension:
-        print('image detected')
         return True
-    
-    else:
-        return False
+
+    return False
+
+def parse_title(content):
+    """Parses the title of a site from it's content"""
+    return BeautifulSoup(content, 'html.parser').title.text
+
+def link_markdown(title, url):
+    return '* [{}]({})'.format(title, url)
+
+def image_markdown(title, url):
+    return '* ![{}]({})'.format(title, url)
 
 class Link():
     def __init__(self, site):
         self.site = self.valid_link(site)
-        self.url =  self.site.url       
-        self.title = BeautifulSoup(self.site.content, 'html.parser').title.text
-        self.markdown = '* [{}]({})'.format(self.title, self.url)
+        self.url =  self.site.url
+        self.title = parse_title(self.site.content)
+        self.markdown = link_markdown(self.title, self.url)
 
     def valid_link(self, site):
         if re.search(r'^\w{3,5}://', site):
-            
+
             try:
                 request = get(site)
-            
+
             except:
                 print('Link not valid') #TODO:log statement
                 return False
-            
+
             else:
                 return request
 
         else:
             prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
-            
+
             for prefix in prefixes:
 
                 try:
                     request = get(prefix + site)
-                
+
                 except:
                     print('tried {} failed'.format(prefix + site)) #TODO:log statement
-                
+
                 else:
-    
+
                     if request.status_code == 200:
                         return request
                     else:
@@ -71,10 +79,10 @@ class Image(Link):
 
     def __init__(self, site):
         self.url = site
-        self.markdown = '* ![]({})'.format(self.title, self.url)
+        self.markdown = image_markdown(self.title, self.url)
 
 def links_to_string(links):
-"""This function takes a list of objects and returns it as a string"""
+    """This function takes a list of objects and returns it as a string"""
 
     links_string = ''
     for link in links:
@@ -83,11 +91,11 @@ def links_to_string(links):
 
 
 def compile_shownotes(links, title, description):
-"""this function takes the individual components and returns the whole as a string"""
+    """this function takes the individual components and returns the whole as a string"""
 
-return '''#{title},
-##Description
-{description}
+    return '''#{title},
+    ##Description
+    {description}
 
-##Links
-{links}'''}
+    ##Links
+    {links}'''
