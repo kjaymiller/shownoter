@@ -4,7 +4,7 @@ from app import mongo
 from app import download
 from app.forms import TextInput, DescInput
 
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from flask import Markup
 from flask import flash
 from flask import request
@@ -53,7 +53,8 @@ def get_links():
                 description = description,
                 title = title,
                 links = links)
-    return render_template('results.html', form=form)
+        return url_for('result', id=shownotes_id)
+    return render_template('links.html', form=form)
 
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
