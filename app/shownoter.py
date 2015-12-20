@@ -1,3 +1,5 @@
+""" The shownoter module contains the core Shownoter functionality """
+
 import re
 import requests
 
@@ -5,18 +7,37 @@ from bs4 import BeautifulSoup
 from markdown import markdown
 
 
+def format_links_as_markdown(source):
+    """ Wraps the shownoter functionality in a single function call """
+    links = link_detect(source)
+    urls = []
+
+    for link in links:
+        if image_detect(link):
+            urls.append(Image(link).markdown)
+        else:
+            urls.append(Link(link).markdown)
+
+    output = links_to_string(urls)
+    return output.strip()
+
 def link_detect(site):
+    """ Returns a list of urls from a string"""
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
     results = re.findall(re_link, site)
     return results
 
 def get(link):
-    request = requests.get(link, timeout=1.5, allow_redirects=False)
-    return request
+    """ A wrapper around requests.get to allow for easy mocking """
+    return requests.get(link, timeout=1.5, allow_redirects=False)
 
-def image_detect(site):
+def image_detect(url):
+    """
+    Determines is a string is an image.
+    Returns true if it is an image.
+    """
     image_extension = ['.jpg', '.png', '.jpeg', '.gif']
-    extension = re.search(r'\.[a-zA-Z]{2,}$', site, re.M)
+    extension = re.search(r'\.[a-zA-Z]{2,}$', url, re.M)
 
     if extension.group(0) in image_extension:
         return True
@@ -28,12 +49,15 @@ def parse_title(content):
     return BeautifulSoup(content, 'html.parser').title.text
 
 def link_markdown(title, url):
+    """Formats a generic link to a markdown list item link"""
     return '* [{}]({})'.format(title, url)
 
 def image_markdown(title, url):
+    """Formats a link as an image"""
     return '* ![{}]({})'.format(title, url)
 
 class Link():
+    """ A class that wraps link functionality """
     def __init__(self, site):
         self.site = self.valid_link(site)
         self.url =  self.site.url
@@ -41,6 +65,11 @@ class Link():
         self.markdown = link_markdown(self.title, self.url)
 
     def valid_link(self, site):
+        """Returns the content of a website from a url
+
+        If the first request fails it will attempt variations
+
+        If all variations fail a ValueError is raised"""
         if re.search(r'^\w{3,5}://', site):
 
             try:
@@ -91,7 +120,7 @@ def links_to_string(links):
 
 
 def compile_shownotes(links, title, description):
-    """this function takes the individual components and returns the whole as a string"""
+    """This function takes the individual components and returns the whole as a string"""
 
     return '''#{title},
     ##Description

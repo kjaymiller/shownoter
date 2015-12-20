@@ -63,7 +63,13 @@ Shownoter uses automated tests to monitor and ensure the health of the project. 
 
 To run unit tests, use the following command:
 
-```python -m pytest```
+```python -m pytest unit_test.py```
+
+### Running functional tests
+
+To run functional tests, use the following command:
+
+```python -m pytest functional_test.py```
 
 ### Running the linter
 
