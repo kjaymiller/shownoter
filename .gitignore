@@ -6,4 +6,8 @@ lib/
 last_processor-
 config.py
 
+# sublime
 *.sublime*
+
+# vim
+*~
