@@ -87,4 +87,7 @@ def test_title(mock_html, **kwargs):
     assert sample_link.title == 'Test'
     assert sample_link.markdown == '* [Test](http://link.com/)'
 
-
+def test_links_to_string():
+    test_list = ['pie', 'cake', 'ice cream']
+    results = shownoter.links_to_string(test_list)
+    assert 'pie\ncake\nice cream\n' == results
