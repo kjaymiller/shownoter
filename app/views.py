@@ -53,9 +53,18 @@ def get_links():
                 description = description,
                 title = title,
                 links = links)
-        path=url_for('results', shownotes=shownotes_id)
+    return render_template('results.html', form=form)
+
+@app.route('/results/<id>', methods=['GET','POST'])
+def results(id):
+    shownote_data = retrieve(id)
+    description = shownote_data['description']
+    links = links_to_string(shownote_data['links'])
+    title = shownote_data['title']
+    shownotes = shownoter.compile_shownotes(links=links, title=title, description=description)
     
-    return render_template('links.html', form=form)
+    return render_template('results.html', shownotes=shownotes)
+            
 
 @app.route('/download/<shownotes>', methods=['GET'])
 def download_file(shownotes):

@@ -15,7 +15,7 @@ def get(link):
     return request
 
 def image_detect(site):    
-    image_extension = ['.jpg', '.png', '.jpeg']
+    image_extension = ['.jpg', '.png', '.jpeg', 'gif']
     extension = re.search(r'\.[a-zA-Z]{2,}$', site, re.M)
     
     if extension.group(0) in image_extension:
@@ -72,3 +72,22 @@ class Image(Link):
     def __init__(self, site):
         self.url = site
         self.markdown = '* ![]({})'.format(self.title, self.url)
+
+def links_to_string(links):
+"""This function takes a list of objects and returns it as a string"""
+
+    links_string = ''
+    for link in links:
+        links_string += link + '\n'
+    return links_string
+
+
+def compile_shownotes(links, title, description):
+"""this function takes the individual components and returns the whole as a string"""
+
+return '''#{title},
+##Description
+{description}
+
+##Links
+{links}'''}
