@@ -1,5 +1,6 @@
 astroid==1.4.1
 colorama==0.3.5
+coverage==4.0.3
 lazy-object-proxy==1.2.1
 pylint==1.5.1
 pytest==2.8.2

@@ -70,3 +70,13 @@ To run unit tests, use the following command:
 Linters do static analysis to find potential issues or style problems in the code.  To run the linter use the following command:
 
 ```python -m pylint app```
+
+### Testing coverage
+
+You can see how well the code is covered by tests using two commands.
+
+First perform the coverage analysis:
+```coverage run unit_test.py```
+
+Next, output the summary results:
+```coverage report```
