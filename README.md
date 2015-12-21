@@ -34,4 +34,55 @@ Shownoter will take the chat above and output a formatted list with descriptions
 ## Logging Issues
 Please log any Shownoter issues [on the Trello board](https://trello.com/b/jlyUZ0ml/shownoter)
 
+## Requirements
 
+The following setion outlines the requirements for running shownoter.
+
+Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
+
+* Python 3
+* MongoDB
+
+### Python modules
+
+Requirements to run Shownoter are stored in the file requirements.txt.  To install the required modules needed to run Shownoter perform the following command.
+
+```pip install -r requirements.txt```
+
+### Development requirements
+
+If you plan on developing Shownoter there are some additional requirements needed to do things like running tests.  These are stored in the file dev-requirements.txt.  You can install these with the following command:
+
+```pip install -r dev-requirements.txt```
+
+## Testing
+
+Shownoter uses automated tests to monitor and ensure the health of the project. Below are the ways to run the different sorts of tests for Shownoter.
+
+### Running unit tests
+
+To run unit tests, use the following command:
+
+```python -m pytest unit_test.py```
+
+### Running functional tests
+
+To run functional tests, use the following command:
+
+```python -m pytest functional_test.py```
+
+### Running the linter
+
+Linters do static analysis to find potential issues or style problems in the code.  To run the linter use the following command:
+
+```python -m pylint app```
+
+### Testing coverage
+
+You can see how well the code is covered by tests using two commands.
+
+First perform the coverage analysis:
+```coverage run unit_test.py```
+
+Next, output the summary results:
+```coverage report```

@@ -11,3 +11,6 @@ config.py
 
 # vim
 *~
+
+# coverage
+.coverage

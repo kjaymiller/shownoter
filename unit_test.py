@@ -15,6 +15,8 @@ class TestResult(object):
 def mock_get(url):
     return TestResult(url)
 
+# Test link detection
+
 def test_link_detect_finds_one_link_text():
     sample_text = '''This is a test
     to see if our regex
@@ -31,6 +33,8 @@ def test_link_detect_finds_multiple_links():
     and returns them all'''
     assert shownoter.link_detect(sample_text) == ['link.com', 'link.net', 'foo.bar']
 
+# Test that urls are formatted correctly
+
 def test_valid_link_inserts_prefix_if_none(monkeypatch):
     monkeypatch.setattr(shownoter, 'get', mock_get)
 
@@ -43,23 +47,7 @@ def test_valid_link_does_nothing_if_prefix_exists(monkeypatch):
     link = shownoter.Link('http://link.com')
     assert 'http://link.com' == link.url
 
-@requests_mock.Mocker(kw='mock')
-def test_title(mock_html, **kwargs):
-    link = 'http://link.com'
-    html = kwargs['mock'].get(link, text=mock_html)
-    title = shownoter.title(link)
-    assert html.called
-    assert title == "Test"
-
-def test_link_markdown():
-    link = 'link.com'
-    title = 'Test'
-    assert '[Test](link.com)' in shownoter.link_markdown(title, link)
-
-def test_image_markdown():
-    link = 'link.png'
-    title = ''
-    assert '![](link.png)' in shownoter.image_markdown(title, link)
+# Test image detection
 
 def test_image_detect_detects_png():
     link = 'link.png'
@@ -87,7 +75,22 @@ def test_title(mock_html, **kwargs):
     assert sample_link.title == 'Test'
     assert sample_link.markdown == '* [Test](http://link.com/)'
 
+# Test output formatting
+
 def test_links_to_string():
     test_list = ['pie', 'cake', 'ice cream']
     results = shownoter.links_to_string(test_list)
     assert 'pie\ncake\nice cream\n' == results
+
+# Test Markdown generation
+
+def test_link_markdown():
+    link = 'link.com'
+    title = 'Test'
+    assert '[Test](link.com)' in shownoter.link_markdown(title, link)
+
+def test_image_markdown():
+    link = 'link.png'
+    title = ''
+    assert '![](link.png)' in shownoter.image_markdown(title, link)
+
