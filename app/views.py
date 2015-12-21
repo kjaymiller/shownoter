@@ -30,31 +30,39 @@ def index():
 
         chat_links = shownoter.link_detect(chat_text)
         links = [] 
+
         for link in chat_links:
             
             if shownoter.image_detect(link):
-                links.append(shownoter.Image(link))
+                link = shownoter.Image(link)
                 
             else:
-                links.append(shownoter.Link(link))
-                    
-        return render_template('links.html', links=links, form=DescInput())
+                link = shownoter.Link(link)
+
+            entry = {
+                'url':link.url,
+                'title':link.title,
+                'markdown':link.markdown}
+            links.append(entry)
+        link_id = mongo.create_entry(links)           
+        return redirect(url_for('get_links', id=link_id))
     
     return render_template('index.html', form=form)
 
-@app.route('/links', methods=['GET', 'POST'])
-def get_links():
+@app.route('/links/<id>', methods=['GET', 'POST'])
+def get_links(id):
     form = DescInput()
+    links = [link for link in mongo.retrieve(id)['links']]
     
     if form.validate_on_submit():
-        title = form.title.data
-        description = form.description.data
-        shownotes_id=mongo.save_to_db(
-                description = description,
-                title = title,
-                links = links)
+        entry = {
+                'title':form.title.data,
+                'description':form.description.data
+            }
+        mongo.append_to_entry(id, entry)
+
         return url_for('result', id=shownotes_id)
-    return render_template('links.html', form=form)
+    return render_template('links.html', form=form, links=links)
 
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
