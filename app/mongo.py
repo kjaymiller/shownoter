@@ -10,9 +10,10 @@ def create_entry(links):
     result = shownoter.insert_one({'links':links})
     return result.inserted_id
 
-def append_to_entry(id, **args):
-    """adds/edits fields to entry in database"""
-    result = shownoter.update_one({'_id':ObjectId(id)}, {'$set': {field:value}}, upsert=True)
+def append_to_entry(id, entry):
+    """adds/edits fields to entry in database. """
+
+    result = shownoter.update_one({'_id':ObjectId(id)}, {'$set': entry}, upsert=True)
 
 def retrieve(id):
     """fetches results in database"""
