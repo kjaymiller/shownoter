@@ -94,3 +94,14 @@ def test_image_markdown():
     title = ''
     assert '![](link.png)' in shownoter.image_markdown(title, link)
 
+# Test formatting functions
+
+def test_format_links_as_hash_returns_a_list_of_three_element_hashes(monkeypatch):
+    monkeypatch.setattr(shownoter, 'get', mock_get)
+
+    text = "link.com"
+    results = shownoter.format_links_as_hash(text)
+    assert 1 == len(results)
+    assert "* [Test](http://link.com)" == results[0]["markdown"]
+    assert "Test" == results[0]["title"]
+    assert "http://link.com" == results[0]["url"]

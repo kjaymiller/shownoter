@@ -13,47 +13,34 @@ from flask import make_response
 import re
 from markdown import markdown
 
+
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-def index():    
+def index():
     form = TextInput()
 
     if form.validate_on_submit():
-    
+
         if form.file_input.data:
             flash('file detected')
             file = request.files['file_input']
             chat_text = file.read().decode('utf-8')
-        
+
         else:
             chat_text = form.chat_input.data
 
-        chat_links = shownoter.link_detect(chat_text)
-        links = [] 
-
-        for link in chat_links:
-            
-            if shownoter.image_detect(link):
-                link = shownoter.Image(link)
-                
-            else:
-                link = shownoter.Link(link)
-
-            entry = {
-                'url':link.url,
-                'title':link.title,
-                'markdown':link.markdown}
-            links.append(entry)
-        link_id = mongo.create_entry(links)           
+        links = shownoter.format_links_as_hash(chat_text)
+        link_id = mongo.create_entry(links)
         return redirect(url_for('get_links', id=link_id))
-    
+
     return render_template('index.html', form=form)
 
 @app.route('/links/<id>', methods=['GET', 'POST'])
 def get_links(id):
     form = DescInput()
     links = [link for link in mongo.retrieve(id)['links']]
-    
+
     if form.validate_on_submit():
         entry = {
                 'title':form.title.data,
@@ -71,9 +58,9 @@ def results(id):
     links = links_to_string(shownote_data['links'])
     title = shownote_data['title']
     shownotes = shownoter.compile_shownotes(links=links, title=title, description=description)
-    
+
     return render_template('results.html', shownotes=shownotes)
-            
+
 
 @app.route('/download/<shownotes>', methods=['GET'])
 def download_file(shownotes):

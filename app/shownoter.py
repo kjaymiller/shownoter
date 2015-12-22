@@ -7,6 +7,27 @@ from bs4 import BeautifulSoup
 from markdown import markdown
 
 
+def format_links_as_hash(source):
+
+    chat_links = link_detect(source)
+    links = []
+
+    for link in chat_links:
+
+        if image_detect(link):
+            link = Image(link)
+
+        else:
+            link = Link(link)
+
+        entry = {
+            'url':link.url,
+            'title':link.title,
+            'markdown':link.markdown}
+        links.append(entry)
+
+    return links
+
 def format_links_as_markdown(source):
     """ Wraps the shownoter functionality in a single function call """
     links = link_detect(source)
@@ -14,9 +35,11 @@ def format_links_as_markdown(source):
 
     for link in links:
         if image_detect(link):
-            urls.append(Image(link).markdown)
+            entry = Image(link)
         else:
-            urls.append(Link(link).markdown)
+            entry = Link(link)
+
+        urls.append(entry.markdown)
 
     output = links_to_string(urls)
     return output.strip()
