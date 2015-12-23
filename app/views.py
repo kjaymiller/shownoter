@@ -48,18 +48,20 @@ def get_links(id):
             }
         mongo.append_to_entry(id, entry)
 
-        return url_for('result', id=shownotes_id)
+        return redirect(url_for('results', id=id))
     return render_template('links.html', form=form, links=links)
 
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
-    shownote_data = retrieve(id)
-    description = shownote_data['description']
-    links = links_to_string(shownote_data['links'])
-    title = shownote_data['title']
-    shownotes = shownoter.compile_shownotes(links=links, title=title, description=description)
-
-    return render_template('results.html', shownotes=shownotes)
+    db_entry = mongo.retrieve(id)
+    description = db_entry['description']
+    db_links = [link['markdown'] for link in db_entry['links']]
+    links = shownoter.links_to_string(db_links)
+    title = db_entry['title']
+    return render_template('results.html',
+            title=title,
+            description=description,
+            links=Markup(links))
 
 
 @app.route('/download/<shownotes>', methods=['GET'])

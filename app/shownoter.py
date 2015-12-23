@@ -140,14 +140,3 @@ def links_to_string(links):
     for link in links:
         links_string += link + '\n'
     return links_string
-
-
-def compile_shownotes(links, title, description):
-    """This function takes the individual components and returns the whole as a string"""
-
-    return '''#{title},
-    ##Description
-    {description}
-
-    ##Links
-    {links}'''
