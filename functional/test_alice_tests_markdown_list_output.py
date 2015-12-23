@@ -2,14 +2,14 @@ from app import shownoter
 import pytest
 
 
-class ResultForTesting(object):
+def mock_url_homepage_result(url):
+    return UrlHomepageResult(url)
+
+class UrlHomepageResult(object):
     def __init__(self, url):
         self.status_code = 200
         self.url = url
         self.content = '<html><head><title>{} Homepage</title></head></html>'.format(url)
-
-def mock_get(url):
-    return ResultForTesting(url)
 
 @pytest.fixture(autouse=True)
 def mock_http(monkeypatch):
@@ -18,7 +18,7 @@ def mock_http(monkeypatch):
     that will emulate the results object that will generate a title of:
     "{url} Homepage"
     """
-    monkeypatch.setattr(shownoter, 'get', mock_get)
+    monkeypatch.setattr(shownoter, 'get', mock_url_homepage_result)
 
 def test_alice_generates_basic_shownotes():
     """
