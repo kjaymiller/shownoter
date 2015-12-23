@@ -9,39 +9,49 @@ from markdown import markdown
 
 def format_links_as_hash(source):
 
-    chat_links = link_detect(source)
+    urls = link_detect(source)
     links = []
 
-    for link in chat_links:
-        link = link.lower()
-        if image_detect(link):
-            link = Image(link)
+    for url in urls:
+        url = url.lower()
+        valid_link = True
+
+        if image_detect(url):
+            link = Image(url)
 
         else:
-            link = Link(link)
+            link = Link()
 
-        entry = {
-            'url':link.url,
-            'title':link.title,
-            'markdown':link.markdown}
-        links.append(entry)
+            try:
+                link.collect_data(url)
+            except ValueError:
+                valid_link = False
+                continue
+
+        if valid_link:
+            entry = {
+                'url':link.url,
+                'title':link.title,
+                'markdown':link.markdown}
+            links.append(entry)
 
     return links
 
 def format_links_as_markdown(source):
     """ Wraps the shownoter functionality in a single function call """
-    links = link_detect(source)
-    urls = []
+    urls = link_detect(source)
+    links = []
 
-    for link in links:
-        if image_detect(link):
-            entry = Image(link)
+    for url in urls:
+        if image_detect(url):
+            link = Image(url)
         else:
-            entry = Link(link)
+            link = Link()
+            link.collect_data(url)
 
-        urls.append(entry.markdown)
+        links.append(link.markdown)
 
-    output = links_to_string(urls)
+    output = links_to_string(links)
     return output.strip()
 
 def link_detect(site):
@@ -82,53 +92,59 @@ def image_markdown(title, url):
     """Formats a link as an image"""
     return '* ![{}]({})'.format(title, url)
 
+def request_content(site):
+    """ Returns content or raises ValueError """
+    success = True
+
+    try:
+        request = get(site)
+    except:
+        # TODO insert some logging here requests.ConnectionError (or other) being trapped.
+        raise ValueError("Url not found")
+
+    if request.status_code == 200:
+        return request
+    else:
+        # TODO insert some logging here
+        pass
+
+    raise ValueError("Url not found")
+
+def possible_urls(url):
+    """ Generator that returns possible variations of a given url """
+    if re.search(r'^\w{3,5}://', url):
+        yield url
+    else:
+        prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
+
+        for prefix in prefixes:
+            yield prefix+url
+
+
+def valid_link(site):
+    """Returns the content of a website from a url
+
+    If the first request fails it will attempt variations
+
+    If all variations fail a ValueError is raised"""
+    for url in possible_urls(site):
+        try:
+            return request_content(url)
+        except ValueError:
+            continue
+
+    raise ValueError("No valid link permutation found")
+
 class Link():
-    """ A class that wraps link functionality """
-    def __init__(self, site):
-        self.site = self.valid_link(site)
+    def collect_data(self, site):
+        """ Collects the various information about the link """
+        self.site = valid_link(site)
         self.url =  self.site.url
         self.title = parse_title(self.site.content)
         self.markdown = link_markdown(self.title, self.url)
 
-    def valid_link(self, site):
-        """Returns the content of a website from a url
 
-        If the first request fails it will attempt variations
-
-        If all variations fail a ValueError is raised"""
-        if re.search(r'^\w{3,5}://', site):
-
-            try:
-                request = get(site)
-
-            except:
-                print('Link not valid') #TODO:log statement
-                return False
-
-            else:
-                return request
-
-        else:
-            prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
-
-            for prefix in prefixes:
-
-                try:
-                    request = get(prefix + site)
-
-                except:
-                    print('tried {} failed'.format(prefix + site)) #TODO:log statement
-
-                else:
-
-                    if request.status_code == 200:
-                        return request
-                    else:
-                        continue
-
-            raise ValueError('No Valid Link Detected')
-
-class Image(Link):
+class Image():
     """Images are like links except they ignore connectivity tests."""
     title = ''
 
