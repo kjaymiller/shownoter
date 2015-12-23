@@ -13,7 +13,7 @@ def format_links_as_hash(source):
     links = []
 
     for link in chat_links:
-
+        link = link.lower()
         if image_detect(link):
             link = Image(link)
 
