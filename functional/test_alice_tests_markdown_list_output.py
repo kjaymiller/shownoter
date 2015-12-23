@@ -2,14 +2,14 @@ from app import shownoter
 import pytest
 
 
-class TestResult(object):
+class ResultForTesting(object):
     def __init__(self, url):
         self.status_code = 200
         self.url = url
         self.content = '<html><head><title>{} Homepage</title></head></html>'.format(url)
 
 def mock_get(url):
-    return TestResult(url)
+    return ResultForTesting(url)
 
 @pytest.fixture(autouse=True)
 def mock_http(monkeypatch):
