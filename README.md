@@ -101,5 +101,5 @@ Linters do static analysis to find potential issues or style problems in the cod
 Test coverage can be determined using the pytest-cov plugin.  Use it as follows:
 
 ```
-py.test --cov-report term-missing --cov=app test/
+python -m pytest --cov-report term-missing --cov=app test/test_shownoter.py
 ```
