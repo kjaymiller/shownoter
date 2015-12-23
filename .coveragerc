@@ -5,4 +5,4 @@ source = app
 
 [paths]
 source =
-    app/
+    test/

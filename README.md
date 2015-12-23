@@ -98,10 +98,8 @@ Linters do static analysis to find potential issues or style problems in the cod
 
 ### Testing coverage
 
-You can see how well the code is covered by tests using two commands.
+Test coverage can be determined using the pytest-cov plugin.  Use it as follows:
 
-First perform the coverage analysis:
-```coverage run unit_test.py```
-
-Next, output the summary results:
-```coverage report```
+```
+py.test --cov-report term-missing --cov=app test/
+```
