@@ -65,6 +65,10 @@ def test_image_detect_does_not_detect_outside_other_links():
     link = 'link.foo'
     assert not shownoter.image_detect(link)
 
+def test_image_detect_does_not_throw_attribute_error_when_no_extension():
+    link = 'https://gist.github.com/anonymous/7e5fa94f6e946551b70a'
+    assert not shownoter.image_detect(link)
+
 @requests_mock.Mocker(kw='mock')
 def test_title(mock_html, **kwargs):
     link = 'http://link.com'

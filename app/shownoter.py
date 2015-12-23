@@ -62,6 +62,9 @@ def image_detect(url):
     image_extension = ['.jpg', '.png', '.jpeg', '.gif']
     extension = re.search(r'\.[a-zA-Z]{2,}$', url, re.M)
 
+    if extension == None:
+        return False
+
     if extension.group(0) in image_extension:
         return True
 
