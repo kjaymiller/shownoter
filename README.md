@@ -34,6 +34,13 @@ Shownoter will take the chat above and output a formatted list with descriptions
 ## Logging Issues
 Please log any Shownoter issues [on the Trello board](https://trello.com/b/jlyUZ0ml/shownoter)
 
+### DNS forwarding
+Some ISPs will redirect invalid urls to a page that states that the url was not found along with other content.  This can affect the results that shownoter returns.
+
+Shownoter gathers the page title from the content of a page using the requests module.  If it performs a request and gets a result with a status code other than success (200) it will ignore the link considering it invalid.
+
+If you are receiving inconsistant results you may want to check to see if this is causing the issue.
+
 ## Requirements
 
 The following setion outlines the requirements for running shownoter.
