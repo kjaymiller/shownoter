@@ -1,30 +1,9 @@
 from app import shownoter
 import pytest
-import requests_mock
 import requests
 
-@pytest.fixture
-def mock_html():
-    return '<html><head><title>Test</title></head></html>'
 
-class GetResult(object):
-    def __init__(self, url):
-        self.status_code = 200
-        self.url = url
-        self.content = '<html><head><title>Test</title></head></html>'
-
-class GetNotFound(object):
-    def __init__(self, url):
-        self.status_code = 404
-
-def mock_get(url):
-    return GetResult(url)
-
-def mock_not_found(url):
-    return GetNotFound(url)
-
-def mock_requests_connection_error(url):
-    raise requests.exceptions.ConnectionError
+from test_helpers import *
 
 # Test link detection
 
@@ -52,6 +31,32 @@ def test_link_collect_data_accepts_url(monkeypatch):
     link = shownoter.Link()
     link.collect_data('http://link.com')
     assert 'http://link.com' == link.url
+
+# Test parse_title
+
+def test_title_is_parsed(content):
+    title = shownoter.parse_title(content)
+    assert "Test" == title
+
+def test_title_is_blank_if_no_title_in_content():
+    title = shownoter.parse_title("<html><head><title></title></head></html>")
+    assert "" == title
+
+def test_title_is_blank_if_title_tag_missing():
+    title = shownoter.parse_title("<html><head></head></html>")
+    assert "" == title
+
+def test_title_is_blank_if_content_missing():
+    title = shownoter.parse_title("")
+    assert "" == title
+
+def test_title_is_blank_if_content_none():
+    title = shownoter.parse_title(None)
+    assert "" == title
+
+def test_title_is_defaulted_if_specified():
+    title = shownoter.parse_title(None, "Ewerer")
+    assert "Ewerer" == title
 
 # Test valid_link
 
@@ -174,17 +179,6 @@ def test_image_detect_does_not_throw_attribute_error_when_no_extension():
     link = 'https://gist.github.com/anonymous/7e5fa94f6e946551b70a'
     assert not shownoter.image_detect(link)
 
-@requests_mock.Mocker(kw='mock')
-def test_title(mock_html, **kwargs):
-    link = 'http://link.com'
-    html = kwargs['mock'].get(link, text=mock_html)
-    sample_link = shownoter.Link()
-    sample_link.collect_data(link)
-    assert html.called
-    assert sample_link.url == 'http://link.com/'
-    assert sample_link.title == 'Test'
-    assert sample_link.markdown == '* [Test](http://link.com/)'
-
 # Test output formatting
 
 def test_links_to_string():
@@ -222,3 +216,11 @@ def test_format_links_as_hash_excludes_invalid_links(monkeypatch):
     text = "link.com"
     results = shownoter.format_links_as_hash(text)
     assert 0 == len(results)
+
+def test_format_links_with_default_title_if_title_not_found(monkeypatch):
+    monkeypatch.setattr(shownoter, 'get', mock_get_without_title)
+
+    text = "link.com"
+    results = shownoter.format_links_as_hash(text)
+    assert 1 == len(results)
+    assert "link.com" == results[0]["title"]

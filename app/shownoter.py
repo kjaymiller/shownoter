@@ -80,9 +80,16 @@ def image_detect(url):
 
     return False
 
-def parse_title(content):
+def parse_title(content, default_title=""):
     """Parses the title of a site from it's content"""
-    return BeautifulSoup(content, 'html.parser').title.text
+    if content == None:
+        return default_title
+
+    soup =  BeautifulSoup(content, 'html.parser')
+    if soup == None or soup.title == None:
+        return default_title
+
+    return soup.title.text
 
 def link_markdown(title, url):
     """Formats a generic link to a markdown list item link"""
@@ -140,7 +147,7 @@ class Link():
         """ Collects the various information about the link """
         self.site = valid_link(site)
         self.url =  self.site.url
-        self.title = parse_title(self.site.content)
+        self.title = parse_title(self.site.content) or site
         self.markdown = link_markdown(self.title, self.url)
 
 
