@@ -6,14 +6,14 @@ import requests_mock
 def mock_html():
     return '<html><head><title>Test</title></head></html>'
 
-class TestResult(object):
+class GetResult(object):
     def __init__(self, url):
         self.status_code = 200
         self.url = url
         self.content = '<html><head><title>Test</title></head></html>'
 
 def mock_get(url):
-    return TestResult(url)
+    return GetResult(url)
 
 # Test link detection
 

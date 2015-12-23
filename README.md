@@ -59,17 +59,27 @@ If you plan on developing Shownoter there are some additional requirements neede
 
 Shownoter uses automated tests to monitor and ensure the health of the project. Below are the ways to run the different sorts of tests for Shownoter.
 
+### Test setup
+
+Before running the tests you will need to install the dev-requirements as outlined above.  Additionally, you will need to install the module in editable mode: ```pip install -e .```
+
 ### Running unit tests
 
 To run unit tests, use the following command:
 
-```python -m pytest unit_test.py```
+```python -m pytest test```
 
 ### Running functional tests
 
 To run functional tests, use the following command:
 
-```python -m pytest functional_test.py```
+```python -m pytest functional```
+
+### Running both unit and functional tests
+
+The previous two commands can be combined, this is recommended when preparing for a pull request, but as functional tests take longer is not recommended during the normal TDD cycle.
+
+```python -m pytest test functional```
 
 ### Running the linter
 
