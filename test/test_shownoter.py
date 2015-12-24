@@ -23,6 +23,14 @@ def test_link_detect_finds_multiple_links():
     and returns them all'''
     assert shownoter.link_detect(sample_text) == ['link.com', 'link.net', 'foo.bar']
 
+def test_link_detects_will_only_return_one_of_duplicates():
+    sample_text = '''This is a test
+    to see if our link_detect
+    will find link.com
+    link.com
+    link.com
+    but only show one link.com'''
+    assert shownoter.link_detect(sample_text == ['link.com'])
 # Test link object
 
 def test_link_collect_data_accepts_url(monkeypatch):

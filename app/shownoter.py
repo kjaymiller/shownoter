@@ -57,8 +57,14 @@ def format_links_as_markdown(source):
 def link_detect(site):
     """ Returns a list of urls from a string"""
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
-    results = re.findall(re_link, site)
-    return results
+    links = []
+
+    for link in re.findall(re_link, site):
+        
+        if link not in links:
+            links.append(link)
+    
+    return links
 
 def get(link):
     """ A wrapper around requests.get to allow for easy mocking """
