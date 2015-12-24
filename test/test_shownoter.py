@@ -30,7 +30,7 @@ def test_link_detects_will_only_return_one_of_duplicates():
     link.com
     link.com
     but only show one link.com'''
-    assert shownoter.link_detect(sample_text == ['link.com'])
+    assert shownoter.link_detect(sample_text) == ['link.com']
 # Test link object
 
 def test_link_collect_data_accepts_url(monkeypatch):
