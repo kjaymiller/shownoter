@@ -5,7 +5,9 @@
 {{description}}
 
 <h2>Links</h2>
-{{links}}
+{% for link in links%}
+{{link}}<br>
+{% endfor %}
 
-<p>You can view your links anytime by using the URL </a href="/results/{{id}}>http://www.shownoter.co/results/{{id}}</a></p>
+<p>You can view your links anytime by using the URL <a href="/results/{{id}}">http://www.shownoter.co/results/{{id}}</a></p>
 {% endblock %}

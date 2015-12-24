@@ -55,13 +55,13 @@ def get_links(id):
 def results(id):
     db_entry = mongo.retrieve(id)
     description = db_entry['description']
-    db_links = [link['markdown'] for link in db_entry['links']]
-    links = shownoter.links_to_string(db_links)
+    links = [link['markdown'] for link in db_entry['links']]
     title = db_entry['title']
     return render_template('results.html',
             title=title,
             description=description,
-            links=Markup(links))
+            links=links,
+            id=id)
 
 
 @app.route('/download/<shownotes>', methods=['GET'])
