@@ -64,16 +64,23 @@ def results(id):
             id=id)
 
 
-@app.route('/download/<shownotes>', methods=['GET'])
-def download_file(shownotes):
-    result = mongo.retrieve(shownotes)
-    file = shownoter.combine_shownotes(
-            description=result['description'],
-            links=shownoter.links_to_string(result['links']),
-            html=False)
-    filename = result['title']+'.txt'
-    filename.replace(':','-')
+@app.route('/download/<id>', methods=['GET'])
+def download_file(id):
+    db_entry = mongo.retrieve(id)
+    description = db_entry['description']
+    links = [link['markdown'] for link in db_entry['links']]
+    link_text = ''
+
+    for link in links:
+        link_text += link + '\n'
+
+    title = db_entry['title']
+    file = '''#{title}
+{description}
+##Links
+{links}'''.format(title=title, description=description, links=link_text)
+    filename = title + '.txt'
     response = make_response(file)
-    response.headers['Content-Disposition'] = 'attachment; filename=results.txt'
+    response.headers['Content-Disposition'] = 'attachment; filename={}'.format(filename)
     response.content_type = 'text/plain'
     return response
