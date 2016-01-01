@@ -1,12 +1,14 @@
 div#links_detected {
-    text-align: right;
     float: right;
-    margin-right: 150px;
-}
+    width: 300px;
+    margin-right: 125px;
+    border: 1px solid;
+    padding: 10px;
+    }
+
 
 div#shownote_information {
-    float:left;
-    width: 400px;
-}
-
-
+    float: left;
+    width: 325px;
+    padding: 10px;
+    }

@@ -24,6 +24,7 @@ def index():
 
         if form.file_input.data:
             flash('file detected')
+            flash('Enter any description or other text for your notes')
             file = request.files['file_input']
             chat_text = file.read().decode('utf-8')
 

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<link rel="stylesheet" href="static/css/links.css">
+<link rel="stylesheet" href="/static/css/links.css">
 <div id="shownote_information">
 <form action="" method="post" name="EnterText">
     {{form.hidden_tag()}}
-    <p><h3>Enter the Title of your shownotes</h3>
+    <p><h2>Enter the Title of your shownotes</h2>
     {{form.title}} </p>
-    <p><h3>Enter any description or other text for your notes</h3>
-    {{form.description}}
+    <p><h2>Enter any description or other text for your notes</h2>
+    {{form.description}}</br>
     <em>supports markdown</em>
     </p>
     <p><input type="submit" value="Submit"></p>
