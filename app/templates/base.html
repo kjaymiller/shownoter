@@ -2,12 +2,15 @@
     <head>
         <title>Shownoter.co - Beta</title>
         <link rel="stylesheet" href="static/css/main.css">
+        <link href='https://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
     </head>
     <body>
+        <div id="title_wrapper">
         <h1><a href="http://localhost:5000">Shownoter.co - Beta</a></h1>
-        <em>Please Note that Changes are frequent at this time do not store any data as database may be destroyed!</em>
+        </div>
+
+        <em>At this time do not store any data as database may be destroyed!</em>
         <div id="content_wrapper">
-        {% block content %}{% endblock %}
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %} 
@@ -17,6 +20,7 @@
                 {% endfor %}
             {% endif %}
             {% endwith %}
+        {% block content %}{% endblock %}
         </div>
     </body>
 </html>

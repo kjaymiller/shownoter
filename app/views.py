@@ -27,8 +27,12 @@ def index():
             file = request.files['file_input']
             chat_text = file.read().decode('utf-8')
 
-        else:
+        elif form.chat_input.data:
             chat_text = form.chat_input.data
+
+        else:
+            flash('no chat detected')
+            return render_template('index.html', form=form)
 
         links = shownoter.format_links_as_hash(chat_text)
         link_id = mongo.create_entry(links)
