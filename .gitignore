@@ -10,6 +10,9 @@ last_processor-
 config.py
 bin/
 .Python
+.tox/
+*.egg-info/
+*.egg
 
 # sublime
 *.sublime*
