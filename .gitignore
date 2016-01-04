@@ -5,6 +5,7 @@
 lib/
 last_processor-
 config.py
+bin/
 
 # sublime
 *.sublime*
