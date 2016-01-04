@@ -18,7 +18,7 @@ div#link_input {
 }
 
 textarea {
-    width: 75%;
+    width: 85%;
     height: 150px;
 }
 
@@ -33,9 +33,25 @@ div#title_wrapper {
     }
 
 div#content_wrapper {
-    width: 800px;
+}
+div#footer {
+    padding-right: 100px;
+    text-align: center;
+    margin-top: 150px;
+}
+.disclaimer {
+   font-size: 14px;
+   }
+
+div#footer a  {
+    color: black;
+    text-decoration: none;
 }
 
-input#chat_submit {
+div#footer a:hover  {
+    text-decoration: underline;
 }
 
+hr {
+    width: 650px;
+}
