@@ -1,3 +1,6 @@
+include/
+pip-selfcheck.json
+
 *.swp
 *.swo
 *__pycache__
