@@ -89,3 +89,11 @@ def download_file(id):
     response.headers['Content-Disposition'] = 'attachment; filename={}'.format(filename)
     response.content_type = 'text/plain'
     return response
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/report')
+def report():
+    return render_template('report.html')
