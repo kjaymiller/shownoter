@@ -31,6 +31,10 @@ Shownoter will take the chat above and output a formatted list with descriptions
 * [The home of 1.7 player battleship](LessThanTwoPlayerBattleship.com)
 * [Go! Team typing cat Go! Homepage](GoTeamTypingCatGo.net)
 
+## License
+Shownoter is Licensed Under the Apache License, Version 2.0.
+Please visit http://www.apache.org/licenses/LICENSE-2.0.html for more information.
+
 ## Logging Issues
 Please log any Shownoter issues [on the Trello board](https://trello.com/b/jlyUZ0ml/shownoter)
 

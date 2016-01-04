@@ -9,10 +9,10 @@
 <p><b>**<em>Shownoter</em> is still in beta. Please do not rely on Shownoter to preserve shownotes data.**</b></p>
 
 <h1>Special Thanks to Our Contributors</h1>
-CodeNewbie PythonThursday Community - for helping discover the problem.
-Phillip Gray - For tying in the IronCoder that helped get a lot of this work finished.
-Jamal Hansen - For making Shownoter Team Testing Goat Approved
-Jonathan Colon - For the free therapy session and database debates
-Derek Gustafson - For being a great rubber duck and getting us setup with Travis-CI 
-
+<ul>
+{% for contributor in contributors %}
+<li><b>{{contributor[0]}}</b> - {{contributor[1]}}</li>
+{% endfor %}
+</ul>
+To become a contributor please visit <a href="http://trello.com/b/jlyUZ0ml/shownoter">here</a>.
 {% endblock %}

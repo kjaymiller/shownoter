@@ -2,6 +2,7 @@ from app import app
 from app import shownoter
 from app import mongo
 from app import download
+from app.contributors import contributors
 from app.forms import TextInput, DescInput
 
 from flask import render_template, url_for, redirect
@@ -92,7 +93,7 @@ def download_file(id):
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', contributors=contributors)
 
 @app.route('/report')
 def report():
