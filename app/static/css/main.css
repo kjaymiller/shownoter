@@ -35,9 +35,10 @@ div#title_wrapper {
 div#content_wrapper {
 }
 div#footer {
+    clear: both;
     padding-right: 100px;
     text-align: center;
-    margin-top: 150px;
+    margin-top: 100px;
 }
 .disclaimer {
    font-size: 14px;
@@ -52,6 +53,38 @@ div#footer a:hover  {
     text-decoration: underline;
 }
 
+div#footer li {
+    padding: 0px 4px;
+    display: inline;
+}
 hr {
     width: 650px;
+}
+
+.results ul, .results li{
+    display: inline;
+    float: left;
+    padding: 5px 5px;
+    border: 2px solid;
+}
+
+div#selector li{
+    display: inline;
+    padding: 0px 5px;
+}
+
+.first{
+    border-right: 1px solid;
+    }
+
+.last{
+    border-left: 1px solid;
+}
+
+li#markdown {
+    visibility: visible;
+}
+
+li#html {
+    visibility: hidden;
 }

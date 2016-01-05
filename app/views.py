@@ -63,9 +63,6 @@ def results(id):
     description = db_entry['description']
     links = [link for link in db_entry['links']]
     title = db_entry['title']
-    html_links = ''
-    for link in links:
-        html_links += '<li>{}</li>'.format(link)
     return render_template('results.html',
             title=title,
             description=description,
