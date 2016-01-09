@@ -1,44 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div id="selector">
-    <!--    
-    <li class="first">Markdown</li><li class="last">HTML</li>
-    </div>
-<div class="results">
-    <li id="markdown"> -->
-    {% if title %}
-        <h1>#{{title}}</h1>
-    {% endif %}
-    {{description}}
-    <h2>##Links</h2>
-    {% for link in links%}
-        {{link['markdown']}}<br>
-    {% endfor %}
-</li>
 
-<li id="html">
-    {% if title %}
-        <h1>{{title}} </h1>
-    {% endif %}    
-    {{description}}
-    <h2>##Links</h2>
-    {% for link in links%}
-        {% if not link['title'] %}
-            <a href="{{link['url']}}" target="_blank">Click Here to View Image</a>
-        {% else %}
-            <a href="{{link['url']}}" target="_blank">{{link['title']}}</a>
+        {% if title %}
+            <h1>#{{title}}</h1>
         {% endif %}
-        <br>
-    {% endfor %}
-    </li>
-</div>
-<div style="clear: both;">
-        <p><b>You can view your links anytime by using the URL </b><br/>
-<a href="/results/{{id}}">http://www.shownoter.co/results/{{id}}</a><br></p>
-<p>
-<a href="https://twitter.com/share" class="twitter-share-button"{count} data-text="I just took some shownotes. Check them out!" data-size="small" data-related="kjaymiller" data-hashtags="shownoter"></a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
+    
+        {{description}}
+    
+        <h2>##Links</h2>
+    
+        {% for link in links%}
+    
+            {% if not link['title'] %}
+                <a href="{{link['url']}}" target="_blank">Click Here to View Image</a>
+            
+            {% else %}
+                <a href="{{link['url']}}" target="_blank">{{link['title']}}</a>
+            {% endif %}
+    
+            <br>
+        {% endfor %}
 
-<a href="/download/{{id}}"><input type="submit" value="download markdown"></a>
-</div>
+    </div>
+
+    <div style="clear: both;">
+        <p><b>You can view your links anytime by using the URL </b><br/>
+        <a href="/results/{{id}}">http://www.shownoter.co/results/{{id}}</a><br></p>
+        <p>
+        <a href="https://twitter.com/share" class="twitter-share-button"{count} data-text="I just took some shownotes. Check them out!" data-size="small" data-related="kjaymiller" data-hashtags="shownoter"></a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
+
+        <a href="/download/{{id}}"><input type="submit" value="download markdown"></a>
+    </div>
 {% endblock %}
