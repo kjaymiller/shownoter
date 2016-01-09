@@ -1,5 +1,4 @@
 h1 a{
-    font-size: 48px;
     color: black;
     text-decoration: none;
 }
@@ -9,9 +8,14 @@ h1 a.visited{
     text-decoration: none;
 }
 
-h1 {
-font-family: 'Playball', cursive;
-}
+div#title_wrapper h1 {
+    font-size: 48px;
+    font-family: 'Playball', cursive;
+    }
+
+.fancy_header {
+    font-family: 'Playball', cursive;
+    }
 
 div#link_input {
     float: left;
@@ -30,10 +34,13 @@ div {
 
 div#title_wrapper {
     margin-top: 35px;
+    height: 75px;
     }
 
-div#content_wrapper {
-}
+div#content_wrapper h1{
+    font-size: 32px;
+    }
+
 div#footer {
     clear: both;
     padding-right: 100px;
