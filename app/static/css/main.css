@@ -61,17 +61,6 @@ hr {
     width: 650px;
 }
 
-.results ul, .results li{
-    display: inline;
-    float: left;
-    padding: 5px 5px;
-    border: 2px solid;
-}
-
-div#selector li{
-    display: inline;
-    padding: 0px 5px;
-}
 
 .first{
     border-right: 1px solid;
