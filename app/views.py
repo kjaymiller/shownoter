@@ -50,7 +50,7 @@ def get_links(id):
     if form.validate_on_submit():
         entry = {
                 'title':form.title.data,
-                'description':form.description.data
+                'description': form.description.data
             }
         mongo.append_to_entry(id, entry)
 
@@ -60,7 +60,7 @@ def get_links(id):
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
     db_entry = mongo.retrieve(id)
-    description = db_entry['description']
+    description = Markup(markdown(db_entry['description']))
     links = [link for link in db_entry['links']]
     title = db_entry['title']
     return render_template('results.html',
