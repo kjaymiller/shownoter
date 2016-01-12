@@ -85,7 +85,12 @@ def download_file(id):
 {description}
 ##Links
 {links}'''.format(title=title, description=description, links=link_text)
-    filename = title + '.txt'
+
+    if title:
+        filename = title + '.txt'
+    else:
+        filename = 'untitled.txt'
+
     response = make_response(file)
     response.headers['Content-Disposition'] = 'attachment; filename={}'.format(filename)
     response.content_type = 'text/plain'
