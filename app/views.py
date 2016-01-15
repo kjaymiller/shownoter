@@ -82,7 +82,7 @@ def download_file(id):
 
     title = db_entry['title']
 
-if title:
+    if title:
         title = "#" + title
 
     file = '''{title}
@@ -107,3 +107,7 @@ def about():
 @app.route('/report')
 def report():
     return render_template('report.html')
+
+@app.route('/404')
+def fourzerofour():
+    return render_template('404.html')
