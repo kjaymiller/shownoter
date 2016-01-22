@@ -1,4 +1,5 @@
 from app import app
+from app import error_handling
 from app import shownoter
 from app import mongo
 from app import download
