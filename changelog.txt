@@ -1,0 +1,11 @@
+"""
+Shownoter Changelog
+created: January 21, 2016
+updated: January 21, 2016
+"""
+
+version 3.0.1
+- creation of the changelog. 
+- Also started routing 404 errors in flask (Not nginx). 
+
+
