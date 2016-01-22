@@ -1,0 +1,86 @@
+h1 a{
+    color: black;
+    text-decoration: none;
+}
+
+h1 a.visited{
+    color: black;
+    text-decoration: none;
+}
+
+div#title_wrapper h1 {
+    font-size: 48px;
+    font-family: 'Playball', cursive;
+    }
+
+.fancy_header {
+    font-family: 'Playball', cursive;
+    }
+
+div#link_input {
+    float: left;
+}
+
+textarea {
+    width: 85%;
+    height: 150px;
+}
+
+div {
+    padding: 5px;
+    width: 800px;
+    margin: auto;
+    }
+
+div#title_wrapper {
+    margin-top: 35px;
+    height: 75px;
+    }
+
+div#content_wrapper h1{
+    font-size: 32px;
+    }
+
+div#footer {
+    clear: both;
+    padding-right: 100px;
+    text-align: center;
+    margin-top: 100px;
+}
+.disclaimer {
+   font-size: 14px;
+   }
+
+div#footer a  {
+    color: black;
+    text-decoration: none;
+}
+
+div#footer a:hover  {
+    text-decoration: underline;
+}
+
+div#footer li {
+    padding: 0px 4px;
+    display: inline;
+}
+hr {
+    width: 650px;
+}
+
+
+.first{
+    border-right: 1px solid;
+    }
+
+.last{
+    border-left: 1px solid;
+}
+
+li#markdown {
+    visibility: visible;
+}
+
+li#html {
+    visibility: hidden;
+}

@@ -1,5 +1,9 @@
 from app import app
+
+#static files
 from app import error_handling
+from app import static_files
+
 from app import shownoter
 from app import mongo
 from app import download
@@ -101,14 +105,3 @@ def download_file(id):
     response.content_type = 'text/plain'
     return response
 
-@app.route('/about')
-def about():
-    return render_template('about.html', contributors=contributors)
-
-@app.route('/report')
-def report():
-    return render_template('report.html')
-
-@app.route('/404')
-def fourzerofour():
-    return render_template('404.html')
