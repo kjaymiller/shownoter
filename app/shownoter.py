@@ -96,7 +96,7 @@ def parse_title(content, default_title=""):
         return default_title
 
     title = soup.title.text
-    return title(trim)
+    return title.strip()
 
 def link_markdown(title, url):
     """Formats a generic link to a markdown list item link"""

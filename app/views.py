@@ -19,8 +19,6 @@ from flask import make_response
 import re
 from markdown import markdown
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -68,6 +66,8 @@ def results(id):
     description = Markup(markdown(db_entry['description']))
     links = [link for link in db_entry['links']]
     title = db_entry['title']
+    if not title:
+        title = 'Untitled'
     return render_template('results.html',
             title=title,
             description=description,
