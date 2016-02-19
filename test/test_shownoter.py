@@ -233,3 +233,13 @@ def test_format_links_with_default_title_if_title_not_found(monkeypatch):
     assert 1 == len(results)
     assert "link.com" == results[0]["title"]
 
+def test_maintains_case(monkeypatch):
+    monkeypatch.setattr(shownoter, 'get', mock_get)
+
+    text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    results = shownoter.format_links_as_hash(text)
+    assert 1 == len(results)
+    assert "* [Test](https://www.youtube.com/watch?v=dQw4w9WgXcQ)" == results[0]["markdown"]
+    assert "Test" == results[0]["title"]
+    assert "https://www.youtube.com/watch?v=dQw4w9WgXcQ" == results[0]["url"]
+

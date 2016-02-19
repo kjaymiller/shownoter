@@ -13,7 +13,7 @@ def format_links_as_hash(source):
     links = []
 
     for url in urls:
-        url = url.lower()
+        #url = url.lower()
         valid_link = True
 
         if image_detect(url):
@@ -60,10 +60,10 @@ def link_detect(site):
     links = []
 
     for link in re.findall(re_link, site):
-        
+
         if link not in links:
             links.append(link)
-    
+
     return links
 
 def get(link):
