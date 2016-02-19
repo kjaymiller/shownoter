@@ -86,11 +86,7 @@ def download_file(id):
         link_text += link + '\n'
 
     title = db_entry['title']
-
-    if title:
-        title = "#" + title
-
-    file = '''{title}
+    file = '''#{title}
 {description}
 ##Links
 {links}'''.format(title=title, description=description, links=link_text)
