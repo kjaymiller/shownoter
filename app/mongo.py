@@ -16,7 +16,7 @@ def create_entry(links):
 
 def append_to_entry(id, entry):
     """adds/edits fields to entry in database. """
-    result = collection.update_one({'_id':ObjectId(id)}, {'$set': entry}, upsert=True)
+    result = shownotes_coll.update_one({'_id':ObjectId(id)}, {'$set': entry}, upsert=True)
     return result
 
 def retrieve(id):
@@ -33,7 +33,7 @@ def retrieve_from_cache(url):
 def cache_url(url,title):
     """add url to cache"""
     domain = get_domain(url)
-    links_coll.insert_one({'url':url, 'domain':'get_domain', 'title':title})
+    links_coll.insert_one({'url':url, 'domain':domain, 'title':title})
 
 def get_domain(url):
     """returns the domain of the url"""
