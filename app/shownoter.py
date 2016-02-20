@@ -160,24 +160,26 @@ def valid_link(site):
 class Link():
     def collect_data(self, site):
         """ Collects the various information about the link """
+        
         cached_url = mongo.retrieve_from_cache(site)
+
         if cached_url:
             self.url = cached_url['url']
             self.title = cached_url['title']
-            
 
         else:
             #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
             self.site = valid_link(site)
             self.url =  self.site.url
-            self.title = parse_title(self.site.content) or site
+            self.title = parse_title(self.site.content)
             mongo.cache_url(self.url, self.title)        
+
         self.markdown = link_markdown(self.title, self.url)
         self.date = datetime.utcnow()
-        
 
 class Image():
     """Images are like links except they ignore connectivity tests."""
+    
     title = ''
 
     def __init__(self, site):

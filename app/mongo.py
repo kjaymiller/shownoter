@@ -9,9 +9,9 @@ links_coll = db.link_cache
 
 
 
-def create_entry(links):
+def create_entry(links, date):
     """Adds new link to database"""
-    result = shownotes_coll.insert_one({'links':links})
+    result = shownotes_coll.insert_one({'links':links,'date':date})
     return result.inserted_id
 
 def append_to_entry(id, entry):

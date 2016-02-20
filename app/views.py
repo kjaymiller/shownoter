@@ -9,6 +9,7 @@ from app import download
 from app.contributors import contributors
 from app.forms import TextInput, DescInput
 
+from datetime import datetime
 from flask import render_template, url_for, redirect
 from flask import Markup
 from flask import flash
@@ -41,7 +42,7 @@ def index():
             return render_template('index.html', form=form)
 
         links = shownoter.format_links_as_hash(chat_text)
-        link_id = mongo.create_entry(links)
+        link_id = mongo.create_entry(links=links, date=datetime.utcnow())
         return redirect(url_for('get_links', id=link_id))
 
     return render_template('index.html', form=form)
