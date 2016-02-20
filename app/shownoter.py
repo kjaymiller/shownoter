@@ -3,6 +3,8 @@
 import re
 import requests
 
+from app import mongo
+from datetime import datetime
 from bs4 import BeautifulSoup
 from markdown import markdown
 
@@ -134,6 +136,11 @@ def possible_urls(url):
         for prefix in prefixes:
             yield prefix+url
 
+def get_domain(url):
+    """returns the domain of the url"""
+    pattern = re.compile(r'\w{3,5}:\/\/(www\.)?|www\.')
+    new_url = re.sub(pattern,'', url) 
+    return new_url
 
 def valid_link(site):
     """Returns the content of a website from a url
@@ -141,6 +148,7 @@ def valid_link(site):
     If the first request fails it will attempt variations
 
     If all variations fail a ValueError is raised"""
+
     for url in possible_urls(site):
         try:
             return request_content(url)
@@ -152,11 +160,21 @@ def valid_link(site):
 class Link():
     def collect_data(self, site):
         """ Collects the various information about the link """
-        self.site = valid_link(site)
-        self.url =  self.site.url
-        self.title = parse_title(self.site.content) or site
-        self.markdown = link_markdown(self.title, self.url)
+        cached_url = mongo.retrieve_from_cache(site)
+        if cached_url:
+            self.url = cached_url['url']
+            self.title = cached_url['title']
+            
 
+        else:
+            #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
+            self.site = valid_link(site)
+            self.url =  self.site.url
+            self.title = parse_title(self.site.content) or site
+            mongo.cache_url(self.url, self.title)        
+        self.markdown = link_markdown(self.title, self.url)
+        self.date = datetime.utcnow()
+        
 
 class Image():
     """Images are like links except they ignore connectivity tests."""

@@ -233,3 +233,9 @@ def test_format_links_with_default_title_if_title_not_found(monkeypatch):
     assert 1 == len(results)
     assert "link.com" == results[0]["title"]
 
+
+def test_get_domain():
+    urls = ['http://foo.com', 'http://www.foo.com', 'https://foo.com', 'ftp://foo.com', 'www.foo.com']
+    for url in urls:
+        assert shownoter.get_domain(url) == 'foo.com'
+
