@@ -22,6 +22,8 @@ from markdown import markdown
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    """This is the home page"""
+
     form = TextInput()
 
     if form.validate_on_submit():
@@ -47,6 +49,8 @@ def index():
 
 @app.route('/links/<id>', methods=['GET', 'POST'])
 def get_links(id):
+    """This page is where the Title and Description are added"""
+
     form = DescInput()
     links = [link for link in mongo.retrieve(id)['links']]
 
@@ -62,6 +66,8 @@ def get_links(id):
 
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
+    """The final result of creating Shownotes"""
+
     db_entry = mongo.retrieve(id)
     description = Markup(markdown(db_entry['description']))
     links = [link for link in db_entry['links']]
@@ -74,9 +80,10 @@ def results(id):
             links=links,
             id=id)
 
-
 @app.route('/download/<id>', methods=['GET'])
 def download_file(id):
+    """Saves the file into a .txt file"""
+
     db_entry = mongo.retrieve(id)
     description = db_entry['description']
     links = [link['markdown'] for link in db_entry['links']]
