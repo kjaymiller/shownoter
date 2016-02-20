@@ -1,7 +1,6 @@
 from app import app
 
 #static files
-from app import error_handling
 from app import static_files
 
 from app import shownoter
