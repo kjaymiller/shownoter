@@ -1,7 +1,6 @@
 from app import app
 
 #static files
-from app import error_handling
 from app import static_files
 
 from app import shownoter
@@ -10,6 +9,7 @@ from app import download
 from app.contributors import contributors
 from app.forms import TextInput, DescInput
 
+from datetime import datetime
 from flask import render_template, url_for, redirect
 from flask import Markup
 from flask import flash
@@ -22,6 +22,8 @@ from markdown import markdown
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    """This is the home page"""
+
     form = TextInput()
 
     if form.validate_on_submit():
@@ -40,19 +42,32 @@ def index():
             return render_template('index.html', form=form)
 
         links = shownoter.format_links_as_hash(chat_text)
-        link_id = mongo.create_entry(links)
+        link_id = mongo.create_entry(links=links, date=datetime.utcnow())
         return redirect(url_for('get_links', id=link_id))
-
-    return render_template('index.html', form=form)
+        
+        
+    stats = {
+            'total_shownotes':mongo.count_entries(mongo.shownotes_coll),
+            'total_links':mongo.count_entries(mongo.links_coll),
+            'last_five':[(result['title'],result['_id']) for result in mongo.last_five()]
+            }
+        
+    return render_template('index.html', form=form, stats = stats)
 
 @app.route('/links/<id>', methods=['GET', 'POST'])
 def get_links(id):
+    """This page is where the Title and Description are added"""
+
     form = DescInput()
     links = [link for link in mongo.retrieve(id)['links']]
 
     if form.validate_on_submit():
+        title = form.title.data
+        if not title:
+            title = 'Untitled Shownotes'
+
         entry = {
-                'title':form.title.data,
+                'title':title,
                 'description': form.description.data
             }
         mongo.append_to_entry(id, entry)
@@ -62,6 +77,8 @@ def get_links(id):
 
 @app.route('/results/<id>', methods=['GET','POST'])
 def results(id):
+    """The final result of creating Shownotes"""
+
     db_entry = mongo.retrieve(id)
     description = Markup(markdown(db_entry['description']))
     links = [link for link in db_entry['links']]
@@ -74,9 +91,10 @@ def results(id):
             links=links,
             id=id)
 
-
 @app.route('/download/<id>', methods=['GET'])
 def download_file(id):
+    """Saves the file into a .txt file"""
+
     db_entry = mongo.retrieve(id)
     description = db_entry['description']
     links = [link['markdown'] for link in db_entry['links']]

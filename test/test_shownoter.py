@@ -243,3 +243,8 @@ def test_maintains_case(monkeypatch):
     assert "Test" == results[0]["title"]
     assert "https://www.youtube.com/watch?v=dQw4w9WgXcQ" == results[0]["url"]
 
+def test_get_domain():
+    urls = ['http://foo.com', 'http://www.foo.com', 'https://foo.com', 'ftp://foo.com', 'www.foo.com']
+    for url in urls:
+        assert shownoter.get_domain(url) == 'foo.com'
+
