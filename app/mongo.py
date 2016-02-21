@@ -26,7 +26,7 @@ def retrieve(id):
 def retrieve_from_cache(url):
     """looks for links in the caching database"""
     domain = get_domain(url)
-    result = links_coll.find_one({'url':domain})
+    result = links_coll.find_one({'domain':domain})
     return result
 
 def cache_url(url,title):
@@ -43,7 +43,7 @@ def get_domain(url):
     return new_url
 
 def last_five():
-    last_five_items = shownotes_coll.find().sort("date", pymongo.DESCENDING).limit(5)
+    last_five_items = shownotes_coll.find({"title":{"$exists":True}}).sort("date", pymongo.DESCENDING).limit(5)
     return last_five_items
     
 def count_entries(collection):
