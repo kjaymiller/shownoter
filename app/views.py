@@ -44,8 +44,15 @@ def index():
         links = shownoter.format_links_as_hash(chat_text)
         link_id = mongo.create_entry(links=links, date=datetime.utcnow())
         return redirect(url_for('get_links', id=link_id))
-
-    return render_template('index.html', form=form)
+        
+        
+    stats = {
+            'total_shownotes':mongo.count_entries(mongo.shownotes_coll),
+            'total_links':mongo.count_entries(mongo.links_coll),
+            'last_five':[(result['title'],result['_id']) for result in mongo.last_five()]
+            }
+        
+    return render_template('index.html', form=form, stats = stats)
 
 @app.route('/links/<id>', methods=['GET', 'POST'])
 def get_links(id):
@@ -55,8 +62,12 @@ def get_links(id):
     links = [link for link in mongo.retrieve(id)['links']]
 
     if form.validate_on_submit():
+        title = form.title.data
+        if not title:
+            title = 'Untitled Shownotes'
+
         entry = {
-                'title':form.title.data,
+                'title':title,
                 'description': form.description.data
             }
         mongo.append_to_entry(id, entry)

@@ -84,3 +84,12 @@ li#markdown {
 li#html {
     visibility: hidden;
 }
+
+div#stats {
+    font-size:32px;
+    font-weight: bold;
+}
+
+div#stats ul li {
+    font-size:22;
+}

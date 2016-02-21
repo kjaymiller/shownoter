@@ -175,7 +175,6 @@ class Link():
             mongo.cache_url(self.url, self.title)        
 
         self.markdown = link_markdown(self.title, self.url)
-        self.date = datetime.utcnow()
 
 class Image():
     """Images are like links except they ignore connectivity tests."""

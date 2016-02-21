@@ -8,7 +8,6 @@ shownotes_coll = db.shownotes
 links_coll = db.link_cache
 
 
-
 def create_entry(links, date):
     """Adds new link to database"""
     result = shownotes_coll.insert_one({'links':links,'date':date})
@@ -42,3 +41,11 @@ def get_domain(url):
     pattern = re.compile(r'\w{3,5}:\/\/(www\.)?|www\.')
     new_url = re.sub(pattern,'', url)
     return new_url
+
+def last_five():
+    last_five_items = shownotes_coll.find().sort("date", pymongo.DESCENDING).limit(5)
+    return last_five_items
+    
+def count_entries(collection):
+    count = collection.count()
+    return count
