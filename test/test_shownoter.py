@@ -1,4 +1,5 @@
 from app import shownoter
+from app import url_parser
 import pytest
 import requests
 
@@ -11,8 +12,8 @@ def test_link_detect_finds_one_link_text():
     sample_text = '''This is a test
     to see if our regex
     will find link.com
-    and return them both'''
-    assert shownoter.link_detect(sample_text) == ['link.com']
+    and return it'''
+    assert shownoter.url_parser.link_detect(sample_text) == ['link.com']
 
 def test_link_detect_finds_multiple_links():
     sample_text = '''This is a test
@@ -169,23 +170,23 @@ def test_possible_urls_adds_https_www_prefix():
 
 def test_image_detect_detects_png():
     link = 'link.png'
-    assert shownoter.image_detect(link)
+    assert url_parser.image_detect(link)
 
 def test_image_detect_detects_jpg():
     link = 'link.jpg'
-    assert shownoter.image_detect(link)
+    assert url_parser.image_detect(link)
 
 def test_image_detect_detects_gif():
     link = 'link.gif'
-    assert shownoter.image_detect(link)
+    assert url_parser.image_detect(link)
 
 def test_image_detect_does_not_detect_outside_other_links():
     link = 'link.foo'
-    assert not shownoter.image_detect(link)
+    assert not url_parser.image_detect(link)
 
 def test_image_detect_does_not_throw_attribute_error_when_no_extension():
     link = 'https://gist.github.com/anonymous/7e5fa94f6e946551b70a'
-    assert not shownoter.image_detect(link)
+    assert not url_parser.image_detect(link)
 
 # Test output formatting
 

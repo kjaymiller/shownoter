@@ -4,21 +4,21 @@ import re
 import requests
 
 from app import mongo
+from app import url_parser
+
 from datetime import datetime
 from bs4 import BeautifulSoup
 from markdown import markdown
 
 
 def format_links_as_hash(source):
-
     urls = link_detect(source)
     links = []
 
     for url in urls:
-        #url = url.lower()
         valid_link = True
 
-        if image_detect(url):
+        if url_parser.image_detect(url):
             link = Image(url)
 
         else:
@@ -71,22 +71,6 @@ def link_detect(site):
 def get(link):
     """ A wrapper around requests.get to allow for easy mocking """
     return requests.get(link, timeout=1.5, allow_redirects=False)
-
-def image_detect(url):
-    """
-    Determines is a string is an image.
-    Returns true if it is an image.
-    """
-    image_extension = ['.jpg', '.png', '.jpeg', '.gif']
-    extension = re.search(r'\.[a-zA-Z]{2,}$', url, re.M)
-
-    if extension == None:
-        return False
-
-    if extension.group(0) in image_extension:
-        return True
-
-    return False
 
 def parse_title(content, default_title=""):
     """Parses the title of a site from it's content"""

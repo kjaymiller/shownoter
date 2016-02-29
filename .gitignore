@@ -1,6 +1,7 @@
 include/
 pip-selfcheck.json
 pyvenv.cfg
+tmp/
 
 *.swp
 *.swo
