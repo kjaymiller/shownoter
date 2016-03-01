@@ -29,7 +29,8 @@ def format_links_as_hash(source):
         # TODO: insert checks for valid links
         
         if url_parser.image_detect(url): #checks for image extensions on valid links
-            link = Image(url)
+            link = Link(is_image=True)
+            link.url = url
 
         else: #if not image treat as a link
             link = Link()
@@ -155,11 +156,21 @@ def valid_link(site):
     raise ValueError("No valid link permutation found")
 
 class Link():
+    """Class that creates the link dictionary reference holding the site information"""
+
+    def __init__(self, is_image=False):
+        self.is_image = is_image
+        
+        if self.is_image:
+            self.title = ''
+            self.url = url
+            self.markdown = image_markdown(self.title, self.url)
+
     def collect_data(self, site):
         """ Collects the various information about the link """
 
         cached_url = mongo.retrieve_from_cache(site)
-
+        
         if cached_url:
             self.url = cached_url['url']
             self.title = cached_url['title']
@@ -173,20 +184,3 @@ class Link():
 
         self.markdown = link_markdown(self.title, self.url)
 
-class Image(Link):
-    """Images are like links except they ignore connectivity tests."""
-
-    title = ''
-
-    def __init__(self, site):
-        self.url = site
-        self.markdown = image_markdown(self.title, self.url)
-
-
-def links_to_string(links):
-    """This function takes a list of objects and returns it as a string"""
-
-    links_string = ''
-    for link in links:
-        links_string += link + '\n'
-    return links_string

@@ -188,13 +188,6 @@ def test_image_detect_does_not_throw_attribute_error_when_no_extension():
     link = 'https://gist.github.com/anonymous/7e5fa94f6e946551b70a'
     assert not url_parser.image_detect(link)
 
-# Test output formatting
-
-def test_links_to_string():
-    test_list = ['pie', 'cake', 'ice cream']
-    results = shownoter.links_to_string(test_list)
-    assert 'pie\ncake\nice cream\n' == results
-
 # Test Markdown generation
 
 def test_link_markdown():
