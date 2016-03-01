@@ -1,4 +1,11 @@
-""" The shownoter module contains the core Shownoter functionality """
+""" 
+The shownoter module contains the core Shownoter functionality 
+
+WARNING: Shownoter.py is undergoing a refactoring. Please do not add any new code until the refactoring has been completed. 
+
+For information on refactoring: please see Trello board at https://trello.com/c/1YXgQUOq/117-refactor-shownoter-py
+"""
+
 
 import re
 import requests
@@ -12,16 +19,19 @@ from markdown import markdown
 
 
 def format_links_as_hash(source):
-    urls = url_parser.link_detect(source)
-    links = []
+    """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
+
+    urls = url_parser.link_detect(source) #returns links from content as list
+    links = [] #empty container that will be populated by urls that are valid
 
     for url in urls:
-        valid_link = True
-
-        if url_parser.image_detect(url):
+        valid_link = True 
+        # TODO: insert checks for valid links
+        
+        if url_parser.image_detect(url): #checks for image extensions on valid links
             link = Image(url)
 
-        else:
+        else: #if not image treat as a link
             link = Link()
 
             try:
@@ -30,7 +40,7 @@ def format_links_as_hash(source):
                 valid_link = False
                 continue
 
-        if valid_link:
+        if valid_link: 
             if not link.title:
                 link.title = link.url
 
@@ -59,7 +69,7 @@ def format_links_as_markdown(source):
     output = links_to_string(links)
     return output.strip()
 
-def link_detect(site):
+def link_detect(site): #TODO: REMOVE
     """ Returns a list of urls from a string"""
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
     links = []
@@ -71,7 +81,7 @@ def link_detect(site):
 
     return links
 
-def get(link):
+def get(link): 
     """ A wrapper around requests.get to allow for easy mocking """
     return requests.get(link, timeout=1.5, allow_redirects=False)
 
@@ -123,7 +133,7 @@ def possible_urls(url):
         for prefix in prefixes:
             yield prefix+url
 
-def get_domain(url):
+def get_domain(url): #Leave if ONLY used in caching
     """returns the domain of the url"""
     pattern = re.compile(r'\w{3,5}:\/\/(www\.)?|www\.')
     new_url = re.sub(pattern,'', url)
