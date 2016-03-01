@@ -12,13 +12,12 @@ with open('app/static/uri-schemes-1.csv', newline='', encoding='utf-8') as csvfi
 
 def link_detect(content):
     """ Returns a list of urls from a import string"""
-    re_link = re.compile(r'(\b(\S+[:\.@]\/\/)*([\w\d]+[@\.][a-zA-Z]+\d*([@\/\w\.\?=]+)*))', re.M)
+    re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
     links = []
-
     for link in re.findall(re_link, content):
-        if link[0] not in links:
-            links.append(link[0])
-    return links
+        if link not in links:
+            links.append(link)
+            return links
 
 def image_detect(url):
     """Determines if the url is an image. """
