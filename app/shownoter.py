@@ -17,59 +17,6 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from markdown import markdown
 
-
-def format_links_as_hash(source):
-    """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
-
-    urls = url_parser.link_detect(source) #returns links from content as list
-    links = [] #empty container that will be populated by urls that are valid
-
-    for url in urls:
-        valid_link = True 
-        # TODO: insert checks for valid links
-        
-        if url_parser.image_detect(url): #checks for image extensions on valid links
-            link = Link(is_image=True)
-            link.url = url
-
-        else: #if not image treat as a link
-            link = Link()
-
-            try:
-                link.collect_data(url)
-            except ValueError:
-                valid_link = False
-                continue
-
-        if valid_link: 
-            if not link.title:
-                link.title = link.url
-
-            entry = {
-                'url':link.url,
-                'title':link.title,
-                'markdown':link.markdown}
-            links.append(entry)
-
-    return links
-
-def format_links_as_markdown(source):
-    """ Wraps the shownoter functionality in a single function call """
-    urls = link_detect(source)
-    links = []
-
-    for url in urls:
-        if image_detect(url):
-            link = Image(url)
-        else:
-            link = Link()
-            link.collect_data(url)
-
-        links.append(link.markdown)
-
-    output = links_to_string(links)
-    return output.strip()
-
 def link_detect(site): #TODO: REMOVE
     """ Returns a list of urls from a string"""
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
@@ -155,18 +102,7 @@ def valid_link(site):
 
     raise ValueError("No valid link permutation found")
 
-class Link():
-    """Class that creates the link dictionary reference holding the site information"""
-
-    def __init__(self, is_image=False):
-        self.is_image = is_image
-        
-        if self.is_image:
-            self.title = ''
-            self.url = url
-            self.markdown = image_markdown(self.title, self.url)
-
-    def collect_data(self, site):
+    def collect_data(site):
         """ Collects the various information about the link """
 
         cached_url = mongo.retrieve_from_cache(site)
@@ -183,4 +119,40 @@ class Link():
             mongo.cache_url(self.url, self.title)
 
         self.markdown = link_markdown(self.title, self.url)
+
+def retrieve_links_from_source(source):
+    """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
+
+    potential_links = url_parser.search_for_links(source)
+    links = []
+
+    for link in potential_links:
+        links_is_valid = True 
+        # TODO: insert checks for valid links
+        
+        link = {url:'url'}
+        link['is_image'] = url_parser.image_detect(link)
+
+        if link['is_image']:
+            link['title'] = ''
+        
+        else:
+            try:
+                
+                collect_data(url)
+            except ValueError:
+                valid_link = False
+                continue
+
+        if valid_link: 
+            if not link.title:
+                link.title = link.url
+
+            entry = {
+                'url':link.url,
+                'title':link.title,
+                'markdown':link.markdown}
+            links.append(entry)
+
+    return links
 
