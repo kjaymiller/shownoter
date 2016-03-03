@@ -17,48 +17,38 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from markdown import markdown
 
-def link_detect(site): #TODO: REMOVE
+def detect_links(content): #TODO: REMOVE
     """ Returns a list of urls from a string"""
     re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
     links = []
 
-    for link in re.findall(re_link, site):
+    for results in re.findall(re_link, content):
 
-        if link not in links:
+        if link not in results:
             links.append(link)
 
     return links
 
-def get(link): 
+def possible_urls(url):
+    """ Generator that returns possible variations of a given url """
+    if re.search(r'^\w{3,5}://', url):
+        yield url
+    else:
+        prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
+
+        for prefix in prefixes:
+            yield prefix+url
+
+def request_get(link): 
     """ A wrapper around requests.get to allow for easy mocking """
     return requests.get(link, timeout=1.5, allow_redirects=False)
 
-def parse_title(content, default_title=""):
-    """Parses the title of a site from it's content"""
-    if content == None:
-        return default_title
-
-    soup =  BeautifulSoup(content, 'html.parser')
-    if soup == None or soup.title == None:
-        return default_title
-
-    title = soup.title.text
-    return title.strip()
-
-def format_link_as_markdown(title, url, is_image):
-    """Formats a generic link to a markdown list item link uses image markdown if image detected"""
-    if is_image:
-        return '* ![{}]({})'.format(title, url)
-
-    else:
-        return '* [{}]({})'.format(title, url)
-
-def request_content(site):
-    """ Returns content or raises ValueError """
+def request_content(url):
+    """ Returns content from the url provided or raises ValueError """
     success = True
 
     try:
-        request = get(site)
+        request = get(url)
     except:
         # TODO insert some logging here requests.ConnectionError (or other) being trapped.
         raise ValueError("Url not found")
@@ -70,16 +60,6 @@ def request_content(site):
         pass
 
     raise ValueError("Url not found")
-
-def possible_urls(url):
-    """ Generator that returns possible variations of a given url """
-    if re.search(r'^\w{3,5}://', url):
-        yield url
-    else:
-        prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
-
-        for prefix in prefixes:
-            yield prefix+url
 
 def valid_link(site):
     """Returns the content of a website from a url
@@ -96,26 +76,47 @@ def valid_link(site):
 
     raise ValueError("No valid link permutation found")
 
+def fetch_site_title(site_content, default_title=""):
+    """Parses the title of a site from it's content"""
+    if site_content == None: #if site returns no data
+        return default_title
+
+    soup =  BeautifulSoup(site_content, 'html.parser')
+    if soup == None or soup.title == None:
+        return default_title
+
+    title = soup.title.text
+    return title.strip()
+
+def format_link_as_markdown(title, url, is_image):
+    """Formats a generic link to a markdown list item link uses image markdown if image detected"""
+    if is_image:
+        return '* ![{}]({})'.format(title, url)
+
+    else:
+        return '* [{}]({})'.format(title, url)
+
     def fetch_data(site):
         """ Collects the various information about the link """
-            #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
-            site = valid_link(site)
-            url =  site.url
-            title = parse_title(self.site.content)
+        #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
+        site = valid_link(site)
+        url =  site.url
+        title = parse_title(self.site.content)
 
 
-def retrieve_links_from_source(source):
+def shownoter(content):
     """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
 
-    potential_links = url_parser.search_for_links(source)
+    potential_links = url_parser.search_for_links(content)
     links = []
 
     for link in potential_links:
-        links_is_valid = True 
+        link_is_valid = True 
         # TODO: insert checks for valid links
         
-        link = {url:'url'}
-        link['is_image'] = url_parser.image_detect(link)
+        link = {'url':link}
+        url = link['url']
+        link['is_image'] = url_parser.image_detect(url)
 
         if link['is_image']:
             link['title'] = ''
@@ -123,25 +124,23 @@ def retrieve_links_from_source(source):
         else:
             try:
                 
-                collect_data(url)
+               link['title'] = fetch_site_title(url)
             except ValueError:
-                valid_link = False
+                link_is_valid = False
                 continue
 
-        if valid_link: 
+        if link_is_valid: 
             if not link['title']:
                 link['title'] = link['url']
             
+            title = link['title']
             markdown = format_link_as_markdown(title=title,
                     url=url,
                     is_image=link['is_image'])
 
-            entry = {
-                'url':link.url,
-                'title':link.title,
-                'markdown':markdown}
-            
-            links.append(entry)
+            link['markdown'] = markdown
+
+            links.append(link)
 
     return links
 
