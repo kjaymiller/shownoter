@@ -45,13 +45,13 @@ def parse_title(content, default_title=""):
     title = soup.title.text
     return title.strip()
 
-def link_markdown(title, url):
-    """Formats a generic link to a markdown list item link"""
-    return '* [{}]({})'.format(title, url)
+def link_markdown(title, url, is_image):
+    """Formats a generic link to a markdown list item link uses image markdown if image detected"""
+    if is_image:
+        return '* ![{}]({})'.format(title, url)
 
-def image_markdown(title, url):
-    """Formats a link as an image"""
-    return '* ![{}]({})'.format(title, url)
+    else:
+        return '* [{}]({})'.format(title, url)
 
 def request_content(site):
     """ Returns content or raises ValueError """
