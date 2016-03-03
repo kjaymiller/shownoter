@@ -45,7 +45,7 @@ def parse_title(content, default_title=""):
     title = soup.title.text
     return title.strip()
 
-def link_markdown(title, url, is_image):
+def format_link_as_markdown(title, url, is_image):
     """Formats a generic link to a markdown list item link uses image markdown if image detected"""
     if is_image:
         return '* ![{}]({})'.format(title, url)
@@ -105,20 +105,21 @@ def valid_link(site):
     def collect_data(site):
         """ Collects the various information about the link """
 
-        cached_url = mongo.retrieve_from_cache(site)
-        
-        if cached_url:
-            self.url = cached_url['url']
-            self.title = cached_url['title']
+# commented code is not a main function of shownoter and I would like to remove it form the code base. As it would require all persons to have a cache db
 
-        else:
+#        cached_url = mongo.retrieve_from_cache(site)
+#        
+#        if cached_url:
+#            self.url = cached_url['url']
+#            self.title = cached_url['title']
+#
+#        else:
             #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
-            self.site = valid_link(site)
-            self.url =  self.site.url
-            self.title = parse_title(self.site.content)
-            mongo.cache_url(self.url, self.title)
+            site = valid_link(site)
+            url =  self.site.url
+            title = parse_title(self.site.content)
 
-        self.markdown = link_markdown(self.title, self.url)
+#        self.markdown = link_markdown(self.title, self.url)
 
 def retrieve_links_from_source(source):
     """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
@@ -145,13 +146,18 @@ def retrieve_links_from_source(source):
                 continue
 
         if valid_link: 
-            if not link.title:
-                link.title = link.url
+            if not link['title']:
+                link['title'] = link['url']
+            
+            markdown = format_link_as_markdown(title=title,
+                    url=url,
+                    is_image=link['is_image'])
 
             entry = {
                 'url':link.url,
                 'title':link.title,
-                'markdown':link.markdown}
+                'markdown':markdown}
+            
             links.append(entry)
 
     return links
