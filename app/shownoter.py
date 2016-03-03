@@ -81,12 +81,6 @@ def possible_urls(url):
         for prefix in prefixes:
             yield prefix+url
 
-def get_domain(url): #Leave if ONLY used in caching
-    """returns the domain of the url"""
-    pattern = re.compile(r'\w{3,5}:\/\/(www\.)?|www\.')
-    new_url = re.sub(pattern,'', url)
-    return new_url
-
 def valid_link(site):
     """Returns the content of a website from a url
 
@@ -102,24 +96,13 @@ def valid_link(site):
 
     raise ValueError("No valid link permutation found")
 
-    def collect_data(site):
+    def fetch_data(site):
         """ Collects the various information about the link """
-
-# commented code is not a main function of shownoter and I would like to remove it form the code base. As it would require all persons to have a cache db
-
-#        cached_url = mongo.retrieve_from_cache(site)
-#        
-#        if cached_url:
-#            self.url = cached_url['url']
-#            self.title = cached_url['title']
-#
-#        else:
             #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
             site = valid_link(site)
-            url =  self.site.url
+            url =  site.url
             title = parse_title(self.site.content)
 
-#        self.markdown = link_markdown(self.title, self.url)
 
 def retrieve_links_from_source(source):
     """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
