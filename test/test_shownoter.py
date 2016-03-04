@@ -9,40 +9,31 @@ from test_helpers import *
 
 # Test link detection
 
-def test_link_detect_finds_one_link_text():
+def test_detect_links_finds_one_link_text():
     sample_text = '''This is a test
     to see if our regex
     will find link.com
     and return it'''
-    assert shownoter.url_parser.link_detect(sample_text) == ['link.com']
+    assert shownoter.detect_links(sample_text) == ['link.com']
 
-def test_link_detect_finds_multiple_links():
+def test_detect_links_finds_multiple_links():
     sample_text = '''This is a test
     to see if our regex
     will find link.com
     and link.net
     and foo.bar
     and returns them all'''
-    assert shownoter.link_detect(sample_text) == ['link.com', 'link.net', 'foo.bar']
+    assert shownoter.detect_links(sample_text) == ['link.com', 'link.net', 'foo.bar']
 
-def test_link_detects_will_only_return_one_of_duplicates():
+def test_detect_linkss_will_only_return_one_of_duplicates():
     sample_text = '''This is a test
-    to see if our link_detect
+    to see if our detect_links
     will find link.com
     link.com
     link.com
     but only show one link.com'''
-    assert shownoter.link_detect(sample_text) == ['link.com']
+    assert shownoter.detect_links(sample_text) == ['link.com']
 # Test link object
-
-def test_link_collect_data_accepts_url(monkeypatch):
-    monkeypatch.setattr(shownoter, 'request_get', mock_get)
-
-    link = shownoter.Link()
-    link.collect_data('http://link.com')
-    assert 'http://link.com' == link.url
-
-# Test fetch_site_title
 
 def test_title_is_parsed(content):
     title = shownoter.fetch_site_title(content)
@@ -196,13 +187,6 @@ def test_link_markdown():
     title = 'Test'
     assert '[Test](link.com)' in shownoter.format_link_as_markdown(title, link, False)
 
-def test_image_markdown():
-    link = 'link.png'
-    title = ''
-    assert '![](link.png)' in shownoter.format_links_as_markdown(title, link, True)
-
-# Test formatting functions
-
 def test_shownoter_returns_a_list_of_three_element_hashes(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_get)
 
@@ -211,7 +195,7 @@ def test_shownoter_returns_a_list_of_three_element_hashes(monkeypatch):
     assert 1 == len(results)
     assert "* [Test](http://link.com)" == results[0]["markdown"]
     assert "Test" == results[0]["title"]
-    assert "http://link.com" == results[0]["url"]
+    assert "link.com" == results[0]["url"]
 
 def test_shownoter_excludes_invalid_links(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_not_found)
@@ -226,7 +210,7 @@ def test_format_links_with_default_title_if_title_not_found(monkeypatch):
     text = "link.com"
     results = shownoter.shownoter(text)
     assert 1 == len(results)
-    assert "http://link.com" == results[0]["title"]
+    assert "link.com" == results[0]["title"]
 
 def test_maintains_case(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_get)

@@ -1,7 +1,7 @@
-""" 
-The shownoter module contains the core Shownoter functionality 
+"""
+The shownoter module contains the core Shownoter functionality
 
-WARNING: Shownoter.py is undergoing a refactoring. Please do not add any new code until the refactoring has been completed. 
+WARNING: Shownoter.py is undergoing a refactoring. Please do not add any new code until the refactoring has been completed.
 
 For information on refactoring: please see Trello board at https://trello.com/c/1YXgQUOq/117-refactor-shownoter-py
 """
@@ -24,8 +24,8 @@ def detect_links(content): #TODO: REMOVE
 
     for results in re.findall(re_link, content):
 
-        if link not in results:
-            links.append(link)
+        if results not in links:
+            links.append(results)
 
     return links
 
@@ -39,7 +39,7 @@ def possible_urls(url):
         for prefix in prefixes:
             yield prefix+url
 
-def request_get(link): 
+def request_get(link):
     """ A wrapper around requests.get to allow for easy mocking """
     return requests.get(link, timeout=1.5, allow_redirects=False)
 
@@ -48,7 +48,7 @@ def request_content(url):
     success = True
 
     try:
-        request = get(url)
+        request = request_get(url)
     except:
         # TODO insert some logging here requests.ConnectionError (or other) being trapped.
         raise ValueError("Url not found")
@@ -60,6 +60,7 @@ def request_content(url):
         pass
 
     raise ValueError("Url not found")
+
 
 def valid_link(site):
     """Returns the content of a website from a url
@@ -96,13 +97,13 @@ def format_link_as_markdown(title, url, is_image):
     else:
         return '* [{}]({})'.format(title, url)
 
-    def fetch_data(site):
-        """ Collects the various information about the link """
-        #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
-        site = valid_link(site)
-        url =  site.url
-        title = parse_title(self.site.content)
-
+def fetch_data(site):
+    """ Collects the various information about the link """
+    #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
+    site = valid_link(site)
+    url =  site.url
+    title = fetch_site_title(site.content)
+    return (site, url, title)
 
 def shownoter(content):
     """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
@@ -111,28 +112,28 @@ def shownoter(content):
     links = []
 
     for link in potential_links:
-        link_is_valid = True 
+        link_is_valid = True
         # TODO: insert checks for valid links
-        
+
         link = {'url':link}
         url = link['url']
         link['is_image'] = url_parser.image_detect(url)
 
         if link['is_image']:
             link['title'] = ''
-        
+
         else:
             try:
-                
-               link['title'] = fetch_site_title(url)
+                site, url, title = fetch_data(url)
+                link['title'] =  title
             except ValueError:
                 link_is_valid = False
                 continue
 
-        if link_is_valid: 
+        if link_is_valid:
             if not link['title']:
                 link['title'] = link['url']
-            
+
             title = link['title']
             markdown = format_link_as_markdown(title=title,
                     url=url,
