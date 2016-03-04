@@ -17,7 +17,7 @@
 <div id="links_detected">
     <h2>Links Detected</h2>
     {% for link in links %} 
-    {% if not link['title'] %}
+    {% if link['is_image'] %}
     <a href="{{link['url']}}" target="_blank">Click Here to View Image</a>
     {% else %}
     <a href="{{link['url']}}" target="_blank">{{link['title']}}</a>
