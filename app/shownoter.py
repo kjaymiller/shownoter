@@ -96,14 +96,6 @@ def format_link_as_markdown(title, url, is_image):
     else:
         return '* [{}]({})'.format(title, url)
 
-    def fetch_data(site):
-        """ Collects the various information about the link """
-        #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
-        site = valid_link(site)
-        url =  site.url
-        title = parse_title(self.site.content)
-
-
 def shownoter(content):
     """wrapper around shownoter functionality. This creates a dictionary values of the Link/Image class"""
 
