@@ -22,16 +22,12 @@ def append_to_entry(id, entry):
     return result
 
 
-def retrieve(id):
+def retrieve_from_db(value, collection, field="_id"):
     """fetches results in database"""
-    result = shownotes_coll.find_one({'_id': ObjectId(id)})
-    return result
+    if field == "_id":  # checks for id to return ObjectId
+        value = ObjectId(value)
 
-
-def retrieve_from_cache(url):
-    """looks for links in the caching database"""
-    domain = get_domain(url)
-    result = links_coll.find_one({'domain': domain})
+    result = shownotes_coll.find_one({field: value})
     return result
 
 
