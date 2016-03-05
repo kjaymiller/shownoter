@@ -44,14 +44,14 @@ def index():
         links = shownoter(chat_text)
         link_id = mongo.create_entry(links=links, date=datetime.utcnow())
         return redirect(url_for('get_links', id=link_id))
-        
-    #Retrieves the Stats for the frontpage    
+
+    #Retrieves the Stats for the frontpage
     stats = {
             'total_shownotes':mongo.count_entries(mongo.shownotes_coll),
             'total_links':mongo.count_entries(mongo.links_coll),
             'last_five':[(result['title'],result['_id']) for result in mongo.last_five()]
             }
-        
+
     return render_template('index.html', form=form, stats = stats)
 
 @app.route('/links/<id>', methods=['GET', 'POST'])
