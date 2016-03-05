@@ -14,6 +14,7 @@ import requests
 
 from app import url_parser
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 def detect_links(content):  # TODO: REMOVE
@@ -147,7 +148,7 @@ def shownoter(content):
                                                is_image=link['is_image'])
 
             link['markdown'] = markdown
-
+            link['created'] = datetime.utcnow()
             links.append(link)
 
     return links
