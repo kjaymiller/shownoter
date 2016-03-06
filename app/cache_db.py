@@ -1,5 +1,6 @@
 import re
 from app.mongo import retrieve_from_db
+from app.mongo import create_entry
 from app.mongo import links_coll
 
 
@@ -18,4 +19,10 @@ def retreive_from_cache_db(url):
     db_entry = retrieve_from_db(value=base_url,
                                 collection=links_coll,
                                 field="domain")
-    return db_entry if db_entry else False
+
+    return db_entry
+
+
+def insert_to_cache_db(db_entry):
+    """wrapper that adds entry to link_cache database"""
+    return create_entry(value=db_entry, collection=links_coll)
