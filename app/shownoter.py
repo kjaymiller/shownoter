@@ -112,43 +112,37 @@ def fetch_data(site):
     return (site, url, title)
 
 
-def shownoter(content):
-    """wrapper around shownoter functionality. This creates a dictionary
-    values of the Link/Image class"""
+def prep_link(url):
+    link_is_valid = True
+    url = valid_link(url).url
+    link = {'url': url}
+    url = link['url']
+    link['is_image'] = url_parser.image_detect(url)
 
-    potential_links = url_parser.search_for_links(content)
-    links = []
+    if link['is_image']:
+        link['title'] = ''
 
-    for link in potential_links:
-        link_is_valid = True
-        # TODO: insert checks for valid links
+    else:
+        try:
+            site, url, title = fetch_data(url)
+            link['title'] = title
 
-        link = {'url': link}
-        url = link['url']
-        link['is_image'] = url_parser.image_detect(url)
+        except ValueError:
+            link_is_valid = False
 
-        if link['is_image']:
-            link['title'] = ''
+    if link_is_valid:
+        if not link['title']:
+            link['title'] = link['url']
 
-        else:
-            try:
-                site, url, title = fetch_data(url)
-                link['title'] = title
-            except ValueError:
-                link_is_valid = False
-                continue
+        title = link['title']
+        markdown = format_link_as_markdown(title=title,
+                                           url=url,
+                                           is_image=link['is_image'])
 
-        if link_is_valid:
-            if not link['title']:
-                link['title'] = link['url']
+        link['markdown'] = markdown
+        link['created'] = datetime.utcnow()
+    return link
 
-            title = link['title']
-            markdown = format_link_as_markdown(title=title,
-                                               url=url,
-                                               is_image=link['is_image'])
 
-            link['markdown'] = markdown
-            link['created'] = datetime.utcnow()
-            links.append(link)
-
-    return links
+def check_link_validity(url):
+    return True
