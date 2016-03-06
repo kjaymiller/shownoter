@@ -191,7 +191,7 @@ def test_shownoter_returns_a_list_of_three_element_hashes(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_get)
 
     text = "link.com"
-    results = shownoter.shownoter(text)
+    results = shownoter.prep_link(text)
     assert 1 == len(results)
     assert "* [Test](http://link.com)" == results[0]["markdown"]
     assert "Test" == results[0]["title"]
@@ -201,29 +201,35 @@ def test_shownoter_excludes_invalid_links(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_not_found)
 
     text = "link.com"
-    results = shownoter.shownoter(text)
-    assert 0 == len(results)
+    results = shownoter.prep_link(text)
+    assert not results
 
 def test_format_links_with_default_title_if_title_not_found(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_get_without_title)
 
     text = "link.com"
-    results = shownoter.shownoter(text)
-    assert 1 == len(results)
-    assert "link.com" == results[0]["title"]
+    results = shownoter.prep_link(text)
+    assert "link.com" == results["title"]
+
 
 def test_maintains_case(monkeypatch):
     monkeypatch.setattr(shownoter, 'request_get', mock_get)
 
     text = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    results = shownoter.shownoter(text)
-    assert 1 == len(results)
-    assert "* [Test](https://www.youtube.com/watch?v=dQw4w9WgXcQ)" == results[0]["markdown"]
-    assert "Test" == results[0]["title"]
-    assert "https://www.youtube.com/watch?v=dQw4w9WgXcQ" == results[0]["url"]
+    results = shownoter.prep_link(text)
+    assert results
+    assert "* [Test](https://www.youtube.com/watch?v=dQw4w9WgXcQ)" == results["markdown"]
+    assert "Test" == results["title"]
+    assert "https://www.youtube.com/watch?v=dQw4w9WgXcQ" == results["url"]
+
 
 def test_remove_url_scheme():
-    urls = ['http://foo.com', 'http://www.foo.com', 'https://foo.com', 'ftp://foo.com', 'www.foo.com']
+    urls = ['http://foo.com',
+            'http://www.foo.com',
+            'https://foo.com',
+            'ftp://foo.com',
+            'www.foo.com']
+
     for url in urls:
         assert cache_db.remove_url_scheme(url) == 'foo.com'
 

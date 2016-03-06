@@ -37,8 +37,10 @@ def shownoter_wrapper(content):
 
         elif shownoter.check_link_validity(url):
             link = shownoter.prep_link(url)
-            insert_to_cache_db(link)
-            links.append(link)
+
+            if link:
+                insert_to_cache_db(link)
+                links.append(link)
 
         else:
             continue
