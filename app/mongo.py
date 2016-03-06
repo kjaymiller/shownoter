@@ -10,7 +10,7 @@ links_coll = db.link_cache
 
 def create_entry(value, collection):
     """Adds new link to database"""
-    result = collection.insert_one({value})
+    result = collection.insert_one(value)
     return result.inserted_id
 
 

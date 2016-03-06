@@ -13,7 +13,7 @@ def remove_url_scheme(url):
     return new_url
 
 
-def retreive_from_cache_db(url):
+def retrieve_from_cache_db(url):
     """checks links_coll for entries returns url_entry in True or False"""
     base_url = remove_url_scheme(url)
     db_entry = retrieve_from_db(value=base_url,
