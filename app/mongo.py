@@ -8,9 +8,9 @@ shownotes_coll = db.shownotes
 links_coll = db.link_cache
 
 
-def create_entry(links, date):
+def create_entry(value, collection):
     """Adds new link to database"""
-    result = shownotes_coll.insert_one({'links': links, 'date': date})
+    result = collection.insert_one({value})
     return result.inserted_id
 
 

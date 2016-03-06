@@ -42,6 +42,7 @@ def index():
             return render_template('index.html', form=form)
 
         links = shownoter(chat_text)
+
         link_id = mongo.create_entry(links=links, date=datetime.utcnow())
         return redirect(url_for('get_links', id=link_id))
 
