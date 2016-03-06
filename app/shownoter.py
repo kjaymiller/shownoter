@@ -141,8 +141,10 @@ def prep_link(url):
 
         link['markdown'] = markdown
         link['created'] = datetime.utcnow()
-    return link
+        return link
 
+    else:
+        return None
 
 def check_link_validity(url):
     return True
