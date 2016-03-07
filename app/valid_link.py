@@ -33,19 +33,35 @@ def detect_img_in_html(img_tag):
         return False
 
 
-def detect_url_from_html(a_tag):
+def detect_url_from_href(a_tag):
+    url = re.search(r"""href=["'](?P<url>\S+)["']""", a_tag)
+    return url.group('url') if url else None
+
+
+def detect_title_from_a_tag(a_tag):
+    title = re.search(r'<a.+>(?P<title>.*)</a>', a_tag)
+    return title.group('title') if title else None
+
+
+def detect_url_from_img(img_tag):
+    url = re.search(r"""src=["'](?P<url>\S+)["']""", img_tag)
+    return url.group('url') if url else None
+
+
+def detect_title_from_img(img_tag):
+    title = re.search(r"""alt=["'](?P<title>.+)["']""", img_tag)
+    return title.group('title') if title else None
+
+
+def render_link_from_html(a_tag):
     if detect_a_in_html(a_tag):
-        url = re.search(r"""href=["'](?P<url>\S+)["']""", a_tag)
-        return url.group('url')
+        url = detect_url_from_href(a_tag)
+        title = detect_title_from_a_tag(a_tag)
 
-    else:
-        return None
-
-
-def detect_a_title_in_html(a_tag):
-    if detect_a_in_html(a_tag):
-        title = re.search(r'<a.+>(?P<title>.+)</a>', a_tag)
-        return title.group('title')
-
+        if url:
+            return {
+                'url': url,
+                'title': title
+                }
     else:
         return None
