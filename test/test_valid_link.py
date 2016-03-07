@@ -20,19 +20,40 @@ def test_actual_url_return_true():
 
 
 @pytest.fixture
-def good_test():
-    test_var = 'http://link.com'
+def good_link():
+    test_var = '<a href="http://link.com">some title</a>'
     return test_var
 
 
-def test_link_extracted_from_html(good_test):
-    """tests if a link can be found in an html link handler"""
-    href = '<a href="{}">some value</a>'.format(good_test)
-    assert valid_link.extract_from_html(href) == {
-                                                'url': good_test,
-                                                'title': 'some value'
-                                                }
+@pytest.fixture
+def good_image():
+    test_var = '<img src="image.jpg" alt="some title">'
+    return test_var
 
-def test_link_extracted_from_mkdown(good_test):
-    """test if a link can be found in a markdown url handler"""
-    pass
+
+def test_not_a_detected_returns_false(good_image):
+    assert not valid_link.detect_a_in_html(good_image)
+
+
+def test_a_detected(good_link):
+    assert valid_link.detect_a_in_html(good_link)
+
+
+def test_img_detected(good_image):
+    assert valid_link.detect_img_in_html(good_image)
+
+
+def test_fetch_url_from_html(good_link):
+    assert valid_link.detect_url_from_html(good_link) == 'http://link.com'
+
+
+def test_fetch_url_returns_None_if_no_url():
+    assert valid_link.detect_url_from_html(good_image) == None
+
+
+def test_fetch_title_from_html(good_link):
+    assert valid_link.detect_a_title_in_html(good_link) == 'some title'
+
+
+def test_fetch_title_returns_None_if_no_url():
+    assert valid_link.detect_a_title_in_html(good_image) == None
