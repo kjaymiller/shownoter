@@ -9,8 +9,8 @@ from app.mongo import append_to_entry, last_five
 
 from app import shownoter
 from app import url_parser
+from app.views_helper import shownoter_wrapper
 
-from app.cache_db import retrieve_from_cache_db, insert_to_cache_db
 from app.forms import TextInput, DescInput
 
 from datetime import datetime
@@ -20,29 +20,7 @@ from flask import flash
 from flask import request
 from flask import make_response
 
-def shownoter_wrapper(content):
-    """wrapper around shownoter functionality. This creates a dictionary
-    values of the Link/Image class"""
-
-    potential_links = url_parser.search_for_links(content)
-    links = []
-
-    for url in potential_links:
-        cached_link = retrieve_from_cache_db(url)
-        if cached_link:
-            links.append(cached_link)
-
-        elif shownoter.check_link_validity(url):
-            link = shownoter.prep_link(url)
-
-            if link:
-                insert_to_cache_db(link)
-                links.append(link)
-
-        else:
-            continue
-
-    return links
+from markdown import markdown
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -94,7 +72,9 @@ def get_links(id):
     """This page is where the Title and Description are added"""
 
     form = DescInput()
-    links = [link for link in retrieve_from_db(value=id, collection=shownotes_coll)['links']]
+    links = [link for link in retrieve_from_db(value=id,
+                                               collection=shownotes_coll
+                                               )['links']]
 
     if form.validate_on_submit():
         title = form.title.data
