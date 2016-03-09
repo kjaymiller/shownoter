@@ -41,17 +41,13 @@ The following setion outlines the requirements for running shownoter.
 
 Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
 
-* Python 3
-* MongoDB
+* Python 3 
 
-### Config.py
+### MongoDB
+This version of shownoter is built using `MONGODB`.
+To install MongoDB please follow the instructions found at https://docs.mongodb.org/manual/installation/
 
-In order for shownotes to function you will need to create a file called config.py.  This will contain a secret key that is not stored in the repo.  You will generate this key and add it to the file.  Here is a template for the file
-
-```
-WTF_CSRF_ENABLED = True
-SECRET_KEY = '<insert your key here>'
-```
+You will also need a interpretor for mongo in python. This module uses `[pymongo](http://api.mongodb.org/python/current/)`
 
 ### Python modules
 
