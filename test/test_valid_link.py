@@ -97,7 +97,7 @@ def test_render_link_object_from_html_returns_None_if_no_url():
     assert valid_link.render_link_from_html(missing_url) == None
 
 
-def test_render_link_object_from_html_reutrns_empty_string_if_no_title():
+def test_render_link_object_from_html_returns_empty_string_if_no_title():
     """tests in function will complete but return title empty
     if there is no title"""
 
@@ -106,3 +106,26 @@ def test_render_link_object_from_html_reutrns_empty_string_if_no_title():
                                                     'url': 'http://link.com',
                                                     'title': ''
                                                     }
+
+
+@pytest.fixture
+def good_mkdown_link():
+    return '[some title](http://link.com)'
+
+
+@pytest.fixture
+def good_mkdown_image():
+    return '![some title](http://link.com)'
+
+
+def test_detect_markdown(good_mkdown_link):
+    """Tests wether the markdown is detected in the string."""
+    assert valid_link.detect_markdown(good_mkdown_link) == good_mkdown_link
+
+
+def test_markdown_link_or_image_detects_link(good_mkdown_link):
+    assert valid_link.markdown_link_or_image(good_mkdown_link) == 'link'
+
+
+def test_markdown_link_or_image_detects_images(good_mkdown_image):
+    assert valid_link.markdown_link_or_image(good_mkdown_image) == 'image'

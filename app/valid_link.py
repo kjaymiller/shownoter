@@ -65,3 +65,21 @@ def render_link_from_html(a_tag):
                 }
     else:
         return None
+
+
+def detect_markdown(content):
+    """function content a single line """
+
+    link = re.search(r'!*\[.*\]\(.+\)', content)
+    if link:
+        return link.group()
+    else:
+        return None
+
+
+def markdown_link_or_image(content):
+    if detect_markdown(content):
+        if content[0] == '!':
+            return 'image'
+        else:
+            return 'link'
