@@ -3,7 +3,6 @@ Flask==0.10.1
 Flask-WTF==0.12
 itsdangerous==0.24
 Jinja2==2.8
-Markdown==2.6.4
 MarkupSafe==0.23
 py==1.4.31
 pymongo==3.1

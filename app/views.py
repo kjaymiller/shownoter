@@ -20,9 +20,6 @@ from flask import flash
 from flask import request
 from flask import make_response
 
-from markdown import markdown
-
-
 def shownoter_wrapper(content):
     """wrapper around shownoter functionality. This creates a dictionary
     values of the Link/Image class"""
