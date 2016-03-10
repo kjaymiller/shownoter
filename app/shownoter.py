@@ -6,7 +6,7 @@ The shownoter module contains the core Shownoter functionality
 import re
 import requests
 
-from app import url_parser
+from app.validations import url_parser
 from bs4 import BeautifulSoup
 from datetime import datetime
 

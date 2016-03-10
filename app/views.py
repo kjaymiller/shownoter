@@ -7,8 +7,6 @@ from app.mongo import shownotes_coll, links_coll
 from app.mongo import retrieve_from_db, create_entry, count_entries
 from app.mongo import append_to_entry, last_five
 
-from app import shownoter
-from app import url_parser
 from app.views_helper import shownoter_wrapper
 
 from app.forms import TextInput, DescInput

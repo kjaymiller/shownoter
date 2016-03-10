@@ -27,7 +27,7 @@ def retrieve_from_db(value, collection, field="_id"):
     if field == "_id":  # checks for id to return ObjectId
         value = ObjectId(value)
 
-    result = shownotes_coll.find_one({field: value})
+    result = collection.find_one({field: value})
     return result
 
 
