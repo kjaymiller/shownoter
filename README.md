@@ -35,82 +35,9 @@ Shownoter will take the chat above and output a formatted list with descriptions
 Shownoter is Licensed Under the Apache License, Version 2.0.
 Please visit http://www.apache.org/licenses/LICENSE-2.0.html for more information.
 
-## Logging Issues
-Please log any Shownoter issues [on the Trello board](https://trello.com/b/jlyUZ0ml/shownoter)
-
-### DNS forwarding
-Some ISPs will redirect invalid urls to a page that states that the url was not found along with other content.  This can affect the results that shownoter returns.
-
-Shownoter gathers the page title from the content of a page using the requests module.  If it performs a request and gets a result with a status code other than success (200) it will ignore the link considering it invalid.
-
-If you are receiving inconsistant results you may want to check to see if this is causing the issue.
-
-## Requirements
-
-The following setion outlines the requirements for running shownoter.
-
-Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
-
-* Python 3
-* MongoDB
-
-### Config.py
-
-In order for shownotes to function you will need to create a file called config.py.  This will contain a secret key that is not stored in the repo.  You will generate this key and add it to the file.  Here is a template for the file
-
-```
-WTF_CSRF_ENABLED = True
-SECRET_KEY = '<insert your key here>'
-```
-
 ### Python modules
 
 Requirements to run Shownoter are stored in the file requirements.txt.  To install the required modules needed to run Shownoter perform the following command.
 
 ```pip install -r requirements.txt```
 
-### Development requirements
-
-If you plan on developing Shownoter there are some additional requirements needed to do things like running tests.  These are stored in the file dev-requirements.txt.  You can install these with the following command:
-
-```pip install -r dev-requirements.txt```
-
-## Testing
-
-Shownoter uses automated tests to monitor and ensure the health of the project. Below are the ways to run the different sorts of tests for Shownoter.
-
-### Test setup
-
-Before running the tests you will need to install the dev-requirements as outlined above.  Additionally, you will need to install the module in editable mode: ```pip install -e .```
-
-### Running unit tests
-
-To run unit tests, use the following command:
-
-```python -m pytest test```
-
-### Running functional tests
-
-To run functional tests, use the following command:
-
-```python -m pytest functional```
-
-### Running both unit and functional tests
-
-The previous two commands can be combined, this is recommended when preparing for a pull request, but as functional tests take longer is not recommended during the normal TDD cycle.
-
-```python -m pytest test functional```
-
-### Running the linter
-
-Linters do static analysis to find potential issues or style problems in the code.  To run the linter use the following command:
-
-```python -m pylint app```
-
-### Testing coverage
-
-Test coverage can be determined using the pytest-cov plugin.  Use it as follows:
-
-```
-python -m pytest --cov-report term-missing --cov=app test/test_shownoter.py
-```
