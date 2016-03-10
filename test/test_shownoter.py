@@ -233,3 +233,7 @@ def test_remove_url_scheme():
     for url in urls:
         assert cache_db.remove_url_scheme(url) == 'foo.com'
 
+
+def test_link_in_markdown_detected():
+    mkdown = '[some title](google.com)'
+    assert shownoter.detect_links(mkdown) == '[some title](google.com)'
