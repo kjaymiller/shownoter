@@ -1,5 +1,5 @@
 import pytest
-from validations import url_parser, valid_link, valid_markdown, valid_html
+from app.validations import url_parser, valid_link, valid_markdown, valid_html
 
 
 # url_parser_tests

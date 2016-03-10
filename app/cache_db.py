@@ -18,11 +18,19 @@ def retrieve_from_cache_db(url):
     base_url = remove_url_scheme(url)
     db_entry = retrieve_from_db(value=base_url,
                                 collection=links_coll,
-                                field="domain")
+                                field="base_url")
 
-    return db_entry
+    if db_entry is not None:
+        return db_entry
+
+    else:
+        return retrieve_from_db(value=base_url+'/',
+                                collection=links_coll,
+                                field="base_url")
 
 
 def insert_to_cache_db(db_entry):
     """wrapper that adds entry to link_cache database"""
+    base_url = remove_url_scheme(db_entry['url'])
+    db_entry['base_url'] = base_url
     return create_entry(value=db_entry, collection=links_coll)
