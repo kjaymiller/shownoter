@@ -6,6 +6,7 @@ class TextInput(Form):
     chat_input = TextAreaField('text_input')
     file_input = FileField('file_input')
     markdown_mode = BooleanField('markdown_mode')
+    bypass_title_description = BooleanField('bypass_title_description')
 
 
 class DescInput(Form):
