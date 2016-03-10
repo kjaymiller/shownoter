@@ -35,9 +35,3 @@ Shownoter will take the chat above and output a formatted list with descriptions
 Shownoter is Licensed Under the Apache License, Version 2.0.
 Please visit http://www.apache.org/licenses/LICENSE-2.0.html for more information.
 
-### Python modules
-
-Requirements to run Shownoter are stored in the file requirements.txt.  To install the required modules needed to run Shownoter perform the following command.
-
-```pip install -r requirements.txt```
-
