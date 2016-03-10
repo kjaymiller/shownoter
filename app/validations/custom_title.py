@@ -1,8 +1,8 @@
 """Detect Links and Title Using Common Separators"""
-separtators = [' - ', '- ', ' -', ':']
+separtators = [' - ', '- ', ' -', ' : ', ': ']
 
 
-def detect_custom_title(content, separators=separtators):
+def detect_link(content, separators=separtators):
 
     for separator in separators:
         separated_string = content.split(separator, 1)
@@ -14,3 +14,5 @@ def detect_custom_title(content, separators=separtators):
 
         else:
             continue
+
+    return None
