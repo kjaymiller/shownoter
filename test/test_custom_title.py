@@ -18,3 +18,19 @@ def test_detect_custom_title_finds_title(dash):
 
 def test_detect_custom_title_returns_None_if_no_space_dash(dash):
     assert custom_title.detect_custom_title('this should return None') == None
+
+
+def test_detect_custom_title_finds_dash_left_space():
+    assert custom_title.detect_custom_title('Some Value -link.com')
+
+
+def test_detect_custom_title_finds_dash_right_space():
+    assert custom_title.detect_custom_title('Some Value- link.com')
+
+
+def test_detect_custom_title_finds_colon():
+    assert custom_title.detect_custom_title('Some Value:link.com')
+
+
+def test_detect_custom_title_finds_colon_left_space():
+    assert custom_title.detect_custom_title('Some Value: link.com')
