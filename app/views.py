@@ -50,7 +50,18 @@ def index():
                                     'created': datetime.utcnow()
                                     }, collection=shownotes_coll)
 
-        return redirect(url_for('get_links', id=link_id))
+        if form.bypass_title_description:
+            title = 'Untitled Shownotes'
+
+            entry = {
+                'title': title,
+                'description': ''
+                }
+            append_to_entry(link_id, entry)
+            return redirect(url_for('results', id=link_id))
+
+        else:
+            return redirect(url_for('get_links', id=link_id))
 
     # Retrieves the Stats for the frontpage
     stats = {
@@ -77,7 +88,7 @@ def get_links(id):
     if form.validate_on_submit():
         title = form.title.data
         if not title:
-            title = 'Untitled Shownotes'
+            title = 'untitled shownotes'
 
         entry = {
                 'title': title,
