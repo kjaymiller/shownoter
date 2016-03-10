@@ -1,11 +1,5 @@
 """
 The shownoter module contains the core Shownoter functionality
-
-WARNING: Shownoter.py is undergoing a refactoring. Please do not add any new
-code until the refactoring has been completed.
-
-For information on refactoring: please see Trello board at
-https://trello.com/c/1YXgQUOq/117-refactor-shownoter-py
 """
 
 
@@ -15,19 +9,6 @@ import requests
 from app import url_parser
 from bs4 import BeautifulSoup
 from datetime import datetime
-
-
-def detect_links(content):  # TODO: REMOVE
-    """ Returns a list of urls from a string"""
-    re_link = re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
-    links = []
-
-    for results in re.findall(re_link, content):
-
-        if results not in links:
-            links.append(results)
-
-    return links
 
 
 def possible_urls(url):
@@ -145,6 +126,7 @@ def prep_link(url):
 
     else:
         return None
+
 
 def check_link_validity(url):
     return True
