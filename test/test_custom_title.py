@@ -4,33 +4,32 @@ from app.validations import custom_title
 
 
 @pytest.fixture
-def dash():
-    return "Some Value - link.com"
+def detected_items():
+    correct_result = {
+        'url': 'link.com',
+        'title': 'Some Value'}
+    return correct_result
 
 
-def test_detect_custom_title_finds_url(dash):
-    assert custom_title.detect_custom_title(dash)['url'] == 'link.com'
+def test_detect_custom_link_finds_url(detected_items):
+    assert custom_title.detect_link('Some Value - link.com') == detected_items
 
 
-def test_detect_custom_title_finds_title(dash):
-    assert custom_title.detect_custom_title(dash)['title'] == 'Some Value'
+def test_detect_custom_link_returns_None_if_no_space_dash():
+    assert custom_title.detect_link('this should return None') == None
 
 
-def test_detect_custom_title_returns_None_if_no_space_dash(dash):
-    assert custom_title.detect_custom_title('this should return None') == None
+def test_detect_custom_title_finds_dash_left_space(detected_items):
+    assert custom_title.detect_link('Some Value -link.com') == detected_items
 
 
-def test_detect_custom_title_finds_dash_left_space():
-    assert custom_title.detect_custom_title('Some Value -link.com')
+def test_detect_custom_title_finds_dash_right_space(detected_items):
+    assert custom_title.detect_link('Some Value- link.com') == detected_items
 
 
-def test_detect_custom_title_finds_dash_right_space():
-    assert custom_title.detect_custom_title('Some Value- link.com')
+def test_detect_custom_title_finds_colon(detected_items):
+    assert custom_title.detect_link('Some Value : link.com') == detected_items
 
 
-def test_detect_custom_title_finds_colon():
-    assert custom_title.detect_custom_title('Some Value:link.com')
-
-
-def test_detect_custom_title_finds_colon_left_space():
-    assert custom_title.detect_custom_title('Some Value: link.com')
+def test_detect_custom_title_finds_colon_left_space(detected_items):
+    assert custom_title.detect_link('Some Value: link.com') == detected_items
