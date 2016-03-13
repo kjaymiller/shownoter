@@ -5,7 +5,7 @@ from wtforms import TextAreaField, FileField, StringField, BooleanField
 class TextInput(Form):
     chat_input = TextAreaField('text_input')
     file_input = FileField('file_input')
-    markdown_mode = BooleanField('markdown_mode')
+    custom_title = BooleanField('custom_input')
     bypass_title_description = BooleanField('bypass_title_description')
 
 

@@ -1,26 +1,14 @@
 import re
 
 
-def get_potential_links(content):
+def get_potential_link(content):
     """ Parses through content
     returns a list of  all "weak matches" of registry."""
 
-    potential_links = []
     weak_re_match = re.compile(r'\S+\.\S+')
 
-    for line in content.split('\n'):
-        result = re.search(weak_re_match, line)
-
-        if result:
-
-            if result.group() not in potential_links:
-                potential_links.append(result.group())
-
-        else:
-            continue
-
-    return potential_links
-    return
+    results = re.findall(weak_re_match, content)
+    return results
 
 
 def image_detect(url):

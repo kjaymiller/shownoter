@@ -43,7 +43,9 @@ def index():
             flash('no chat detected')
             return render_template('index.html', form=form)
 
-        links = shownoter_wrapper(chat_text)
+        custom_title = form.custom_title.data
+        links = shownoter_wrapper(chat_text,
+                                  custom_title_enabled=custom_title)
 
         link_id = create_entry(value={
                                     'links': links,
