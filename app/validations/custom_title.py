@@ -1,18 +1,16 @@
 """Detect Links and Title Using Common Separators"""
-separtators = [' - ', '- ', ' -', ' : ', ': ']
+import re
 
 
-def detect_link(content, separators=separtators):
+def detect_link(content):
+    search_param = re.compile(r"""[*\-\ ]*
+                            (?P<title>.+[^\ ])
+                            (\ *[:\-]\ *)
+                            (?P<url>\S+)""", re.X)
+    entry = re.match(search_param, content)
 
-    for separator in separators:
-        separated_string = content.split(separator, 1)
+    if entry:
+        return entry.groupdict()
 
-        if len(separated_string) == 2:
-            result = {'title': separated_string[0],
-                      'url': separated_string[1]}
-            return result
-
-        else:
-            continue
-
-    return None
+    else:
+        return None
