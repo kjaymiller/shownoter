@@ -4,8 +4,8 @@ import re
 
 def detect_link(content):
     search_param = re.compile(r"""[*\-\ ]*
-                            (?P<title>.+[^\ ])
-                            (\ *[:\-]\ *)
+                            (?P<title>.+[^\ \-])
+                            (\ ?[:\-]?\ )
                             (?P<url>\S+)""", re.X)
     entry = re.match(search_param, content)
 

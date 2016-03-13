@@ -24,7 +24,7 @@ def possible_urls(url):
 
 def request_get(link):
     """ A wrapper around requests.get to allow for easy mocking """
-    return requests.get(link, timeout=1.5, allow_redirects=False)
+    return requests.get(link, timeout=2.0, allow_redirects=False)
 
 
 def request_content(url):
