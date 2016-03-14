@@ -84,5 +84,5 @@ The first step in running shownoter is to start the application and the dbengine
   >  `python run.py`
 
 - To start the mongoDB engine, you will need to run `mongod` located in `./bin/` in your Mongo directory.
-    - you can also specify your dbpath by using the -flag `--dbpath <location>`
-    > `<path-to-mongo-dir>/mongod --dbpath <desired db location>`
+    you can also specify your dbpath by using `--dbpath <location>`
+    -  `<path-to-mongo-dir>/mongod --dbpath <desired db location>`
