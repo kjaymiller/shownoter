@@ -60,16 +60,17 @@ Here is a quick getting started guide. For more information be sure to check out
 
 * Create and Activate Virtualenv 
 > `python -m venv <environment name>`
+
 > `. bin/activate`
 
 * Install Requirements
 Requirements to run Shownoter are stored in the file `requirements.txt`.  To install the required modules needed to run Shownoter perform the following command.
 
-```pip install -r requirements.txt```
+> ```pip install -r requirements.txt```
 
 If you plan on developing Shownoter there are some additional requirements needed to do things like running tests.  These are stored in the file dev-requirements.txt.  You can install these with the following command:
 
-```pip install -r dev-requirements.txt```
+> ```pip install -r dev-requirements.txt```
 
 * Modify config.py File
 A `config.py` file has been included however you should provide your own secret key. 
@@ -79,8 +80,8 @@ A `config.py` file has been included however you should provide your own secret 
 The first step in running shownoter is to start the application and the dbengine. 
 
 - To start shownoter, simply run the `run.py` file.
-    `python run.py`
+  >  `python run.py`
 
 - To start the mongoDB engine, you will need to run `mongod` located in `./bin/` in your Mongo directory.
     - you can also specify your dbpath by using the -flag `--dbpath <location>`
-    > `<path-to-mongo-dir>/mongod --dbpath <desired db location>
+    > `<path-to-mongo-dir>/mongod --dbpath <desired db location>`
