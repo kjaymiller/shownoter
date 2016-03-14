@@ -12,7 +12,7 @@ from app.views_helper import shownoter_wrapper
 from app.forms import TextInput, DescInput, LoginForm
 
 from datetime import datetime
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, session
 from flask import Markup
 from flask import flash
 from flask import request
@@ -158,6 +158,14 @@ def login():
             flash('Invalid Credentials! Please Try Again')
 
         else:
+            session['logged_in'] = True
             return redirect(url_for('index'))
 
     return render_template('login.html', form=form)
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('logged_in', None)
+    flash('You have been successfully logged out')
+    return redirect(url_for('index'))

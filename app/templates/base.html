@@ -5,10 +5,11 @@
         <link href='https://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
     </head>
     <body>
+        <div id="top_nav"><a href="/login">Login</a> | <a href="logout">Logout</a>
         <div id="title_wrapper">
         <h1><a href="/">Shownoter.co - Beta</a></h1>
         </div>
-
+        
         <div id="content_wrapper">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
