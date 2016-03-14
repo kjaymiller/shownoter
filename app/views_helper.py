@@ -16,7 +16,12 @@ def shownoter_wrapper(content, custom_title_enabled):
             if line_link:
                 url = line_link['url']
                 line_link['url'] = shownoter.valid_link(url).url
+
                 if line_link not in links:
+                    line_link['markdown'] = shownoter.format_link_as_markdown(
+                        title=line_link['title'],
+                        url=line_link['url'],
+                        is_image=False)
                     links.append(line_link)
 
         elif url_parser.get_potential_link(line):
