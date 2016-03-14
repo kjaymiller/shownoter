@@ -9,7 +9,7 @@ from app.mongo import append_to_entry, last_five
 
 from app.views_helper import shownoter_wrapper
 
-from app.forms import TextInput, DescInput
+from app.forms import TextInput, DescInput, LoginForm
 
 from datetime import datetime
 from flask import render_template, url_for, redirect
@@ -147,3 +147,9 @@ def download_file(id):
         'Content-Disposition'] = 'attachment; filename={}'.format(filename)
     response.content_type = 'text/plain'
     return response
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    return render_template('login.html', form=form)
