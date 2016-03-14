@@ -1,117 +1,15 @@
-""" The shownoter module contains the core Shownoter functionality """
+"""
+The shownoter module contains the core Shownoter functionality
+"""
+
 
 import re
 import requests
 
-from app import mongo
-from app import url_parser
-
-from datetime import datetime
+from app.validations import url_parser
 from bs4 import BeautifulSoup
-from markdown import markdown
+from datetime import datetime
 
-
-def format_links_as_hash(source):
-    urls = url_parser.link_detect(source)
-    links = []
-
-    for url in urls:
-        valid_link = True
-
-        if url_parser.image_detect(url):
-            link = Image(url)
-
-        else:
-            link = Link()
-
-            try:
-                link.collect_data(url)
-            except ValueError:
-                valid_link = False
-                continue
-
-        if valid_link:
-            if not link.title:
-                link.title = link.url
-
-            entry = {
-                'url':link.url,
-                'title':link.title,
-                'markdown':link.markdown}
-            links.append(entry)
-
-    return links
-
-def format_links_as_markdown(source):
-    """ Wraps the shownoter functionality in a single function call """
-    urls = link_detect(source)
-    links = []
-
-    for url in urls:
-        if image_detect(url):
-            link = Image(url)
-        else:
-            link = Link()
-            link.collect_data(url)
-
-        links.append(link.markdown)
-
-    output = links_to_string(links)
-    return output.strip()
-
-def link_detect(site):
-    """ Returns a list of urls from a string"""
-    re_link =  re.compile(r'\b\S+\.[a-zA-Z]{2,}\S*', re.M)
-    links = []
-
-    for link in re.findall(re_link, site):
-
-        if link not in links:
-            links.append(link)
-
-    return links
-
-def get(link):
-    """ A wrapper around requests.get to allow for easy mocking """
-    return requests.get(link, timeout=1.5, allow_redirects=False)
-
-def parse_title(content, default_title=""):
-    """Parses the title of a site from it's content"""
-    if content == None:
-        return default_title
-
-    soup =  BeautifulSoup(content, 'html.parser')
-    if soup == None or soup.title == None:
-        return default_title
-
-    title = soup.title.text
-    return title.strip()
-
-def link_markdown(title, url):
-    """Formats a generic link to a markdown list item link"""
-    return '* [{}]({})'.format(title, url)
-
-def image_markdown(title, url):
-    """Formats a link as an image"""
-    return '* ![{}]({})'.format(title, url)
-
-def request_content(site):
-    """ Returns content or raises ValueError """
-    success = True
-
-    try:
-        request = get(site)
-    except:
-        # TODO insert some logging here requests.ConnectionError (or other) being trapped.
-        raise ValueError("Url not found")
-
-    if request.status_code == 200:
-        return request
-    else:
-        # TODO insert some logging here
-        pass
-
-    raise ValueError("Url not found")
 
 def possible_urls(url):
     """ Generator that returns possible variations of a given url """
@@ -123,11 +21,29 @@ def possible_urls(url):
         for prefix in prefixes:
             yield prefix+url
 
-def get_domain(url):
-    """returns the domain of the url"""
-    pattern = re.compile(r'\w{3,5}:\/\/(www\.)?|www\.')
-    new_url = re.sub(pattern,'', url)
-    return new_url
+
+def request_get(link):
+    """ A wrapper around requests.get to allow for easy mocking """
+    return requests.get(link, timeout=2.0, allow_redirects=False)
+
+
+def request_content(url):
+    """ Returns content from the url provided or raises ValueError """
+    try:
+        request = request_get(url)
+    except:
+        # TODO insert some logging here requests.ConnectionError (or other)
+        # being trapped.
+        raise ValueError("Url not found")
+
+    if request.status_code == 200:
+        return request
+    else:
+        # TODO insert some logging here
+        pass
+
+    raise ValueError("Url not found")
+
 
 def valid_link(site):
     """Returns the content of a website from a url
@@ -144,39 +60,73 @@ def valid_link(site):
 
     raise ValueError("No valid link permutation found")
 
-class Link():
-    def collect_data(self, site):
-        """ Collects the various information about the link """
 
-        cached_url = mongo.retrieve_from_cache(site)
+def fetch_site_title(site_content, default_title=""):
+    """Parses the title of a site from it's content"""
+    if site_content is None:  # if site returns no data
+        return default_title
 
-        if cached_url:
-            self.url = cached_url['url']
-            self.title = cached_url['title']
+    soup = BeautifulSoup(site_content, 'html.parser')
+    if soup is None or soup.title is None:
+        return default_title
 
-        else:
-            #TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
-            self.site = valid_link(site)
-            self.url =  self.site.url
-            self.title = parse_title(self.site.content)
-            mongo.cache_url(self.url, self.title)
-
-        self.markdown = link_markdown(self.title, self.url)
-
-class Image(Link):
-    """Images are like links except they ignore connectivity tests."""
-
-    title = ''
-
-    def __init__(self, site):
-        self.url = site
-        self.markdown = image_markdown(self.title, self.url)
+    title = soup.title.text
+    return title.strip()
 
 
-def links_to_string(links):
-    """This function takes a list of objects and returns it as a string"""
+def format_link_as_markdown(title, url, is_image):
+    """Formats a generic link to a markdown list item link uses image markdown
+    if image detected"""
+    if is_image:
+        return '* ![{}]({})'.format(title, url)
 
-    links_string = ''
-    for link in links:
-        links_string += link + '\n'
-    return links_string
+    else:
+        return '* [{}]({})'.format(title, url)
+
+
+def fetch_data(site):
+    """ Collects the various information about the link """
+    # TODO REMOVE SELF SITE AND MAKE JUST SITE!!!
+    site = valid_link(site)
+    url = site.url
+    title = fetch_site_title(site.content)
+    return (site, url, title)
+
+
+def prep_link(url):
+    link_is_valid = True
+    url = valid_link(url).url
+    link = {'url': url}
+    url = link['url']
+    link['is_image'] = url_parser.image_detect(url)
+
+    if link['is_image']:
+        link['title'] = ''
+
+    else:
+        try:
+            site, url, title = fetch_data(url)
+            link['title'] = title
+
+        except ValueError:
+            link_is_valid = False
+
+    if link_is_valid:
+        if not link['title']:
+            link['title'] = link['url']
+
+        title = link['title']
+        markdown = format_link_as_markdown(title=title,
+                                           url=url,
+                                           is_image=link['is_image'])
+
+        link['markdown'] = markdown
+        link['created'] = datetime.utcnow()
+        return link
+
+    else:
+        return None
+
+
+def check_link_validity(url):
+    return True
