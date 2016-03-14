@@ -41,14 +41,13 @@ The following setion outlines the requirements for running shownoter.
 
 Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
 
-* Python3
-    - While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
+#### Python3
+While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
 
-* Flask (with some extension)
+#### Flask (with some extension)
+*Shownoter* is a [***flask***](http://flask.pocoo.org) application.
 
-    *Shownoter* is a [***flask***](http://flask.pocoo.org) application.
-
-* MongoDB
+#### MongoDB
     
     This version of shownoter is built using `MONGODB`.
     To install MongoDB please follow the instructions found at https://docs.mongodb.org/manual/installation/
@@ -56,16 +55,16 @@ Shownoter uses the following technologies which will need to be installed on you
     You will also need a interpretor for mongo in python. This module uses `[pymongo](http://api.mongodb.org/python/current/)`
 
 
-##Getting Started
+## Getting Started
 
 Here is a quick getting started guide. For more information be sure to check out the [*Shownoter* wiki](https://github.com/kjaymiller/shownoter/wiki). 
 
-* Create and Activate Virtualenv 
+#### Create and Activate Virtualenv 
 > `python -m venv <environment name>`
 
 > `. bin/activate`
 
-* Install Requirements
+#### Install Requirements
 Requirements to run Shownoter are stored in the file `requirements.txt`.  To install the required modules needed to run Shownoter perform the following command.
 
 > ```pip install -r requirements.txt```
@@ -74,11 +73,11 @@ If you plan on developing Shownoter there are some additional requirements neede
 
 > ```pip install -r dev-requirements.txt```
 
-* Modify config.py File
+#### Modify config.py File
 A `config.py` file has been included however you should provide your own secret key. 
 **Shownoter will run with the default key in however this could leave your environment vulnerable**
 
-* Starting Shownoter
+#### Starting Shownoter
 The first step in running shownoter is to start the application and the dbengine. 
 
 - To start shownoter, simply run the `run.py` file.
