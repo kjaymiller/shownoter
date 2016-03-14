@@ -52,7 +52,7 @@ def index():
                                     'created': datetime.utcnow()
                                     }, collection=shownotes_coll)
 
-        if form.bypass_title_description:
+        if form.bypass_title_description.data:
             title = 'Untitled Shownotes'
 
             entry = {
