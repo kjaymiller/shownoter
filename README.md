@@ -41,17 +41,17 @@ The following setion outlines the requirements for running shownoter.
 
 Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
 
-### Python 3 
-While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
+* Python3
+    - While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
 
-### Flask (with some extension)
-*Shownoter* is a [***flask***](http://flask.pocoo.org) application.
+* Flask (with some extension)
+    *Shownoter* is a [***flask***](http://flask.pocoo.org) application.
 
-### MongoDB
-This version of shownoter is built using `MONGODB`.
-To install MongoDB please follow the instructions found at https://docs.mongodb.org/manual/installation/
+* MongoDB
+    This version of shownoter is built using `MONGODB`.
+    To install MongoDB please follow the instructions found at https://docs.mongodb.org/manual/installation/
 
-You will also need a interpretor for mongo in python. This module uses `[pymongo](http://api.mongodb.org/python/current/)`
+    You will also need a interpretor for mongo in python. This module uses `[pymongo](http://api.mongodb.org/python/current/)`
 
 
 ##Getting Started
