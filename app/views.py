@@ -152,4 +152,12 @@ def download_file(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+
+    if request.method == 'POST':
+        if form.username.data != 'test' or form.password.data != 'password':
+            flash('Invalid Credentials! Please Try Again')
+
+        else:
+            return redirect(url_for('index'))
+
     return render_template('login.html', form=form)
