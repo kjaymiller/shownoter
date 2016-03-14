@@ -35,13 +35,17 @@ Shownoter will take the chat above and output a formatted list with descriptions
 Shownoter is Licensed Under the Apache License, Version 2.0.
 Please visit http://www.apache.org/licenses/LICENSE-2.0.html for more information.
 
-## Requirements
+### Requirements
 
 The following setion outlines the requirements for running shownoter.
 
 Shownoter uses the following technologies which will need to be installed on your system in addition to the modules in requirements.txt.
 
-* Python 3 
+### Python 3 
+While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
+
+### Flask (with some extension)
+*Shownoter* is a [***flask***](http://flask.pocoo.org) application.
 
 ### MongoDB
 This version of shownoter is built using `MONGODB`.
@@ -49,14 +53,23 @@ To install MongoDB please follow the instructions found at https://docs.mongodb.
 
 You will also need a interpretor for mongo in python. This module uses `[pymongo](http://api.mongodb.org/python/current/)`
 
-### Python modules
 
-Requirements to run Shownoter are stored in the file requirements.txt.  To install the required modules needed to run Shownoter perform the following command.
+##Getting Started
+
+Here is a quick getting started guide. For more information be sure to check out the [*Shownoter* wiki](https://github.com/kjaymiller/shownoter/wiki). 
+
+* Create Virtualenv Python modules
+`python -m venv <environment name>`
+
+* Install Requirements
+Requirements to run Shownoter are stored in the file `requirements.txt`.  To install the required modules needed to run Shownoter perform the following command.
 
 ```pip install -r requirements.txt```
-
-### Development requirements
 
 If you plan on developing Shownoter there are some additional requirements needed to do things like running tests.  These are stored in the file dev-requirements.txt.  You can install these with the following command:
 
 ```pip install -r dev-requirements.txt```
+
+* modify config.py file
+A `config.py` file has been included however you should provide your own secret key. 
+**Shownoter will run with the default key in however this could leave your environment vulnerable**
