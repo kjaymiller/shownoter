@@ -45,9 +45,11 @@ Shownoter uses the following technologies which will need to be installed on you
     - While we have tested *Shownoter* against python 2.7 previously, we ask that you use 3.5.1 to work with *Shownoter*.
 
 * Flask (with some extension)
+
     *Shownoter* is a [***flask***](http://flask.pocoo.org) application.
 
 * MongoDB
+    
     This version of shownoter is built using `MONGODB`.
     To install MongoDB please follow the instructions found at https://docs.mongodb.org/manual/installation/
 
