@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="link_input">
+       <form action="" method="post" name="EnterText" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            <p><h2>Enter Chat Text Here:</h2>
+            {{form.chat_input}} </p>
+            <p>{{form.file_input}} </p>
+            <p><b>Custom Title:</b> {{form.custom_title}}</p>
+            <p><b>Links Only (No Title/Description):</b> 
+            {{form.bypass_title_description}}</p>
+
+            <p><input id="chat_submit" type="submit" value="Submit"></p>
+        </form>
+    </div>        
+{% endblock %}
